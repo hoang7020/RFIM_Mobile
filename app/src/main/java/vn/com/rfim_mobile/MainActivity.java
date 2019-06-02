@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import vn.com.rfim_mobile.utils.BluetoothUtil;
+import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package vn.com.rfim_mobile.utils;
+package vn.com.rfim_mobile.utils.Bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -18,6 +18,8 @@ public class BluetoothUtil {
 
     public static final String TAG = BluetoothUtil.class.getSimpleName();
 
+    public static TempScanResult tempScanResult = new TempScanResult();
+
     private BluetoothAdapter mBTAdapter;
     private BluetoothSocket mBTSocket;
     private Handler mBTHanler;
@@ -29,6 +31,7 @@ public class BluetoothUtil {
         sb = new StringBuffer();
     }
 
+    //Create Bluetooth socket
     public BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         if (Build.VERSION.SDK_INT >= 10) {
             try {
@@ -41,6 +44,7 @@ public class BluetoothUtil {
         return device.createRfcommSocketToServiceRecord(Constant.MY_UUID);
     }
 
+    //Create connection to the Bluetooth device
     public void connectBluetoothDevice() {
         BluetoothDevice device = mBTAdapter.getRemoteDevice(Constant.address);
         try {
@@ -62,6 +66,7 @@ public class BluetoothUtil {
 
     }
 
+    //Read serial data from bluetooth device
     public void readBluetoothSerialData() {
         if (mBTSocket != null) {
             ConnectedThread thread = new ConnectedThread(mBTSocket);
@@ -69,6 +74,7 @@ public class BluetoothUtil {
         }
     }
 
+    //Disconnect bluetooth device
     public void closeBluetoothSocket() {
         if (mBTSocket != null) {
             try {
@@ -79,6 +85,7 @@ public class BluetoothUtil {
         }
     }
 
+    //Thread handle read serial data from bluetooth device
     public class ConnectedThread extends Thread {
         private final InputStream is;
 
@@ -108,6 +115,7 @@ public class BluetoothUtil {
                                     String data = sb.substring(0, endOfLineIndex);
                                     sb.delete(0, sb.length());
                                     Log.e(TAG, "run: " + data);
+                                    tempScanResult.setRfidID(data);
                                 }
                             }
                         });
