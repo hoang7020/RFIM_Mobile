@@ -42,6 +42,6 @@ public class ShelfRegisterActivity extends AppCompatActivity implements Observer
     public void getNotification(String message) {
         Log.e(TAG, "getNotification: " + message);
         txtShelfRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-        BluetoothUtil.tempScanResult.removeObserver(ShelfRegisterActivity.this);
+        BluetoothUtil.tempScanResult.unregisterObserver(ShelfRegisterActivity.this);
     }
 }

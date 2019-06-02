@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothUtil mBTUtil;
-    private Button btnShelfRegister;
+    private Button btnShelfRegister, btnPackageRegister;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnPackageRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PackageRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void initView() {
@@ -42,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         checkBTState();
         mBTUtil = new BluetoothUtil(mBTAdapter);
         btnShelfRegister = findViewById(R.id.btn_shelf_register);
+        btnPackageRegister = findViewById(R.id.btn_package_register);
     }
 
     @Override

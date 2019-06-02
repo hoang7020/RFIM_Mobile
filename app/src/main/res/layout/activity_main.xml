@@ -9,7 +9,13 @@
 
    <Button
        android:id="@+id/btn_shelf_register"
-       android:text="Shelft Regitster"
+       android:text="Shelf Regitster"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+   <Button
+       android:id="@+id/btn_package_register"
+       android:text="Package Regitster"
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />
 

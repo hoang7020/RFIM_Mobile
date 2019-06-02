@@ -30,7 +30,7 @@ public class TempScanResult implements Observerable {
     }
 
     @Override
-    public void removeObserver(Observer observer) {
+    public void unregisterObserver(Observer observer) {
         observers.remove(observer);
     }
 
