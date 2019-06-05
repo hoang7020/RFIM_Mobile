@@ -13,8 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PackageRegisterActivity"></activity>
-        <activity android:name=".ShelfRegisterActivity" />
+        <activity android:name=".StocktakeInventoryActivity"></activity>
+        <activity android:name=".TransferProductActivity" />
+        <activity android:name=".ClearTagActivity" />
+        <activity android:name=".StockOutActivity" />
+        <activity android:name=".StockInActivity" />
+        <activity android:name=".RegisterPackageActivity" />
+        <activity android:name=".RegisterShelfActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

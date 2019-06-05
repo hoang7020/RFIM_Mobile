@@ -7,16 +7,55 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-   <Button
-       android:id="@+id/btn_shelf_register"
-       android:text="Shelf Regitster"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content" />
+    <GridLayout
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="4">
 
-   <Button
-       android:id="@+id/btn_package_register"
-       android:text="Package Regitster"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_shelf_register"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="Shelf Regitster" />
+
+        <Button
+            android:id="@+id/btn_package_register"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="Package Regitster" />
+
+        <Button
+            android:id="@+id/btn_stock_in_package"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="Stock in Package" />
+
+        <Button
+            android:id="@+id/btn_stock_out_package"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:text="Stock out Package" />
+
+        <Button
+            android:id="@+id/btn_clear_rfid_tag"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:text="Clear RFID Tag" />
+
+        <Button
+            android:id="@+id/btn_transfer_product"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:text="Transfer Product" />
+
+        <Button
+            android:id="@+id/btn_stocktake_inventory"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:text="Stockake Inventory" />
+    </GridLayout>
+
 
 </LinearLayout>

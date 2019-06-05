@@ -1,5 +1,7 @@
 package vn.com.rfim_mobile.utils.Bluetooth;
 
+import android.util.Log;
+
 import java.util.Vector;
 
 import vn.com.rfim_mobile.interfaces.Observer;
@@ -7,9 +9,11 @@ import vn.com.rfim_mobile.interfaces.Observerable;
 
 public class TempScanResult implements Observerable {
 
-    private Vector<Observer> observers;
+    private static final String TAG = TempScanResult.class.getSimpleName();
 
+    private Vector<Observer> observers;
     private String rfidID;
+    private int type;
 
     public TempScanResult() {
         observers = new Vector<>();
@@ -25,8 +29,11 @@ public class TempScanResult implements Observerable {
     }
 
     @Override
-    public void registerObserver(Observer observer) {
-        observers.add(observer);
+    public void registerObserver(Observer observer, int type) {
+        this.type = type;
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
     }
 
     @Override
@@ -37,7 +44,7 @@ public class TempScanResult implements Observerable {
     @Override
     public void sendNotification(String message) {
         for (Observer o: observers) {
-            o.getNotification(message);
+            o.getNotification(message, type);
         }
     }
 }

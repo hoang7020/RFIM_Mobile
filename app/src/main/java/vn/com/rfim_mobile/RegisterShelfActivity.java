@@ -7,29 +7,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
-import vn.com.rfim_mobile.utils.Bluetooth.TempScanResult;
 
-public class ShelfRegisterActivity extends AppCompatActivity implements Observer {
+public class RegisterShelfActivity extends AppCompatActivity implements Observer {
 
-    public static final String TAG = ShelfRegisterActivity.class.getSimpleName();
+    public static final String TAG = RegisterShelfActivity.class.getSimpleName();
     private TextView txtShelfRfid;
     private Button btnScanShelfRfid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shelf_register);
+        setContentView(R.layout.activity_register_shelf);
 
         initView();
 
         btnScanShelfRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(ShelfRegisterActivity.this);
+                BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
             }
         });
+
     }
 
     private void initView() {
@@ -39,9 +40,11 @@ public class ShelfRegisterActivity extends AppCompatActivity implements Observer
 
     //get notification from Observerable(TempScanResult) and unregister Observer
     @Override
-    public void getNotification(String message) {
-        Log.e(TAG, "getNotification: " + message);
-        txtShelfRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-        BluetoothUtil.tempScanResult.unregisterObserver(ShelfRegisterActivity.this);
+    public void getNotification(String message, int type) {
+        if (type == Constant.SCAN_SHELF_RFID) {
+            Log.e(TAG, "getNotification: " + message);
+            txtShelfRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+            BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+        }
     }
 }

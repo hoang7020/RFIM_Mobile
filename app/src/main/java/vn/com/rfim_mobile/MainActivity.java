@@ -16,7 +16,13 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothUtil mBTUtil;
-    private Button btnShelfRegister, btnPackageRegister;
+    private Button btnRegisterShelf,
+            btnRegisterPackage,
+            btnStockInPackage,
+            btnStockOutPackage,
+            btnClearRfidTag,
+            btnTransferProduct,
+            btnStocktakeInventory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,18 +33,58 @@ public class MainActivity extends AppCompatActivity {
         mBTUtil.connectBluetoothDevice();
         mBTUtil.readBluetoothSerialData();
 
-        btnShelfRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ShelfRegisterActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
                 startActivity(intent);
             }
         });
 
-        btnPackageRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegisterPackage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PackageRegisterActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegisterPackageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStockInPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StockInActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStockOutPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StockOutActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnClearRfidTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClearTagActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnTransferProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TransferProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStocktakeInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StocktakeInventoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -49,8 +95,13 @@ public class MainActivity extends AppCompatActivity {
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
         checkBTState();
         mBTUtil = new BluetoothUtil(mBTAdapter);
-        btnShelfRegister = findViewById(R.id.btn_shelf_register);
-        btnPackageRegister = findViewById(R.id.btn_package_register);
+        btnRegisterShelf = findViewById(R.id.btn_shelf_register);
+        btnRegisterPackage = findViewById(R.id.btn_package_register);
+        btnStockInPackage = findViewById(R.id.btn_stock_in_package);
+        btnStockOutPackage = findViewById(R.id.btn_stock_out_package);
+        btnClearRfidTag = findViewById(R.id.btn_clear_rfid_tag);
+        btnTransferProduct = findViewById(R.id.btn_transfer_product);
+        btnStocktakeInventory = findViewById(R.id.btn_transfer_product);
     }
 
     @Override
