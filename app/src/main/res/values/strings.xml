@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RFIM_Mobile</string>
+    <string name="padding_all_application">10px</string>
+
+    <string name="not_found_item">None!</string>
+
+    <string name="no_cell_found">No cell was found!</string>
+    <string name="no_rfid">Please Scan Cell RFID Tag!</string>
+
+    <dimen name="padding_global">10dp</dimen>
 </resources>
