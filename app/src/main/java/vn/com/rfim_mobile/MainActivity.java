@@ -3,15 +3,15 @@ package vn.com.rfim_mobile;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import vn.com.rfim_mobile.api.ShelfApi;
-import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
-import vn.com.rfim_mobile.models.json.ObjectResult;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothUtil mBTUtil;
-    private Button btnRegisterShelf,
+    private LinearLayout btnRegisterShelf,
             btnRegisterPackage,
             btnStockInPackage,
             btnStockOutPackage,
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-        mBTUtil.connectBluetoothDevice();
-        mBTUtil.readBluetoothSerialData();
+//        mBTUtil.connectBluetoothDevice();
+//        mBTUtil.readBluetoothSerialData();
 //        Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
 //        startActivity(intent);
         btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         btnStockOutPackage = findViewById(R.id.btn_stock_out_package);
         btnClearRfidTag = findViewById(R.id.btn_clear_rfid_tag);
         btnTransferProduct = findViewById(R.id.btn_transfer_product);
-        btnStocktakeInventory = findViewById(R.id.btn_transfer_product);
+        btnStocktakeInventory = findViewById(R.id.btn_stocktake_inventory);
     }
 
     @Override

@@ -18,15 +18,19 @@ import vn.com.rfim_mobile.api.CellApi;
 import vn.com.rfim_mobile.api.FloorApi;
 import vn.com.rfim_mobile.api.ShelfApi;
 import vn.com.rfim_mobile.constants.Constant;
+import vn.com.rfim_mobile.fragments.ScanningFragment;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
+import vn.com.rfim_mobile.models.json.Cell;
+import vn.com.rfim_mobile.models.json.Floor;
 import vn.com.rfim_mobile.models.json.ObjectResult;
+import vn.com.rfim_mobile.models.json.Shelf;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
 
 public class RegisterShelfActivity extends AppCompatActivity implements Observer, OnTaskCompleted {
 
     public static final String TAG = RegisterShelfActivity.class.getSimpleName();
-    private TextView txtShelfRfid;
+    private TextView tvCellRfid;
     private Button btnScanShelfRfid, btnSave, btnClear, btnCancel;
     private SmartMaterialSpinner snShelfID, snFloorId, snCellId;
     private ShelfApi mShelfApi;
@@ -34,6 +38,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     private CellApi mCellApi;
     private List<String> listShelvesId, listFloorsId, listCellsId;
     private String mCellId;
+    private ScanningFragment mScanning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             @Override
             public void onClick(View v) {
                 BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
+                initScanningFragment();
             }
         });
 
@@ -54,11 +60,28 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             public void onClick(View v) {
                 if (mCellId.equals(getString(R.string.not_found_item))) {
                     Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_cell_found), Toast.LENGTH_SHORT).show();
-                } else if (txtShelfRfid.getText().toString().equals("")) {
+                } else if (tvCellRfid.getText().toString().equals("")) {
                     Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_rfid), Toast.LENGTH_SHORT).show();
                 } else {
-                    mCellApi.registerCell(mCellId, txtShelfRfid.getText().toString());
+                    mCellApi.registerCell(mCellId, tvCellRfid.getText().toString());
                 }
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snShelfID.setSelection(0);
+                snFloorId.setSelection(0);
+                snCellId.setSelection(0);
+                tvCellRfid.setText("");
             }
         });
 
@@ -106,9 +129,11 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     }
 
     private void initView() {
-        txtShelfRfid = findViewById(R.id.txt_shelf_rfid);
-        btnScanShelfRfid = findViewById(R.id.btn_scan_shelf_rfid);
+        tvCellRfid = findViewById(R.id.tv_cell_rfid);
+        btnScanShelfRfid = findViewById(R.id.btn_scan_cell_rfid);
         btnSave = findViewById(R.id.btn_save);
+        btnCancel = findViewById(R.id.btn_cancel);
+        btnClear = findViewById(R.id.btn_clear);
         snShelfID = findViewById(R.id.sn_shelf_id);
         snFloorId = findViewById(R.id.sn_floor_id);
         snCellId = findViewById(R.id.sn_cell_id);
@@ -117,13 +142,20 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         mCellApi = new CellApi(this);
     }
 
+    private void initScanningFragment() {
+        mScanning = new ScanningFragment();
+        mScanning.setCancelable(false);
+        mScanning.show(getFragmentManager(), "Scanning");
+    }
+
     //get notification from Observerable(TempScanResult) and unregister Observer
     @Override
     public void getNotification(String message, int type) {
         if (type == Constant.SCAN_SHELF_RFID) {
             Log.e(TAG, "getNotification: " + message);
-            txtShelfRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+            tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
             BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+            mScanning.dismiss();
         }
     }
 
@@ -133,7 +165,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         if (type == Constant.GET_ALL_SHELVES) {
             listShelvesId = new ArrayList();
             if (result.getCode() == Constant.OK) {
-                for (ObjectResult.Shelf s : result.getData().getShelves()) {
+                for (Shelf s : result.getData().getShelves()) {
                     listShelvesId.add(s.getShelfId());
                 }
             } else {
@@ -143,7 +175,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         } else if (type == Constant.GET_ALL_FLOORS_BY_SHELF_ID) {
             listFloorsId = new ArrayList<>();
             if (result.getCode() == Constant.OK) {
-                for (ObjectResult.Floor f : result.getData().getFloors()) {
+                for (Floor f : result.getData().getFloors()) {
                     listFloorsId.add(f.getFloorId());
                 }
             } else {
@@ -153,7 +185,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         } else if (type == Constant.GET_ALL_CELLS_BY_FLOOR_ID) {
             listCellsId = new ArrayList<>();
             if (result.getCode() == Constant.OK) {
-                for (ObjectResult.Cell c: result.getData().getCells()) {
+                for (Cell c: result.getData().getCells()) {
                     listCellsId.add(c.getCellId());
                 }
             } else {

@@ -4,8 +4,15 @@
 
     <string name="not_found_item">None!</string>
 
-    <string name="no_cell_found">No cell was found!</string>
-    <string name="no_rfid">Please Scan Cell RFID Tag!</string>
+    <string name="no_cell_found">Please pick a cell.</string>
+    <string name="no_rfid">Please scan a RFID tag for Register.”</string>
 
     <dimen name="padding_global">10dp</dimen>
+    <dimen name="menu_font_size_title">25dp</dimen>
+    <dimen name="menu_font_size_description">15dp</dimen>
+
+    //button
+    <string name="register">Register</string>
+    <string name="clear">Clear</string>
+    <string name="cancel">Cancel</string>
 </resources>
