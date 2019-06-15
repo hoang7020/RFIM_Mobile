@@ -17,7 +17,7 @@ import java.net.URL;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.json.ObjectResult;
 
-public class ApiUtil extends AsyncTask<URL, String, String> {
+public class ApiUtil extends AsyncTask<URL, Void, Result> {
 
     public static final String TAG = ApiUtil.class.getSimpleName();
 
@@ -47,8 +47,9 @@ public class ApiUtil extends AsyncTask<URL, String, String> {
     }
 
     @Override
-    protected String doInBackground(URL... urls) {
+    protected Result doInBackground(URL... urls) {
         StringBuilder sb = new StringBuilder();
+        int code = 0;
         for (int i = 0; i < urls.length; i++) {
             try {
                 HttpURLConnection connection = (HttpURLConnection) urls[i].openConnection();
@@ -68,6 +69,7 @@ public class ApiUtil extends AsyncTask<URL, String, String> {
                     sb.append(tmp);
                 }
                 Log.e(TAG, "doInBackground: " + sb.toString());
+                code = connection.getResponseCode();
                 br.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -76,12 +78,39 @@ public class ApiUtil extends AsyncTask<URL, String, String> {
                 break;
             }
         }
-        return sb.toString();
+        return new Result(sb.toString(), code);
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        ObjectResult obj = gson.fromJson(s, ObjectResult.class);
-        listener.onTaskCompleted(obj, type);
+    protected void onPostExecute(Result result) {
+        ObjectResult obj = gson.fromJson(result.getData(), ObjectResult.class);
+        listener.onTaskCompleted(obj, type, result.getCode());
+    }
+
+}
+
+class Result {
+    private String data;
+    private int code;
+
+    public Result(String data, int code) {
+        this.data = data;
+        this.code = code;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

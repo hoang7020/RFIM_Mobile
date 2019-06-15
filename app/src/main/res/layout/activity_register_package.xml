@@ -1,310 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".RegisterPackageActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".RegisterPackageActivity">
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_margin="10px"
-        android:weightSum="10"
-        android:layout_width="match_parent"
-        android:layout_height="120px">
+            android:gravity="center"
+            android:layout_margin="10px"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="120px">
 
         <TextView
-            android:layout_weight="3"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="Product Id:"/>
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="Product Id:"/>
 
         <TextView
-            android:id="@+id/txt_product_id"
-            android:layout_weight="5"
-            android:layout_width="0px"
-            android:layout_height="wrap_content" />
+                android:id="@+id/txt_product_id"
+                android:layout_weight="5"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btn_get_product_id"
-            android:layout_weight="2"
-            android:text="GET"
-            android:layout_width="0px"
-            android:layout_height="wrap_content" />
+                android:id="@+id/btn_get_product_id"
+                android:layout_weight="2"
+                android:text="GET"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_margin="10px"
-        android:weightSum="10"
-        android:layout_width="match_parent"
-        android:layout_height="120px">
+            android:gravity="center"
+            android:layout_margin="10px"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="120px">
 
         <TextView
-            android:layout_weight="3"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="Product Name:"/>
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="Product Name:"/>
 
         <TextView
-            android:text="Product name will be display here"
-            android:id="@+id/txt_product_name"
-            android:layout_weight="7"
-            android:layout_width="0px"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120px"
-        android:layout_margin="10px"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Quantity:" />
-
-        <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="Quantity will be display here" />
+                android:text="Product name will be display here"
+                android:id="@+id/txt_product_name"
+                android:layout_weight="7"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120px"
-        android:layout_margin="10px"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="12">
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Width:" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Quantity:"/>
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="0" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Quantity will be display here"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="12">
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Length:" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Width:"/>
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="0" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="0"/>
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Height:" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Length:"/>
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="0" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="0"/>
+
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Height:"/>
+
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="0"/>
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_margin="10px"
-        android:weightSum="10"
-        android:layout_width="match_parent"
-        android:layout_height="120px">
+            android:gravity="center"
+            android:layout_margin="10px"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="120px">
 
         <TextView
-            android:layout_weight="3"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="Description:"/>
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="Description:"/>
 
         <TextView
-            android:text="Description will be display here"
-            android:id="@+id/txt_product_description"
-            android:layout_weight="7"
-            android:layout_width="0px"
-            android:layout_height="wrap_content" />
+                android:text="Description will be display here"
+                android:id="@+id/txt_product_description"
+                android:layout_weight="7"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:weightSum="10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ScrollView
-            android:layout_weight="7"
-            android:layout_width="0px"
+            android:weightSum="10"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <ScrollView
+                android:layout_weight="7"
+                android:layout_width="0px"
+                android:layout_height="wrap_content">
+
             <TextView
-                android:id="@+id/txt_product_rfid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    android:id="@+id/txt_product_rfid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
         </ScrollView>
 
 
         <Button
-            android:layout_weight="3"
-            android:id="@+id/btn_scan_product_rfid"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="Scan Product" />
+                android:layout_weight="3"
+                android:id="@+id/btn_scan_product_rfid"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="Scan Product"/>
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_margin="10px"
-        android:weightSum="10"
-        android:layout_width="match_parent"
-        android:layout_height="120px">
+            android:gravity="center"
+            android:layout_margin="10px"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="120px">
 
         <TextView
-            android:layout_weight="3"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="Shelf RFID:"/>
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="Shelf RFID:"/>
 
         <TextView
-            android:id="@+id/txt_shelf_rfid"
-            android:layout_weight="5"
-            android:layout_width="0px"
-            android:layout_height="wrap_content" />
+                android:id="@+id/txt_shelf_rfid"
+                android:layout_weight="5"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btn_scan_shelf_rfid"
-            android:layout_weight="2"
-            android:text="Scan"
-            android:layout_width="0px"
-            android:layout_height="wrap_content" />
+                android:id="@+id/btn_scan_shelf_rfid"
+                android:layout_weight="2"
+                android:text="Scan"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120px"
-        android:layout_margin="10px"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Shelf Name:" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Shelf Name:"/>
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="Shelf name will be display here" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120px"
-        android:layout_margin="10px"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Floor:" />
-
-        <TextView
-            android:id="@+id/txt_floor"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="2" />
-
-        <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Cell:" />
-
-        <TextView
-            android:id="@+id/txt_cell"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="2" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Shelf name will be display here"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120px"
-        android:layout_margin="10px"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Description:" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Floor:"/>
 
         <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="Description will be display here" />
+                android:id="@+id/txt_floor"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="2"/>
+
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Cell:"/>
+
+        <TextView
+                android:id="@+id/txt_cell"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="2"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120px"
-        android:layout_margin="10px"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="9">
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Description:"/>
+
+        <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Description will be display here"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="9">
 
         <Button
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Save" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Save"/>
 
         <Button
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Clear" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Clear"/>
 
         <Button
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Cancel" />
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Cancel"/>
 
     </LinearLayout>
 

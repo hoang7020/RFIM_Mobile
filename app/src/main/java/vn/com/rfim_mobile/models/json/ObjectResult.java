@@ -7,23 +7,12 @@ import java.util.List;
 
 public class ObjectResult {
 
-    @SerializedName("code")
-    @Expose
-    private Integer code;
     @SerializedName("message")
     @Expose
     private String message;
     @SerializedName("data")
     @Expose
     private Data data;
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
 
     public String getMessage() {
         return message;

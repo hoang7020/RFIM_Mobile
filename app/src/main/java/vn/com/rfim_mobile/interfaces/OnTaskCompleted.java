@@ -5,6 +5,6 @@ import vn.com.rfim_mobile.models.json.ObjectResult;
 
 public interface OnTaskCompleted {
 
-    void onTaskCompleted(ObjectResult result, int type);
+    void onTaskCompleted(ObjectResult result, int type, int code);
 
 }

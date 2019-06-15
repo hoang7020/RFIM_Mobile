@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="host">http://192.168.1.6:2505/</string>
+    <string name="host">http://192.168.1.6:8080/</string>
     <string name="all_shelves">shelves/</string>
     <string name="all_floors">floors/</string>
     <string name="all_cells">cells/</string>

@@ -43,7 +43,7 @@ public class TempScanResult implements Observerable {
 
     @Override
     public void sendNotification(String message) {
-        for (Observer o: observers) {
+        for (Observer o : observers) {
             o.getNotification(message, type);
         }
     }

@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-//        mBTUtil.connectBluetoothDevice();
-//        mBTUtil.readBluetoothSerialData();
+        mBTUtil.connectBluetoothDevice();
+        mBTUtil.readBluetoothSerialData();
 //        Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
 //        startActivity(intent);
         btnRegisterShelf.setOnClickListener(new View.OnClickListener() {

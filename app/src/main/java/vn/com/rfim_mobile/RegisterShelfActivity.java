@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,10 +162,10 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
 
     //Callback get result from ShelfApi, FloorApi, CellApi
     @Override
-    public void onTaskCompleted(ObjectResult result, int type) {
+    public void onTaskCompleted(ObjectResult result, int type, int code) {
         if (type == Constant.GET_ALL_SHELVES) {
             listShelvesId = new ArrayList();
-            if (result.getCode() == Constant.OK) {
+            if (code == HttpURLConnection.HTTP_OK) {
                 for (Shelf s : result.getData().getShelves()) {
                     listShelvesId.add(s.getShelfId());
                 }
@@ -174,7 +175,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             snShelfID.setItem(listShelvesId);
         } else if (type == Constant.GET_ALL_FLOORS_BY_SHELF_ID) {
             listFloorsId = new ArrayList<>();
-            if (result.getCode() == Constant.OK) {
+            if (code == HttpURLConnection.HTTP_OK) {
                 for (Floor f : result.getData().getFloors()) {
                     listFloorsId.add(f.getFloorId());
                 }
@@ -184,14 +185,21 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             snFloorId.setItem(listFloorsId);
         } else if (type == Constant.GET_ALL_CELLS_BY_FLOOR_ID) {
             listCellsId = new ArrayList<>();
-            if (result.getCode() == Constant.OK) {
-                for (Cell c: result.getData().getCells()) {
+            if (code == HttpURLConnection.HTTP_OK) {
+                for (Cell c : result.getData().getCells()) {
                     listCellsId.add(c.getCellId());
                 }
             } else {
                 listCellsId.add(getString(R.string.not_found_item));
             }
             snCellId.setItem(listCellsId);
+        } else if (type == Constant.REGISTER_CELL) {
+            if (code == HttpURLConnection.HTTP_OK) {
+                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                tvCellRfid.setText("");
+            } else {
+                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
