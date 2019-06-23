@@ -68,7 +68,6 @@ public class ApiUtil extends AsyncTask<URL, Void, Result> {
                 while ((tmp = br.readLine()) != null) {
                     sb.append(tmp);
                 }
-                Log.e(TAG, "doInBackground: " + sb.toString());
                 code = connection.getResponseCode();
                 br.close();
             } catch (IOException e) {
@@ -83,8 +82,8 @@ public class ApiUtil extends AsyncTask<URL, Void, Result> {
 
     @Override
     protected void onPostExecute(Result result) {
-        ObjectResult obj = gson.fromJson(result.getData(), ObjectResult.class);
-        listener.onTaskCompleted(obj, type, result.getCode());
+//        ObjectResult obj = gson.fromJson(result.getData(), ObjectResult.class);
+        listener.onTaskCompleted(result.getData(), type, result.getCode());
     }
 
 }

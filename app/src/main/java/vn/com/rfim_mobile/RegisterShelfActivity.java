@@ -15,9 +15,8 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.com.rfim_mobile.api.CellApi;
-import vn.com.rfim_mobile.api.FloorApi;
-import vn.com.rfim_mobile.api.ShelfApi;
+import com.google.gson.Gson;
+import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.fragments.ScanningFragment;
 import vn.com.rfim_mobile.interfaces.Observer;
@@ -34,12 +33,11 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     private TextView tvCellRfid;
     private Button btnScanShelfRfid, btnSave, btnClear, btnCancel;
     private SmartMaterialSpinner snShelfID, snFloorId, snCellId;
-    private ShelfApi mShelfApi;
-    private FloorApi mFloorApi;
-    private CellApi mCellApi;
+    private RFIMApi mRfimApi;
     private List<String> listShelvesId, listFloorsId, listCellsId;
     private String mCellId;
     private ScanningFragment mScanning;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         setContentView(R.layout.activity_register_shelf);
 
         initView();
-        mShelfApi.getAllShelves();
+        mRfimApi.getAllShelves();
         btnScanShelfRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,11 +58,11 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             @Override
             public void onClick(View v) {
                 if (mCellId.equals(getString(R.string.not_found_item))) {
-                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_cell_found), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
                 } else if (tvCellRfid.getText().toString().equals("")) {
-                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_rfid), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
                 } else {
-                    mCellApi.registerCell(mCellId, tvCellRfid.getText().toString());
+                    mRfimApi.registerCell(mCellId, tvCellRfid.getText().toString());
                 }
             }
         });
@@ -91,7 +89,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String sheflId = listShelvesId.get(position);
-                mFloorApi.getFloorsByShelfId(sheflId);
+                mRfimApi.getFloorsByShelfId(sheflId);
             }
 
             @Override
@@ -105,7 +103,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String floorId = listFloorsId.get(position);
-                mCellApi.getCellsByFloorId(floorId);
+                mRfimApi.getCellsByFloorId(floorId);
             }
 
             @Override
@@ -138,15 +136,26 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         snShelfID = findViewById(R.id.sn_shelf_id);
         snFloorId = findViewById(R.id.sn_floor_id);
         snCellId = findViewById(R.id.sn_cell_id);
-        mShelfApi = new ShelfApi(this);
-        mFloorApi = new FloorApi(this);
-        mCellApi = new CellApi(this);
+        mRfimApi = new RFIMApi(this);
+        gson = new Gson();
     }
 
     private void initScanningFragment() {
         mScanning = new ScanningFragment();
         mScanning.setCancelable(false);
         mScanning.show(getFragmentManager(), "Scanning");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     //get notification from Observerable(TempScanResult) and unregister Observer
@@ -162,44 +171,51 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
 
     //Callback get result from ShelfApi, FloorApi, CellApi
     @Override
-    public void onTaskCompleted(ObjectResult result, int type, int code) {
-        if (type == Constant.GET_ALL_SHELVES) {
-            listShelvesId = new ArrayList();
-            if (code == HttpURLConnection.HTTP_OK) {
-                for (Shelf s : result.getData().getShelves()) {
-                    listShelvesId.add(s.getShelfId());
+    public void onTaskCompleted(String data, int type, int code) {
+        Log.e(TAG, "onTaskCompleted: " + data);
+        ObjectResult result = gson.fromJson(data, ObjectResult.class);
+        switch (type) {
+            case Constant.GET_ALL_SHELVES:
+                listShelvesId = new ArrayList();
+                if (code == HttpURLConnection.HTTP_OK) {
+                    for (Shelf s : result.getData().getShelves()) {
+                        listShelvesId.add(s.getShelfId());
+                    }
+                } else {
+                    listCellsId.add(getString(R.string.not_found_item));
                 }
-            } else {
-                listCellsId.add(getString(R.string.not_found_item));
-            }
-            snShelfID.setItem(listShelvesId);
-        } else if (type == Constant.GET_ALL_FLOORS_BY_SHELF_ID) {
-            listFloorsId = new ArrayList<>();
-            if (code == HttpURLConnection.HTTP_OK) {
-                for (Floor f : result.getData().getFloors()) {
-                    listFloorsId.add(f.getFloorId());
+                snShelfID.setItem(listShelvesId);
+                break;
+            case Constant.GET_ALL_FLOORS_BY_SHELF_ID:
+                listFloorsId = new ArrayList<>();
+                if (code == HttpURLConnection.HTTP_OK) {
+                    for (Floor f : result.getData().getFloors()) {
+                        listFloorsId.add(f.getFloorId());
+                    }
+                } else {
+                    listFloorsId.add(getString(R.string.not_found_item));
                 }
-            } else {
-                listFloorsId.add(getString(R.string.not_found_item));
-            }
-            snFloorId.setItem(listFloorsId);
-        } else if (type == Constant.GET_ALL_CELLS_BY_FLOOR_ID) {
-            listCellsId = new ArrayList<>();
-            if (code == HttpURLConnection.HTTP_OK) {
-                for (Cell c : result.getData().getCells()) {
-                    listCellsId.add(c.getCellId());
+                snFloorId.setItem(listFloorsId);
+                break;
+            case Constant.GET_ALL_CELLS_BY_FLOOR_ID:
+                listCellsId = new ArrayList<>();
+                if (code == HttpURLConnection.HTTP_OK) {
+                    for (Cell c : result.getData().getCells()) {
+                        listCellsId.add(c.getCellId());
+                    }
+                } else {
+                    listCellsId.add(getString(R.string.not_found_item));
                 }
-            } else {
-                listCellsId.add(getString(R.string.not_found_item));
-            }
-            snCellId.setItem(listCellsId);
-        } else if (type == Constant.REGISTER_CELL) {
-            if (code == HttpURLConnection.HTTP_OK) {
-                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                tvCellRfid.setText("");
-            } else {
-                Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+                snCellId.setItem(listCellsId);
+                break;
+            case Constant.REGISTER_CELL:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                    tvCellRfid.setText("");
+                } else {
+                    Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 }

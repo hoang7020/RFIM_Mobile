@@ -16,9 +16,10 @@
             android:layout_margin="10px"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="150px">
+            android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_weight="3"
                 android:layout_width="0px"
@@ -46,9 +47,10 @@
             android:orientation="horizontal"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="150px">
+            android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_weight="3"
                 android:text="Floor:"
@@ -76,9 +78,10 @@
             android:orientation="horizontal"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="150px">
+            android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_weight="3"
                 android:text="Cell:"
@@ -105,14 +108,15 @@
             android:layout_margin="10px"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="150px">
+            android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:text="RFID TAG:"/>
+                android:text="Cell RFID:"/>
 
         <TextView
                 android:textSize="25sp"
@@ -137,7 +141,7 @@
             android:weightSum="9"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="150px">
+            android:layout_height="@dimen/height_of_field">
 
         <Button
                 android:id="@+id/btn_save"

@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="host">http://192.168.1.6:8080/</string>
-    <string name="all_shelves">shelves/</string>
-    <string name="all_floors">floors/</string>
-    <string name="all_cells">cells/</string>
+    <string name="host">http://192.168.3.102:8080/</string>
+    <!--<string name="host">http://18.136.210.134:8080/</string>-->
+    <string name="shelves">shelves/</string>
+    <string name="shelf_by_floor_id">shelves/floors/</string>
+
+    <string name="floors">floors/</string>
+    <string name="floors_by_cell_id">floors/cells/</string>
+
+    <string name="cell_by_floor_id">cells/floors/</string>
+    <string name="cell_by_cell_rfid">cells/rfid/</string>
     <string name="register_cell">cells/register</string>
+
+    <string name="get_all_products">products/</string>
+    <string name="get_product_by_box_rfid">products/boxes/</string>
+
+    <string name="stock_out_boxes">/packages/stockout/</string>
+
+    <string name="register_package_and_box">packages/register/</string>
+    <string name="stock_in_package">packages/stockin</string>
 </resources>

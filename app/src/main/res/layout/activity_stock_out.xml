@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context=".StockOutActivity">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/padding_global"
+        tools:context=".StockOutActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+            android:layout_margin="10px"
+            android:background="@drawable/rectangle_border"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_of_scan_product_field">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rc_list_stock_out_box"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_margin="10px"
+            android:background="@drawable/rectangle_border"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:text="Scan Box Rfid"
+                android:id="@+id/btn_scan_box_rfid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_of_field"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="9">
+
+        <Button
+                android:id="@+id/btn_save"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="Save"/>
+
+        <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="Clear"/>
+
+        <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="Cancel"/>
+
+    </LinearLayout>
+
+</LinearLayout>

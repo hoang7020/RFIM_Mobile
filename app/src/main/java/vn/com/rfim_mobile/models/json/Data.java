@@ -18,6 +18,10 @@ public class Data {
     @Expose
     private List<Cell> cells = null;
 
+    @SerializedName("products")
+    @Expose
+    private List<Product> products = null;
+
     public List<Shelf> getShelves() {
         return shelves;
     }
@@ -34,12 +38,19 @@ public class Data {
         this.floors = floors;
     }
 
-
     public List<Cell> getCells() {
         return cells;
     }
 
     public void setCells(List<Cell> cells) {
         this.cells = cells;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

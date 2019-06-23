@@ -6,279 +6,153 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center"
+              android:padding="@dimen/padding_global"
               tools:context=".StockInActivity">
 
     <LinearLayout
+            android:background="@drawable/rectangle_border"
             android:layout_width="match_parent"
-            android:layout_height="120px"
+            android:layout_height="150px"
             android:layout_margin="10px"
             android:gravity="center"
             android:weightSum="10">
 
         <TextView
+                android:textStyle="bold"
+                android:gravity="center"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Shelf RFID:"/>
-
-        <TextView
-                android:id="@+id/txt_shelf_rfid"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"/>
-
-        <Button
-                android:id="@+id/btn_scan_shelf_rfid"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Scan"/>
-    </LinearLayout>
-
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Shelf Name:"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Shelf name will be display here"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Floor:"/>
-
-        <TextView
-                android:id="@+id/txt_floor"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="2"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:text="Cell:"/>
 
         <TextView
-                android:id="@+id/txt_cell"
+                android:gravity="center"
+                android:background="@drawable/spinner_border"
+                android:id="@+id/tv_cell_rfid"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="2"/>
+                android:layout_height="match_parent"
+                android:layout_weight="5"/>
 
+        <Button
+                android:id="@+id/btn_scan_cell_rfid"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Scan"/>
     </LinearLayout>
 
     <LinearLayout
+            android:background="@drawable/rectangle_border"
             android:layout_width="match_parent"
-            android:layout_height="120px"
+            android:layout_height="150px"
             android:layout_margin="10px"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="10">
 
         <TextView
+                android:textStyle="bold"
+                android:gravity="center"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="Description:"/>
+                android:text="Floor:"/>
 
         <TextView
+                android:gravity="center"
+                android:background="@drawable/spinner_border"
+                android:id="@+id/tv_floor_id"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Description will be display here"/>
+                android:layout_height="match_parent"
+                android:layout_weight="7"/>
 
     </LinearLayout>
 
     <LinearLayout
+            android:background="@drawable/rectangle_border"
             android:layout_width="match_parent"
-            android:layout_height="120px"
+            android:layout_height="150px"
+            android:layout_margin="10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+        <TextView
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="Shelf:"/>
+
+        <TextView
+                android:gravity="center"
+                android:background="@drawable/spinner_border"
+                android:id="@+id/tv_shelf_id"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="7"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:background="@drawable/rectangle_border"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
             android:layout_margin="10px"
             android:gravity="center"
             android:weightSum="10">
 
         <TextView
+                android:textStyle="bold"
+                android:gravity="center"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="Package RFID:"/>
+                android:text="Package:"/>
 
         <TextView
-                android:id="@+id/txt_package_rfid"
+                android:gravity="center"
+                android:background="@drawable/spinner_border"
+                android:id="@+id/tv_package_rfid"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="5"/>
 
         <Button
                 android:id="@+id/btn_scan_pakage_rfid"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="Scan"/>
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Product:"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Product will be display here"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Quantity:"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Quantity will be display here"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="12">
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Width:"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="0"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Length:"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="0"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Height:"/>
-
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="0"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-            android:gravity="center"
-            android:layout_margin="10px"
-            android:weightSum="10"
-            android:layout_width="match_parent"
-            android:layout_height="120px">
-
-        <TextView
-                android:layout_weight="3"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:text="Description:"/>
-
-        <TextView
-                android:text="Description will be display here"
-                android:id="@+id/txt_product_description"
-                android:layout_weight="7"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120px"
+            android:layout_height="150px"
             android:layout_margin="10px"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="9">
 
         <Button
+                android:id="@+id/btn_save"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:text="Save"/>
 
         <Button
+                android:id="@+id/btn_clear"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:text="Clear"/>
 
         <Button
+                android:id="@+id/btn_cancel"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:text="Cancel"/>
 
