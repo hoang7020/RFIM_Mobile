@@ -12,8 +12,7 @@
     <string name="stock_in_error">Stock in package fail.</string>
     <string name="stock_out_successfull">Stock out box successfull.</string>
     <string name="stock_out_error">Stock out box fail.</string>
-
-    <string name="can_not_find_box">Can not find box\'s information.</string>
+    <string name="transfer_wrong_product_id">Product not the same with scanned package.</string>
 
     <dimen name="padding_global">10dp</dimen>
     <dimen name="menu_font_size_title">25dp</dimen>
@@ -25,4 +24,7 @@
     <string name="register">Register</string>
     <string name="clear">Clear</string>
     <string name="cancel">Cancel</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -54,21 +54,27 @@ public class ApiUtil extends AsyncTask<URL, Void, Result> {
             try {
                 HttpURLConnection connection = (HttpURLConnection) urls[i].openConnection();
                 BufferedReader br = null;
-                if (method.equals("POST")) {
+                if (!method.equals("GET")) {
                     connection.setRequestMethod(method);
                     connection.setRequestProperty("Content-Type", "application/json");
                     OutputStream os = connection.getOutputStream();
                     os.write(gson.toJson(param).getBytes());
                     Log.e(TAG, "doInBackground: " + gson.toJson(param));
                 }
-                InputStream is = connection.getInputStream();
+                code = connection.getResponseCode();
+                InputStream is;
+                if (code >= 400) {
+                    is = connection.getErrorStream();
+                } else {
+                    is = connection.getInputStream();
+                }
                 InputStreamReader ir = new InputStreamReader(is);
                 br = new BufferedReader(ir);
                 String tmp;
                 while ((tmp = br.readLine()) != null) {
                     sb.append(tmp);
                 }
-                code = connection.getResponseCode();
+
                 br.close();
             } catch (IOException e) {
                 e.printStackTrace();

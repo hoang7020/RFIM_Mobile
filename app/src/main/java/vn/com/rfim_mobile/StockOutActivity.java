@@ -1,5 +1,6 @@
 package vn.com.rfim_mobile;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,6 +18,7 @@ import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.ScannedProductItem;
 import vn.com.rfim_mobile.models.json.Product;
+import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
 
 import java.net.HttpURLConnection;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockOutActivity extends AppCompatActivity implements Observer, OnTaskCompleted {
-    
+
     public static final String TAG = StockOutActivity.class.getSimpleName();
 
     private RecyclerView rcListStockOutBox;
@@ -34,12 +36,13 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
     private ListProductAdapter mProductAdapter;
     private List<String> mListScanBoxRfid;
     private List<ScannedProductItem> mListShowProduct;
+    private MediaPlayer mBeepSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_out);
-        
+
         initView();
 
         mProductAdapter = new ListProductAdapter(mListShowProduct);
@@ -93,6 +96,7 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         gson = new Gson();
         mListShowProduct = new ArrayList<>();
         mRfimApi = new RFIMApi(this);
+        mBeepSound = MediaPlayer.create(this, R.raw.beep);
     }
 
     @Override
@@ -104,23 +108,21 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
         finish();
     }
 
     //Get notification from Observerable(TempScanResult) and unregister Observer
     @Override
-    public void getNotification(String message, int type) {
+    public void getNotification(int type) {
+        mBeepSound.start();
         switch (type) {
             case Constant.SCAN_BOX_RFID:
-//                Log.e(TAG, "getNotification: " + message);
-                String rfid = BluetoothUtil.tempScanResult.getRfidID();
                 if (mListScanBoxRfid.isEmpty()) {
-//                    mListScanBoxRfid.add(rfid);
-                    mRfimApi.getProductByBoxRfid(rfid);
+                    mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
                 } else {
-                    if (mListScanBoxRfid.indexOf(rfid) < 0) {
-//                        mListScanBoxRfid.add(rfid);
-                        mRfimApi.getProductByBoxRfid(rfid);
+                    if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
+                        mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
                     }
                 }
                 break;
@@ -151,11 +153,15 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                     mProductAdapter = new ListProductAdapter(mListShowProduct);
                     rcListStockOutBox.setAdapter(mProductAdapter);
                 } else if (code == HttpURLConnection.HTTP_NO_CONTENT) {
-                    Toast.makeText(this, getString(R.string.can_not_find_box), Toast.LENGTH_SHORT).show();
+                    showResponseMessage(data);
                 }
                 break;
             case Constant.STOCK_OUT_BOXES:
                 if (code == HttpURLConnection.HTTP_OK) {
+                    mListScanBoxRfid.clear();
+                    mListShowProduct.clear();
+                    mProductAdapter = new ListProductAdapter(mListShowProduct);
+                    rcListStockOutBox.setAdapter(mProductAdapter);
                     Toast.makeText(this, getString(R.string.stock_out_successfull), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, getString(R.string.stock_out_error), Toast.LENGTH_SHORT).show();
@@ -167,12 +173,19 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
 
     private int isProductExitInShowList(String productId) {
         int position = -1;
-        for (ScannedProductItem item: mListShowProduct) {
+        for (ScannedProductItem item : mListShowProduct) {
             if (item.getProductId().equalsIgnoreCase(productId)) {
                 position = mListShowProduct.indexOf(item);
             }
         }
         return position;
+    }
+
+    public void showResponseMessage(String data) {
+        ResponseMessage message = gson.fromJson(data, ResponseMessage.class);
+        if (message != null) {
+            Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

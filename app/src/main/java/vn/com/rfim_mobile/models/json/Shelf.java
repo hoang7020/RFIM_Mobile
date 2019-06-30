@@ -10,10 +10,10 @@ public class Shelf {
     private String shelfId;
     @SerializedName("shelfCode")
     @Expose
-    private String shelfCode;
-    @SerializedName("desicription")
+    private Object shelfCode;
+    @SerializedName("description")
     @Expose
-    private String desicription;
+    private String description;
     @SerializedName("floorNumber")
     @Expose
     private Integer floorNumber;
@@ -29,20 +29,20 @@ public class Shelf {
         this.shelfId = shelfId;
     }
 
-    public String getShelfCode() {
+    public Object getShelfCode() {
         return shelfCode;
     }
 
-    public void setShelfCode(String shelfCode) {
+    public void setShelfCode(Object shelfCode) {
         this.shelfCode = shelfCode;
     }
 
-    public String getDesicription() {
-        return desicription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesicription(String desicription) {
-        this.desicription = desicription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getFloorNumber() {

@@ -23,13 +23,18 @@ public class TempScanResult implements Observerable {
         return rfidID;
     }
 
-    public void setRfidID(String rfidID) {
-        this.rfidID = rfidID;
-        sendNotification("Scan Result Change");
+    public Vector<Observer> getObservers() {
+        return observers;
+    }
+
+    public void setRfidID(String rfid) {
+        this.rfidID = rfid;
+        sendNotification();
     }
 
     @Override
     public void registerObserver(Observer observer, int type) {
+        observers.clear();
         this.type = type;
         if (!observers.contains(observer)) {
             observers.add(observer);
@@ -42,9 +47,9 @@ public class TempScanResult implements Observerable {
     }
 
     @Override
-    public void sendNotification(String message) {
+    public void sendNotification() {
         for (Observer o : observers) {
-            o.getNotification(message, type);
+            o.getNotification(type);
         }
     }
 }

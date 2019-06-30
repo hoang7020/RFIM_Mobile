@@ -5,5 +5,5 @@ public interface Observerable {
 
     public void unregisterObserver(Observer observer);
 
-    public void sendNotification(String message);
+    public void sendNotification();
 }

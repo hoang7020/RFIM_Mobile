@@ -114,13 +114,62 @@ public class RFIMApi {
         mApiUtil.execute(url);
     }
 
+    //Check cell is registered
+//    public void isRegisteredCell(String cellRfid) {
+//        this.mApiUtil = new ApiUtil(listener);
+//        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+//                MainActivity.context.getString(R.string.check_cell_is_registered) + cellRfid);
+//        mApiUtil.setType(Constant.CHECK_CELL_IS_REGISTERED);
+//        mApiUtil.execute(url);
+//    }
+
+    //Get package by package rfid
+    public void getPackageByPackageRfid(String packageRfid) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.get_package_by_package_rfid) + packageRfid);
+        mApiUtil.setType(Constant.CHECK_PACKAGE_IS_REGISTERED);
+        mApiUtil.execute(url);
+    }
+
     //Stock in package
     //Update pakage cell id
     public void stockInPackage(String packageRfid, String cellId) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.stock_in_package));
-        mApiUtil.setType(Constant.STOCK_IN_PAKCAGE);
+        mApiUtil.setType(Constant.STOCK_IN_PACKAGE);
+        mApiUtil.setMethod("POST");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("packageRfid", packageRfid);
+        obj.addProperty("cellId", cellId);
+        mApiUtil.setParam(obj);
+        mApiUtil.execute(url);
+    }
+
+    //Transfer boxes
+    //Update package rfid of box
+    public void transferBoxes(String packageRfid, List<String> boxRfids) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.transfer_boxes));
+        mApiUtil.setType(Constant.TRANSFER_BOXES);
+        mApiUtil.setMethod("POST");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("packageRfid", packageRfid);
+        JsonArray array = (JsonArray) gson.toJsonTree(boxRfids);
+        obj.add("boxRfids", array);
+        mApiUtil.setParam(obj);
+        mApiUtil.execute(url);
+    }
+
+    //Transfer package
+    //Update cell rfid of package
+    public void transferPackage(String packageRfid, String cellId) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.transfer_package));
+        mApiUtil.setType(Constant.TRANSFER_PACKAGE);
         mApiUtil.setMethod("POST");
         JsonObject obj = new JsonObject();
         obj.addProperty("packageRfid", packageRfid);
@@ -158,6 +207,24 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.get_product_by_box_rfid) + rfid);
         mApiUtil.setType(Constant.GET_PRODUCT_BY_BOX_ID);
+        mApiUtil.execute(url);
+    }
+
+    //Get box rfids by product id
+    public void getBoxRfidsByProductId(String productId) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.get_box_rfid_by_product_id) + productId);
+        mApiUtil.setType(Constant.GET_BOX_RFIDS_BY_PRODUCT_ID);
+        mApiUtil.execute(url);
+    }
+
+    //Get all stocktake type
+    public void getAllStocktakeType() {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.stocktaketypes));
+        mApiUtil.setType(Constant.GET_ALL_STOCKTAKE_TYPE);
         mApiUtil.execute(url);
     }
 }

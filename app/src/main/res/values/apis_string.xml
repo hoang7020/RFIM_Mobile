@@ -11,12 +11,20 @@
     <string name="cell_by_floor_id">cells/floors/</string>
     <string name="cell_by_cell_rfid">cells/rfid/</string>
     <string name="register_cell">cells/register</string>
+    <string name="check_cell_is_registered">cells/check_register/</string>
 
     <string name="get_all_products">products/</string>
     <string name="get_product_by_box_rfid">products/boxes/</string>
 
-    <string name="stock_out_boxes">/packages/stockout/</string>
 
+    <string name="stock_out_boxes">packages/stockout/</string>
     <string name="register_package_and_box">packages/register/</string>
     <string name="stock_in_package">packages/stockin</string>
+    <string name="transfer_boxes">packages/transfer_boxes/</string>
+    <string name="transfer_package">packages/transfer_package/</string>
+    <string name="get_package_by_package_rfid">packages/package_rfid/</string>
+
+    <string name="get_box_rfid_by_product_id">boxes/products/</string>
+
+    <string name="stocktaketypes">stocktaketypes/</string>
 </resources>

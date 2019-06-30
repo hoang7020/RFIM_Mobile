@@ -23,7 +23,7 @@
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Product Id:"/>
+                android:text="Product Id*"/>
 
         <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                 android:background="@drawable/spinner_border"
@@ -64,53 +64,6 @@
                 android:layout_height="match_parent"/>
 
     </LinearLayout>
-
-    <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="120px"-->
-            <!--android:layout_margin="10px"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:weightSum="12">-->
-
-        <!--<TextView-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="Width:"/>-->
-
-        <!--<TextView-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="0"/>-->
-
-        <!--<TextView-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="Length:"/>-->
-
-        <!--<TextView-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="0"/>-->
-
-        <!--<TextView-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="Height:"/>-->
-
-        <!--<TextView-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="0"/>-->
-
-    <!--</LinearLayout>-->
-
 
     <LinearLayout
             android:layout_margin="10px"
@@ -153,7 +106,7 @@
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Package RFID:"/>
+                android:text="Package RFID*"/>
 
         <TextView
                 android:background="@drawable/rectangle_border"
@@ -184,7 +137,7 @@
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Box RFID:"/>
+                android:text="Box RFID*"/>
 
         <ScrollView
                 android:background="@drawable/rectangle_border"

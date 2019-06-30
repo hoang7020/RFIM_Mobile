@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_register_box"
+            android:enabled="true"
+            android:icon="@drawable/transfer"
+            android:title="Register Box"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/action_register_full_package"
+            android:enabled="true"
+            android:icon="@drawable/stocktake"
+            android:title="Register Full Package"
+            app:showAsAction="ifRoom"/>
+
+</menu>
