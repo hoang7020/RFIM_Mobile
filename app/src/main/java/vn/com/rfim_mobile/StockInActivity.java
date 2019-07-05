@@ -60,7 +60,7 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
                 } else if (tvPackageRfid.getText().toString().equals("")) {
                     Toast.makeText(StockInActivity.this, getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
                 } else {
-                    mRfimApi.stockInPackage(tvPackageRfid.getText().toString(), mCellId);
+                    mRfimApi.stockInPackage(tvPackageRfid.getText().toString(), mCellId, System.currentTimeMillis());
                 }
             }
         });

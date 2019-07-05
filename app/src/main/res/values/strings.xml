@@ -14,11 +14,13 @@
     <string name="stock_out_error">Stock out box fail.</string>
     <string name="transfer_wrong_product_id">Product not the same with scanned package.</string>
 
+    <string name="not_input_username_or_password">Please input username or password.</string>
+
     <dimen name="padding_global">10dp</dimen>
     <dimen name="menu_font_size_title">25dp</dimen>
     <dimen name="menu_font_size_description">15dp</dimen>
     <dimen name="height_of_field">150px</dimen>
-    <dimen name="height_of_scan_product_field">600px</dimen>
+    <dimen name="height_of_scan_product_field">300px</dimen>
 
     //button
     <string name="register">Register</string>

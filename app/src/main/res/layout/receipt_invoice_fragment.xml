@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:background="@drawable/rectangle_border"
+            android:layout_width="match_parent"
+            android:layout_height="60px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+
+        <TextView
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:id="@+id/tv_product_number"
+                android:textSize="15sp"
+                android:text="No"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:id="@+id/tv_product_id"
+                android:textSize="15sp"
+                android:text="ID"
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:id="@+id/tv_product_name"
+                android:textSize="15sp"
+                android:text="Name"
+                android:layout_weight="5"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:id="@+id/tv_product_quantity"
+                android:textSize="15sp"
+                android:text="QT"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
+
+        <!--<TextView-->
+                <!--android:background="@drawable/rectangle_border"-->
+                <!--android:gravity="center"-->
+                <!--android:id="@+id/tv_product_position"-->
+                <!--android:textSize="15sp"-->
+                <!--android:text="Shelf"-->
+                <!--android:layout_weight="1.5"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:background="@drawable/rectangle_border"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_of_scan_product_field">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rc_receipe_invoice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

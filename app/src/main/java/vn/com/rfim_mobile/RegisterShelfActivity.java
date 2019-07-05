@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
+import vn.com.rfim_mobile.fragments.IssueInvoiceFragment;
 import vn.com.rfim_mobile.fragments.ScanningFragment;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
@@ -38,6 +39,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     private ScanningFragment mScanning;
     private Gson gson;
     private MediaPlayer mBeepSound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,10 +4,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import vn.com.rfim_mobile.LoginActivity;
 import vn.com.rfim_mobile.MainActivity;
 import vn.com.rfim_mobile.R;
 import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
+import vn.com.rfim_mobile.models.InvoiceInfoItem;
 import vn.com.rfim_mobile.utils.ApiUtil;
 import vn.com.rfim_mobile.utils.UrlUtil;
 
@@ -133,8 +135,8 @@ public class RFIMApi {
     }
 
     //Stock in package
-    //Update pakage cell id
-    public void stockInPackage(String packageRfid, String cellId) {
+    //Update pakage cell id and date
+    public void stockInPackage(String packageRfid, String cellId, long date) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.stock_in_package));
@@ -143,6 +145,7 @@ public class RFIMApi {
         JsonObject obj = new JsonObject();
         obj.addProperty("packageRfid", packageRfid);
         obj.addProperty("cellId", cellId);
+        obj.addProperty("date", date);
         mApiUtil.setParam(obj);
         mApiUtil.execute(url);
     }
@@ -225,6 +228,70 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.stocktaketypes));
         mApiUtil.setType(Constant.GET_ALL_STOCKTAKE_TYPE);
+        mApiUtil.execute(url);
+    }
+
+    //Save stocktake history
+    public void saveStocktakeHistory(int stocktakeTypeId, int userId, String productId,
+                                     int quantity, long date, String description) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.save_stocktake_history));
+        mApiUtil.setMethod("POST");
+        mApiUtil.setType(Constant.SAVE_STOCKTAKE_HISTORY);
+        JsonObject obj = new JsonObject();
+        obj.addProperty("stocktakeTypeId", stocktakeTypeId);
+        obj.addProperty("userId", userId);
+        obj.addProperty("quantity", quantity);
+        obj.addProperty("date", date);
+        obj.addProperty("description", description);
+        mApiUtil.setParam(obj);
+        mApiUtil.execute(url);
+    }
+
+    //Login
+    public void login(String username, String password) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(LoginActivity.context.getString(R.string.host) +
+                LoginActivity.context.getString(R.string.login));
+        mApiUtil.setMethod("POST");
+        mApiUtil.setType(Constant.LOGIN);
+        JsonObject obj = new JsonObject();
+        obj.addProperty("username", username);
+        obj.addProperty("password", password);
+        mApiUtil.setParam(obj);
+        mApiUtil.execute(url);
+    }
+
+    //Get Issue Invoice;
+    public void getIssuseInvoice() {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.get_issue_invoice));
+        mApiUtil.setType(Constant.GET_ISSUE_INVOICE);
+        mApiUtil.execute(url);
+    }
+
+    //Get Receipt Invoice;
+    public void getReceiptInvoice() {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.get_receipt_invoice));
+        mApiUtil.setType(Constant.GET_RECEIPT_INVOICE);
+        mApiUtil.execute(url);
+    }
+
+    //Sort issue invoice using disjkstra algorithm
+    public void sortIssueInvoice(List<InvoiceInfoItem> invoices) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.dijkstra));
+        mApiUtil.setMethod("POST");
+        mApiUtil.setType(Constant.DIJKSTRA);
+        JsonObject obj = new JsonObject();
+        JsonArray array = (JsonArray) gson.toJsonTree(invoices);
+        obj.add("invoiceInfoItems", array);
+        mApiUtil.setParam(obj);
         mApiUtil.execute(url);
     }
 }

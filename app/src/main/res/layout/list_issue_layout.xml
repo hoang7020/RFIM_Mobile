@@ -22,7 +22,7 @@
             android:id="@+id/tv_product_id"
             android:textSize="15sp"
             android:text="Product ID"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:layout_width="0px"
             android:layout_height="wrap_content"/>
 
@@ -31,7 +31,7 @@
             android:id="@+id/tv_product_name"
             android:textSize="15sp"
             android:text="Product Name"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:layout_width="0px"
             android:layout_height="wrap_content"/>
 
@@ -41,6 +41,15 @@
             android:textSize="15sp"
             android:text="NoP"
             android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:gravity="center"
+            android:id="@+id/tv_product_position"
+            android:textSize="15sp"
+            android:text="Pos"
+            android:layout_weight="2"
             android:layout_width="0px"
             android:layout_height="wrap_content"/>
 

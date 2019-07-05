@@ -6,52 +6,69 @@
               android:layout_height="match_parent"
               android:gravity="center"
               android:orientation="vertical"
+              android:background="#40C4FF"
+              android:padding="@dimen/padding_global"
               tools:context=".LoginActivity">
 
     <LinearLayout
+            android:layout_margin="10px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_of_field"
             android:orientation="horizontal"
             android:weightSum="10">
 
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="User Name"/>
 
         <EditText
+                android:text="hieudt"
+                android:id="@+id/edt_username"
+                android:hint="Username"
+                android:gravity="center"
+                android:background="@drawable/rectangle_border_radius_login"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"/>
+                android:layout_height="match_parent"
+                android:layout_weight="10"/>
     </LinearLayout>
 
     <LinearLayout
+            android:layout_margin="10px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_of_field"
             android:orientation="horizontal"
             android:weightSum="10">
 
-        <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Password"/>
-
         <EditText
+                android:password="true"
+                android:text="123456"
+                android:id="@+id/edt_password"
+                android:hint="Password"
+                android:gravity="center"
+                android:background="@drawable/rectangle_border_radius_login"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"/>
+                android:layout_height="match_parent"
+                android:layout_weight="10"/>
     </LinearLayout>
 
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"/>
+    <LinearLayout
 
-    <Button
+            android:layout_margin="10px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password"/>
+            android:layout_height="@dimen/height_of_field"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+        <Button
+                android:id="@+id/btn_login"
+                android:layout_weight="5"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:text="Login"/>
+
+        <Button
+                android:id="@+id/btn_cancel"
+                android:layout_weight="5"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:text="Cancel"/>
+    </LinearLayout>
 
 </LinearLayout>

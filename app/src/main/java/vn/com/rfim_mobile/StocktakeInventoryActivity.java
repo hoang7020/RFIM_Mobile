@@ -1,14 +1,17 @@
 package vn.com.rfim_mobile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,8 +20,10 @@ import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.json.Product;
+import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.models.json.StocktakeType;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.PreferenceUtil;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -29,7 +34,10 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
     public static final String TAG = StocktakeInventoryActivity.class.getSimpleName();
 
     private SmartMaterialSpinner snProductId, snStocktakeType;
-    private Button btnScanBoxRfid;
+    private Button btnScanBoxRfid,
+            btnReport,
+            btnClear,
+            btnCancel;
     private Gson gson;
     private RFIMApi mRfimApi;
     private List<String> mListProductId;
@@ -39,6 +47,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
     private List<String> mListStocktakeType;
     private TextView tvProductQuantity, tvScannedProduct;
     private int mStocktakeTypeIdSelected;
+    private String mProductIdSelected;
     private List<String> mListScannedRfid;
     private MediaPlayer mBeepSound;
 
@@ -46,7 +55,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stocktake_inventory);
-        
+
         initView();
 
         mRfimApi.getAllProduct();
@@ -91,12 +100,58 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                 tvScannedProduct.setText(mListScannedRfid.size() + "");
             }
         });
+
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(StocktakeInventoryActivity.this)
+                        .setTitle("Report")
+                        .setMessage("Do you want to report")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mRfimApi.saveStocktakeHistory(mStocktakeTypeIdSelected,
+                                        PreferenceUtil.getInstance(getApplicationContext()).getIntValue("userid", 0),
+                                        mProductIdSelected,
+                                        mListScannedRfid.size(),
+                                        System.currentTimeMillis(),
+                                        "nothing");
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snStocktakeType.setSelection(0);
+                snProductId.setSelection(0);
+                mListScannedRfid.clear();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
         tvProductQuantity = findViewById(R.id.tv_product_quantity);
         tvScannedProduct = findViewById(R.id.tv_scanned_product);
         btnScanBoxRfid = findViewById(R.id.btn_scan_box_rfid);
+        btnReport = findViewById(R.id.btn_report);
+        btnClear = findViewById(R.id.btn_clear);
+        btnCancel = findViewById(R.id.btn_cancel);
         snProductId = findViewById(R.id.sn_product_id);
         snStocktakeType = findViewById(R.id.sn_stocktake_type);
         gson = new Gson();
@@ -115,10 +170,10 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
             case Constant.SCAN_STOCKTAKE_RFID:
                 String rfid = BluetoothUtil.tempScanResult.getRfidID();
                 if (mListBoxRfids.contains(rfid)) {
-                  if (!mListScannedRfid.contains(rfid)) {
-                      mBeepSound.start();
-                      mListScannedRfid.add(rfid);
-                  }
+                    if (!mListScannedRfid.contains(rfid)) {
+                        mBeepSound.start();
+                        mListScannedRfid.add(rfid);
+                    }
                 }
                 tvScannedProduct.setText(mListScannedRfid.size() + "");
                 if (mListBoxRfids.size() == mListScannedRfid.size()) {
@@ -147,7 +202,8 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                 break;
             case Constant.GET_ALL_STOCKTAKE_TYPE:
                 if (code == HttpURLConnection.HTTP_OK) {
-                    mStocktakeTypes = gson.fromJson(data, new TypeToken<List<StocktakeType>>(){}.getType());
+                    mStocktakeTypes = gson.fromJson(data, new TypeToken<List<StocktakeType>>() {
+                    }.getType());
                     for (StocktakeType s : mStocktakeTypes) {
                         mListStocktakeType.add(s.getStocktakeType());
                     }
@@ -163,6 +219,24 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                     tvProductQuantity.setText(mListBoxRfids.size() + "");
                 }
                 break;
+            case Constant.SAVE_STOCKTAKE_HISTORY:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    snStocktakeType.setSelection(0);
+                    snProductId.setSelection(0);
+                    mListScannedRfid.clear();
+                    showResponseMessage(data);
+                } else {
+                    showResponseMessage(data);
+                }
+                break;
         }
     }
+
+    public void showResponseMessage(String data) {
+        ResponseMessage message = gson.fromJson(data, ResponseMessage.class);
+        if (message != null) {
+            Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

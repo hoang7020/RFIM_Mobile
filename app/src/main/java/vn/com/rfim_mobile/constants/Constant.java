@@ -32,6 +32,11 @@ public class Constant {
     public static final int TRANSFER_BOXES = 15;
     public static final int GET_BOX_RFIDS_BY_PRODUCT_ID = 16;
     public static final int GET_ALL_STOCKTAKE_TYPE = 17;
+    public static final int LOGIN = 18;
+    public static final int SAVE_STOCKTAKE_HISTORY = 19;
+    public static final int GET_ISSUE_INVOICE = 20;
+    public static final int GET_RECEIPT_INVOICE = 21;
+    public static final int DIJKSTRA = 22;
 
     //Api Response Code
     public static final int OK = 200;

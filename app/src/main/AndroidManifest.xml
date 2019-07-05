@@ -21,8 +21,8 @@
         <activity android:name=".StockInActivity"/>
         <activity android:name=".RegisterPackageActivity"/>
         <activity android:name=".RegisterShelfActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
