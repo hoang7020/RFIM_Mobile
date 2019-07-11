@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -15,6 +16,7 @@ import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.json.Cell;
 import vn.com.rfim_mobile.models.json.Floor;
+import vn.com.rfim_mobile.models.json.Package;
 import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.models.json.Shelf;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
@@ -25,7 +27,11 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
 
     public static final String TAG = StockInActivity.class.getSimpleName();
     private TextView tvCellRfid, tvPackageRfid, tvFloorId, tvShelfId, tvCellId;
-    private Button btnScanCellRfid, btnScanPackageRfid, btnSave, btnClear, btnCancel;
+    private Button btnScanCellRfid,
+            btnScanPackageRfid,
+            btnSave,
+            btnClear,
+            btnCancel;
     private Gson gson;
     private String mCellId;
     private RFIMApi mRfimApi;
@@ -117,17 +123,13 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
     @Override
     public void getNotification(int type) {
         mBeepSound.start();
+        String rfid = BluetoothUtil.tempScanResult.getRfidID();
         switch (type) {
             case Constant.SCAN_CELL_RFID:
-                Log.e(TAG, "SCAN_SHELF_RFID: " + BluetoothUtil.tempScanResult.getRfidID());
-                tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-                BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
-                mRfimApi.getCellByCellRfid(tvCellRfid.getText().toString());
+                mRfimApi.getCellByCellRfid(rfid);
                 break;
             case Constant.SCAN_PACKAGE_RFID:
-                Log.e(TAG, "SCAN_PACKAGE_RFID: " + BluetoothUtil.tempScanResult.getRfidID());
-                tvPackageRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-                BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                mRfimApi.getPackageByPackageRfid(rfid);
                 break;
         }
     }
@@ -140,10 +142,27 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
                 if (code == HttpURLConnection.HTTP_OK) {
                     Cell cell = gson.fromJson(data, Cell.class);
                     if (cell != null) {
+                        tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+                        BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
                         tvCellId.setText(cell.getCellId());
                         mCellId = cell.getCellId();
                         mRfimApi.getFloorByCellId(cell.getCellId());
                     }
+                } else {
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                    showResponseMessage(data);
+                }
+                break;
+            case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    Package pac = gson.fromJson(data, Package.class);
+                    if (pac != null) {
+                        tvPackageRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+                        BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                    }
+                } else {
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                    showResponseMessage(data);
                 }
                 break;
             case Constant.GET_FLOOR_BY_CELL_ID:
@@ -176,6 +195,13 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
                     Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 break;
+        }
+    }
+
+    public void showResponseMessage(String data) {
+        ResponseMessage message = gson.fromJson(data, ResponseMessage.class);
+        if (message != null) {
+            Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

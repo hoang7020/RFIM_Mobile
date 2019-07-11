@@ -100,7 +100,7 @@ public class RFIMApi {
 
     //Register box to package
     //Map pakage with product id
-    public void registerPackageAndBox(String packagedId, String productId, List<String> productRfids) {
+    public void registerPackageAndBox(String packagedId, String invoiceId, String productId, int invoiceStatus, List<String> productRfids) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.register_package_and_box));
@@ -108,7 +108,9 @@ public class RFIMApi {
         mApiUtil.setMethod("POST");
         JsonObject obj = new JsonObject();
         obj.addProperty("packageRfid", packagedId);
+        obj.addProperty("invoiceId", invoiceId);
         obj.addProperty("productId", productId);
+        obj.addProperty("invoiceStatus", invoiceStatus);
         JsonArray array = (JsonArray) gson.toJsonTree(productRfids);
         obj.add("boxRfids", array);
         Log.e(TAG, "registerPackageAndBox: " + obj);
@@ -130,7 +132,7 @@ public class RFIMApi {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.get_package_by_package_rfid) + packageRfid);
-        mApiUtil.setType(Constant.CHECK_PACKAGE_IS_REGISTERED);
+        mApiUtil.setType(Constant.GET_PACKAGE_BY_PACKAGE_RFID);
         mApiUtil.execute(url);
     }
 
@@ -182,13 +184,14 @@ public class RFIMApi {
     }
 
     //Stock out box
-    public void stockOutBox(List<String> boxRfids) {
+    public void stockOutBox(List<String> boxRfids, String invoiceId) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.stock_out_boxes));
         mApiUtil.setType(Constant.STOCK_OUT_BOXES);
         mApiUtil.setMethod("POST");
         JsonObject obj = new JsonObject();
+        obj.addProperty("invoiceId", invoiceId);
         JsonArray array = (JsonArray) gson.toJsonTree(boxRfids);
         obj.add("boxRfids", array);
         mApiUtil.setParam(obj);
@@ -232,7 +235,7 @@ public class RFIMApi {
     }
 
     //Save stocktake history
-    public void saveStocktakeHistory(int stocktakeTypeId, int userId, String productId,
+    public void saveStocktakeHistory(int userId, String productId,
                                      int quantity, long date, String description) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
@@ -240,8 +243,8 @@ public class RFIMApi {
         mApiUtil.setMethod("POST");
         mApiUtil.setType(Constant.SAVE_STOCKTAKE_HISTORY);
         JsonObject obj = new JsonObject();
-        obj.addProperty("stocktakeTypeId", stocktakeTypeId);
         obj.addProperty("userId", userId);
+        obj.addProperty("productId", productId);
         obj.addProperty("quantity", quantity);
         obj.addProperty("date", date);
         obj.addProperty("description", description);
@@ -263,7 +266,7 @@ public class RFIMApi {
         mApiUtil.execute(url);
     }
 
-    //Get Issue Invoice;
+    //Get Issues Invoice;
     public void getIssuseInvoice() {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +

@@ -43,10 +43,10 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
     private List<String> mListProductId;
     private List<Product> mProducts;
     private List<String> mListBoxRfids;
-    private List<StocktakeType> mStocktakeTypes;
-    private List<String> mListStocktakeType;
     private TextView tvProductQuantity, tvScannedProduct;
-    private int mStocktakeTypeIdSelected;
+//    private List<StocktakeType> mStocktakeTypes;
+//    private List<String> mListStocktakeType;
+//    private int mStocktakeTypeIdSelected;
     private String mProductIdSelected;
     private List<String> mListScannedRfid;
     private MediaPlayer mBeepSound;
@@ -59,12 +59,13 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         initView();
 
         mRfimApi.getAllProduct();
-        mRfimApi.getAllStocktakeType();
+//        mRfimApi.getAllStocktakeType();
 
         snProductId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mRfimApi.getBoxRfidsByProductId(mListProductId.get(position));
+                mProductIdSelected = mListProductId.get(position);
+                mRfimApi.getBoxRfidsByProductId(mProductIdSelected);
                 mListBoxRfids.clear();
                 mListScannedRfid.clear();
                 tvScannedProduct.setTextColor(Color.RED);
@@ -77,19 +78,19 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
             }
         });
 
-        snStocktakeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mStocktakeTypes.size() > 0) {
-                    mStocktakeTypeIdSelected = mStocktakeTypes.get(position).getStocktakeTypeId();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        snStocktakeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (mStocktakeTypes.size() > 0) {
+//                    mStocktakeTypeIdSelected = mStocktakeTypes.get(position).getStocktakeTypeId();
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +111,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mRfimApi.saveStocktakeHistory(mStocktakeTypeIdSelected,
+                                mRfimApi.saveStocktakeHistory(
                                         PreferenceUtil.getInstance(getApplicationContext()).getIntValue("userid", 0),
                                         mProductIdSelected,
                                         mListScannedRfid.size(),
@@ -153,13 +154,13 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         btnClear = findViewById(R.id.btn_clear);
         btnCancel = findViewById(R.id.btn_cancel);
         snProductId = findViewById(R.id.sn_product_id);
-        snStocktakeType = findViewById(R.id.sn_stocktake_type);
+//        snStocktakeType = findViewById(R.id.sn_stocktake_type);
         gson = new Gson();
         mRfimApi = new RFIMApi(this);
         mListProductId = new ArrayList<>();
         mListBoxRfids = new ArrayList<>();
-        mListStocktakeType = new ArrayList<>();
-        mStocktakeTypes = new ArrayList<>();
+//        mListStocktakeType = new ArrayList<>();
+//        mStocktakeTypes = new ArrayList<>();
         mListScannedRfid = new ArrayList<>();
         mBeepSound = MediaPlayer.create(this, R.raw.beep);
     }
@@ -200,28 +201,30 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                 }
                 snProductId.setItem(mListProductId);
                 break;
-            case Constant.GET_ALL_STOCKTAKE_TYPE:
-                if (code == HttpURLConnection.HTTP_OK) {
-                    mStocktakeTypes = gson.fromJson(data, new TypeToken<List<StocktakeType>>() {
-                    }.getType());
-                    for (StocktakeType s : mStocktakeTypes) {
-                        mListStocktakeType.add(s.getStocktakeType());
-                    }
-                } else {
-                    mListStocktakeType.add("None!");
-                }
-                snStocktakeType.setItem(mListStocktakeType);
-                break;
+//            case Constant.GET_ALL_STOCKTAKE_TYPE:
+//                if (code == HttpURLConnection.HTTP_OK) {
+//                    mStocktakeTypes = gson.fromJson(data, new TypeToken<List<StocktakeType>>() {
+//                    }.getType());
+//                    for (StocktakeType s : mStocktakeTypes) {
+//                        mListStocktakeType.add(s.getStocktakeType());
+//                    }
+//                } else {
+//                    mListStocktakeType.add("None!");
+//                }
+//                snStocktakeType.setItem(mListStocktakeType);
+//                break;
             case Constant.GET_BOX_RFIDS_BY_PRODUCT_ID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     mListBoxRfids = gson.fromJson(data, new TypeToken<List<String>>() {
                     }.getType());
                     tvProductQuantity.setText(mListBoxRfids.size() + "");
+                } else {
+                    tvProductQuantity.setText("0");
                 }
                 break;
             case Constant.SAVE_STOCKTAKE_HISTORY:
                 if (code == HttpURLConnection.HTTP_OK) {
-                    snStocktakeType.setSelection(0);
+//                    snStocktakeType.setSelection(0);
                     snProductId.setSelection(0);
                     mListScannedRfid.clear();
                     showResponseMessage(data);

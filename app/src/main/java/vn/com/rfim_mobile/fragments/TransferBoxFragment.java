@@ -165,7 +165,7 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
     @Override
     public void onTaskCompleted(String data, int type, int code) {
         switch (type) {
-            case Constant.CHECK_PACKAGE_IS_REGISTERED:
+            case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Package pac = gson.fromJson(data, Package.class);
                     mCurrentTransferProductid = pac.getProductId();

@@ -10,34 +10,34 @@
         android:padding="@dimen/padding_global"
         tools:context=".StocktakeInventoryActivity">
 
-    <LinearLayout
-            android:layout_margin="10px"
-            android:background="@drawable/rectangle_border"
-            android:gravity="center"
-            android:weightSum="10"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_field">
+    <!--<LinearLayout-->
+            <!--android:layout_margin="10px"-->
+            <!--android:background="@drawable/rectangle_border"-->
+            <!--android:gravity="center"-->
+            <!--android:weightSum="10"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/height_of_field">-->
 
-        <TextView
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_weight="3"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:text="Type*"/>
+        <!--<TextView-->
+                <!--android:textStyle="bold"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_weight="3"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="Type*"/>-->
 
-        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                android:background="@drawable/spinner_border"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/sn_stocktake_type"
-                app:smsp_isSearchable="true"
-                app:smsp_searchHeaderText="Search Shelf"
-                android:layout_weight="7"
-                android:layout_width="0px"
-                android:layout_height="match_parent"/>
-    </LinearLayout>
+        <!--<com.chivorn.smartmaterialspinner.SmartMaterialSpinner-->
+                <!--android:background="@drawable/spinner_border"-->
+                <!--android:textAlignment="center"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center"-->
+                <!--android:id="@+id/sn_stocktake_type"-->
+                <!--app:smsp_isSearchable="true"-->
+                <!--app:smsp_searchHeaderText="Search Shelf"-->
+                <!--android:layout_weight="7"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="match_parent"/>-->
+    <!--</LinearLayout>-->
 
     <LinearLayout
             android:layout_margin="10px"

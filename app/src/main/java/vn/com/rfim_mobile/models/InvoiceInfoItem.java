@@ -8,17 +8,24 @@ public class InvoiceInfoItem implements Serializable {
     private String productId;
     private String productName;
     private int quantity;
-    private String shelf;
+    private int processQuantity;
+    private String shelfId;
+    private int status;
     private Date date;
 
-    public InvoiceInfoItem() {
-    }
-
-    public InvoiceInfoItem(String productId, String productName, int quantity, String shelf) {
+    public InvoiceInfoItem(String productId, String productName, int quantity, String shelfId) {
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
-        this.shelf = shelf;
+        this.shelfId = shelfId;
+    }
+
+    public InvoiceInfoItem(String productId, String productName, int quantity, int processQuantity, int status) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.processQuantity = processQuantity;
+        this.status = status;
     }
 
     public String getProductId() {
@@ -45,12 +52,28 @@ public class InvoiceInfoItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public String getShelf() {
-        return shelf;
+    public int getProcessQuantity() {
+        return processQuantity;
     }
 
-    public void setShelf(String shelf) {
-        this.shelf = shelf;
+    public void setProcessQuantity(int processQuantity) {
+        this.processQuantity = processQuantity;
+    }
+
+    public String getShelfId() {
+        return shelfId;
+    }
+
+    public void setShelfId(String shelfId) {
+        this.shelfId = shelfId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Date getDate() {

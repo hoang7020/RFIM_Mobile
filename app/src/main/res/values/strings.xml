@@ -13,6 +13,9 @@
     <string name="stock_out_successfull">Stock out box successfull.</string>
     <string name="stock_out_error">Stock out box fail.</string>
     <string name="transfer_wrong_product_id">Product not the same with scanned package.</string>
+    <string name="not_corrent_product_invoice">This invoice does not need this product.</string>
+    <string name="engouh_product">Enough product.</string>
+    <string name="not_engouh_product">Not enough product.</string>
 
     <string name="not_input_username_or_password">Please input username or password.</string>
 
@@ -20,7 +23,9 @@
     <dimen name="menu_font_size_title">25dp</dimen>
     <dimen name="menu_font_size_description">15dp</dimen>
     <dimen name="height_of_field">150px</dimen>
-    <dimen name="height_of_scan_product_field">300px</dimen>
+    <dimen name="height_of_scan_product_field">1000px</dimen>
+    <dimen name="height_of_scan_box_field">500px</dimen>
+    <dimen name="height_button_main_menu">120dp</dimen>
 
     //button
     <string name="register">Register</string>

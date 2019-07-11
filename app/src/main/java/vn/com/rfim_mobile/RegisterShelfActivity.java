@@ -52,7 +52,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             @Override
             public void onClick(View v) {
                 BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
-                initScanningFragment();
+//                initScanningFragment();
             }
         });
 
@@ -167,10 +167,9 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     public void getNotification(int type) {
         mBeepSound.start();
         if (type == Constant.SCAN_SHELF_RFID) {
-            Log.e(TAG, "getNotification: " + BluetoothUtil.tempScanResult.getRfidID());
-            tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-            BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
-            mScanning.dismiss();
+            String rfid = BluetoothUtil.tempScanResult.getRfidID();
+            mRfimApi.getCellByCellRfid(rfid);
+//            mScanning.dismiss();
         }
     }
 
@@ -214,6 +213,18 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
                     listCellsId.add(getString(R.string.not_found_item));
                 }
                 snCellId.setItem(listCellsId);
+                break;
+            case Constant.GET_CELL_BY_CELL_RFID:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    Cell cell = gson.fromJson(data, Cell.class);
+                    if (cell != null) {
+                        Toast.makeText(this, "This RFID was registered by " + cell.getCellId(), Toast.LENGTH_SHORT).show();
+                        BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                    }
+                } else {
+                    tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+                    BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                }
                 break;
             case Constant.REGISTER_CELL:
                 ResponseMessage message = gson.fromJson(data, ResponseMessage.class);

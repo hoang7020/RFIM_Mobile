@@ -17,9 +17,18 @@ public class Invoice {
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
+    @SerializedName("processQuantity")
+    @Expose
+    private Integer processQuantity;
     @SerializedName("date")
     @Expose
     private String date;
+    @SerializedName("shelfId")
+    @Expose
+    private Object shelfId;
+    @SerializedName("status")
+    @Expose
+    private Integer status;
 
     public String getInvoiceId() {
         return invoiceId;
@@ -53,12 +62,36 @@ public class Invoice {
         this.quantity = quantity;
     }
 
+    public Integer getProcessQuantity() {
+        return processQuantity;
+    }
+
+    public void setProcessQuantity(Integer processQuantity) {
+        this.processQuantity = processQuantity;
+    }
+
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Object getShelfId() {
+        return shelfId;
+    }
+
+    public void setShelfId(Object shelfId) {
+        this.shelfId = shelfId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
 }

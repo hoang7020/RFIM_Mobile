@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
             btnRegisterPackage,
             btnStockInPackage,
             btnStockOutPackage,
-            btnClearRfidTag,
+//            btnClearRfidTag,
             btnTransferProduct,
             btnStocktakeInventory;
+    private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+
         mBTUtil.connectBluetoothDevice();
         mBTUtil.readBluetoothSerialData();
 //        Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RegisterPackageActivity.class);
+//                Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnClearRfidTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ClearTagActivity.class);
-                startActivity(intent);
-            }
-        });
+//        btnClearRfidTag.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, ClearTagActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         btnTransferProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,9 +113,17 @@ public class MainActivity extends AppCompatActivity {
         btnRegisterPackage = findViewById(R.id.btn_package_register);
         btnStockInPackage = findViewById(R.id.btn_stock_in_package);
         btnStockOutPackage = findViewById(R.id.btn_stock_out_package);
-        btnClearRfidTag = findViewById(R.id.btn_clear_rfid_tag);
+//        btnClearRfidTag = findViewById(R.id.btn_clear_rfid_tag);
         btnTransferProduct = findViewById(R.id.btn_transfer_product);
         btnStocktakeInventory = findViewById(R.id.btn_stocktake_inventory);
+        mToolbar = findViewById(R.id.tb_main);
+        setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sub_menu, menu);
+        return true;
     }
 
     @Override

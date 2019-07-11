@@ -10,6 +10,45 @@
               tools:context=".RegisterPackageActivity">
 
     <LinearLayout
+            android:background="@drawable/rectangle_border"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="10px"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_of_field">
+
+        <TextView
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:text="Receipt*"/>
+
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                android:background="@drawable/spinner_border"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/sn_receipt"
+                android:layout_weight="5.5"
+                android:layout_width="0px"
+                app:smsp_isSearchable="true"
+                app:smsp_searchHeaderText="Search Shelf"
+                android:layout_height="match_parent"/>
+
+        <ImageButton
+                android:scaleType="centerInside"
+                android:src="@drawable/info"
+                android:layout_weight="1.5"
+                android:id="@+id/btn_receipt"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
             android:layout_margin="10px"
             android:background="@drawable/rectangle_border"
             android:gravity="center"
@@ -57,7 +96,6 @@
         <TextView
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
-                android:text="Product name will be display here"
                 android:id="@+id/txt_product_name"
                 android:layout_weight="7"
                 android:layout_width="0px"
@@ -84,7 +122,6 @@
         <TextView
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
-                android:text="Description will be display here"
                 android:id="@+id/txt_product_description"
                 android:layout_weight="7"
                 android:layout_width="0px"
@@ -129,7 +166,7 @@
             android:background="@drawable/rectangle_border"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_scan_product_field">
+            android:layout_height="@dimen/height_of_scan_box_field">
 
         <TextView
                 android:textStyle="bold"

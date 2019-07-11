@@ -3,7 +3,8 @@ package vn.com.rfim_mobile.constants;
 import java.util.UUID;
 
 public class Constant {
-    public static final String address = "98:D3:31:FD:5C:49";
+//    public static final String address = "98:D3:31:FD:5C:49";
+    public static final String address = "98:D3:31:FD:68:18";
     public static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
@@ -28,7 +29,7 @@ public class Constant {
     public static final int GET_PRODUCT_BY_BOX_ID = 11;
     public static final int STOCK_OUT_BOXES = 12;
     public static final int TRANSFER_PACKAGE = 13;
-    public static final int CHECK_PACKAGE_IS_REGISTERED = 14;
+    public static final int GET_PACKAGE_BY_PACKAGE_RFID = 14;
     public static final int TRANSFER_BOXES = 15;
     public static final int GET_BOX_RFIDS_BY_PRODUCT_ID = 16;
     public static final int GET_ALL_STOCKTAKE_TYPE = 17;

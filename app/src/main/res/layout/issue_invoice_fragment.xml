@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_issue"
+                app:titleTextColor="@color/smsp_white_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
             android:background="@drawable/rectangle_border"
@@ -15,6 +29,8 @@
 
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_number"
@@ -25,6 +41,8 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_id"
@@ -35,6 +53,8 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_name"
@@ -45,6 +65,8 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_quantity"
@@ -55,6 +77,8 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_position"
@@ -70,7 +94,7 @@
             android:background="@drawable/rectangle_border"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_scan_product_field">
+            android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rc_issue_invoice"
@@ -79,17 +103,17 @@
 
     </LinearLayout>
 
-    <LinearLayout
-            android:background="@drawable/rectangle_border"
-            android:layout_width="match_parent"
-            android:layout_height="150px">
+    <!--<LinearLayout-->
+    <!--android:background="@drawable/rectangle_border"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="150px">-->
 
-        <Button
-                android:id="@+id/btn_sort_algorithm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+    <!--<Button-->
+    <!--android:id="@+id/btn_sort_algorithm"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 
 </LinearLayout>

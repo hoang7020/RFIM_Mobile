@@ -10,11 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import vn.com.rfim_mobile.adapter.IssueInvoiceAdapter;
+import vn.com.rfim_mobile.adapter.IssueAdapter;
 import vn.com.rfim_mobile.adapter.ListProductAdapter;
 import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
@@ -37,22 +38,24 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
 
     public static final String TAG = StockOutActivity.class.getSimpleName();
 
-    private SmartMaterialSpinner snInvoice;
+    private SmartMaterialSpinner snIssue;
     private RecyclerView rcListStockOutBox;
-//    private RecyclerView rcIssuseInvoice;
-    private Button btnScanBoxRfid, btnSave, btnClear, btnCancel, btnIssueInvoice;
+    //    private RecyclerView rcIssuseInvoice;
+    private Button btnScanBoxRfid, btnSave, btnClear, btnCancel;
+    private ImageButton btnIssueInvoice;
     private Gson gson;
     private RFIMApi mRfimApi;
     private ListProductAdapter mProductAdapter;
-    private IssueInvoiceAdapter mIssueInvoiceAdapter;
+    //    private IssueAdapter mIssueInvoiceAdapter;
     private List<String> mListScanBoxRfid;
     private List<ScannedProductItem> mListShowProduct;
     private List<String> mListInvoiceId;
     private MediaPlayer mBeepSound;
     private String mCurrentInvoiceId;
     private List<Invoice> mInvoices;
-    private List<InvoiceInfoItem> mListShowInvoice;
+    private List<InvoiceInfoItem> mListShowIssue;
     private IssueInvoiceFragment mIssueInvoiceFragment;
+    private boolean isEnough = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         mRfimApi.getIssuseInvoice();
 
         //show list product invoice item
-//        mIssueInvoiceAdapter = new IssueInvoiceAdapter(mListShowInvoice);
+//        mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
 //        rcIssuseInvoice.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 //        rcIssuseInvoice.setItemAnimator(new DefaultItemAnimator());
 //        rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
@@ -75,18 +78,19 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         rcListStockOutBox.setItemAnimator(new DefaultItemAnimator());
         rcListStockOutBox.setAdapter(mProductAdapter);
 
-        snInvoice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        snIssue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mListShowInvoice.clear();
+                isEnough = true;
+                mListShowIssue.clear();
                 mCurrentInvoiceId = mListInvoiceId.get(position);
                 for (Invoice i : mInvoices) {
                     if (mCurrentInvoiceId.equals(i.getInvoiceId())) {
-                        InvoiceInfoItem item = new InvoiceInfoItem(i.getProductId(), i.getProductName(), i.getQuantity(), "A1-1-1");
-                        mListShowInvoice.add(item);
+                        InvoiceInfoItem item = new InvoiceInfoItem(i.getProductId(), i.getProductName(), i.getQuantity(), "");
+                        mListShowIssue.add(item);
                     }
                 }
-                mIssueInvoiceAdapter = new IssueInvoiceAdapter(mListShowInvoice);
+//                mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
 //                rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
 
             }
@@ -107,10 +111,16 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (mListShowProduct.isEmpty()) {
                     Toast.makeText(StockOutActivity.this, getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
                 } else {
-                    mRfimApi.stockOutBox(mListScanBoxRfid);
+                    Log.e(TAG, "Invoice " + isIssueEnough(mListShowIssue, mListShowProduct));
+                    if (isIssueEnough(mListShowIssue, mListShowProduct)) {
+                        mRfimApi.stockOutBox(mListScanBoxRfid, mCurrentInvoiceId);
+                    } else {
+                        Toast.makeText(StockOutActivity.this, getString(R.string.not_engouh_product), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -136,17 +146,30 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("LIST_INVOICE_ITEM", (Serializable) mListShowInvoice);
+                bundle.putSerializable("LIST_INVOICE_ITEM", (Serializable) mListShowIssue);
                 mIssueInvoiceFragment = new IssueInvoiceFragment();
                 mIssueInvoiceFragment.setArguments(bundle);
-                mIssueInvoiceFragment.show(getFragmentManager(), "IssueInvoice");
+                mIssueInvoiceFragment.show(getFragmentManager(), "ISSUE");
             }
         });
     }
 
+    private boolean isIssueEnough(List<InvoiceInfoItem> invoices, List<ScannedProductItem> listShowProduct) {
+        int sumInvoiceQuantity = 0;
+        int sumScannedProductQuantity = 0;
+        for (int i = 0; i < invoices.size(); i++) {
+            sumInvoiceQuantity += invoices.get(i).getQuantity();
+            sumScannedProductQuantity += listShowProduct.get(i).getQuantity();
+        }
+        if (sumInvoiceQuantity == sumScannedProductQuantity) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void initView() {
-        snInvoice = findViewById(R.id.sn_invoice);
-//        rcIssuseInvoice = findViewById(R.id.rc_issue_invoice);
+        snIssue = findViewById(R.id.sn_invoice);
         rcListStockOutBox = findViewById(R.id.rc_list_stock_out_box);
         btnScanBoxRfid = findViewById(R.id.btn_scan_box_rfid);
         btnIssueInvoice = findViewById(R.id.btn_issuse_invoice);
@@ -160,7 +183,7 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         mBeepSound = MediaPlayer.create(this, R.raw.beep);
         mInvoices = new ArrayList<>();
         mListInvoiceId = new ArrayList<>();
-        mListShowInvoice = new ArrayList<>();
+        mListShowIssue = new ArrayList<>();
     }
 
     @Override
@@ -175,6 +198,9 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
         finish();
     }
+
+
+    private Invoice invoiceItem;
 
     //Get notification from Observerable(TempScanResult) and unregister Observer
     @Override
@@ -200,19 +226,33 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
             case Constant.GET_PRODUCT_BY_BOX_ID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Product product = gson.fromJson(data, Product.class);
-                    if (product.getProductId() != null) {
-                        mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
-                    }
-                    if (mListShowProduct.isEmpty()) {
-                        mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
-                    } else {
+                    InvoiceInfoItem invoiceItem = findInvoice(product.getProductId());
+                    Log.e(TAG, "Invoice: " + invoiceItem.getProductId() + " " + invoiceItem.getQuantity());
+                    if (invoiceItem != null) {
+//                        if (product.getProductId() != null) {
+//                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
+//                        }
+//                        if (mListShowProduct.isEmpty()) {
+//                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
+//                            mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
+//                        } else {
                         int posision = isProductExitInShowList(product.getProductId());
                         if (posision != -1) {
                             ScannedProductItem item = mListShowProduct.get(posision);
-                            item.setQuantity(item.getQuantity() + 1);
+                            if (item.getQuantity() < invoiceItem.getQuantity()) {
+                                mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
+                                item.setQuantity(item.getQuantity() + 1);
+                                Log.e(TAG, "Invoice: " + item.getQuantity());
+                            } else {
+                                Toast.makeText(this, getString(R.string.engouh_product), Toast.LENGTH_SHORT).show();
+                            }
                         } else {
+                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
                             mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
                         }
+//                        }
+                    } else {
+                        Toast.makeText(this, getString(R.string.not_corrent_product_invoice), Toast.LENGTH_SHORT).show();
                     }
                     mProductAdapter = new ListProductAdapter(mListShowProduct);
                     rcListStockOutBox.setAdapter(mProductAdapter);
@@ -226,6 +266,8 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                     mListShowProduct.clear();
                     mProductAdapter = new ListProductAdapter(mListShowProduct);
                     rcListStockOutBox.setAdapter(mProductAdapter);
+                    mListInvoiceId.clear();
+                    mRfimApi.getIssuseInvoice();
                     Toast.makeText(this, getString(R.string.stock_out_successfull), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, getString(R.string.stock_out_error), Toast.LENGTH_SHORT).show();
@@ -249,8 +291,7 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                         mListInvoiceId.add("None!");
                     }
                 }
-                snInvoice.setItem(mListInvoiceId);
-                Log.e(TAG, "Number of Inovice: " + mListInvoiceId.size());
+                snIssue.setItem(mListInvoiceId);
                 break;
         }
     }
@@ -272,6 +313,17 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         if (message != null) {
             Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //Find invoice by product id
+    public InvoiceInfoItem findInvoice(String productId) {
+        InvoiceInfoItem invoice = null;
+        for (InvoiceInfoItem i : mListShowIssue) {
+            if (i.getProductId().equals(productId)) {
+                invoice = i;
+            }
+        }
+        return invoice;
     }
 
 }

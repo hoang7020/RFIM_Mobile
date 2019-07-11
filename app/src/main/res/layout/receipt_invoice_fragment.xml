@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_receipt"
+                app:titleTextColor="@color/smsp_white_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
             android:background="@drawable/rectangle_border"
@@ -15,6 +29,8 @@
 
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_number"
@@ -25,44 +41,52 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_id"
                 android:textSize="15sp"
                 android:text="ID"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_name"
                 android:textSize="15sp"
                 android:text="Name"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center"
                 android:id="@+id/tv_product_quantity"
                 android:textSize="15sp"
                 android:text="QT"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
 
-        <!--<TextView-->
-                <!--android:background="@drawable/rectangle_border"-->
-                <!--android:gravity="center"-->
-                <!--android:id="@+id/tv_product_position"-->
-                <!--android:textSize="15sp"-->
-                <!--android:text="Shelf"-->
-                <!--android:layout_weight="1.5"-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="wrap_content"/>-->
+        <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:id="@+id/tv_product_position"
+                android:textSize="15sp"
+                android:text="PQT"
+                android:layout_weight="1.5"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -78,5 +102,18 @@
                 android:layout_height="match_parent"/>
 
     </LinearLayout>
+
+    <TextView
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="QT: Quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <TextView
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="PQT: Process Quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

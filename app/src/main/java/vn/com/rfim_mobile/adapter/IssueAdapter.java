@@ -12,13 +12,13 @@ import vn.com.rfim_mobile.models.InvoiceInfoItem;
 
 import java.util.List;
 
-public class IssueInvoiceAdapter extends RecyclerView.Adapter<IssueInvoiceAdapter.RecyclerViewHolder> {
+public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerViewHolder> {
 
-    public static final String TAG = IssueInvoiceAdapter.class.getSimpleName();
+    public static final String TAG = IssueAdapter.class.getSimpleName();
 
     private List<InvoiceInfoItem> invoices;
 
-    public IssueInvoiceAdapter(List<InvoiceInfoItem> invoices) {
+    public IssueAdapter(List<InvoiceInfoItem> invoices) {
         this.invoices = invoices;
     }
 
@@ -27,7 +27,7 @@ public class IssueInvoiceAdapter extends RecyclerView.Adapter<IssueInvoiceAdapte
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.list_issue_layout, viewGroup, false);
-        return new IssueInvoiceAdapter.RecyclerViewHolder(view);
+        return new IssueAdapter.RecyclerViewHolder(view);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class IssueInvoiceAdapter extends RecyclerView.Adapter<IssueInvoiceAdapte
         recyclerViewHolder.tvProductId.setText(product.getProductId());
         recyclerViewHolder.tvProductName.setText(product.getProductName());
         recyclerViewHolder.tvProductQuantity.setText(product.getQuantity() + "");
-        recyclerViewHolder.tvProductPosition.setText(product.getShelf());
+        recyclerViewHolder.tvProductPosition.setText(product.getShelfId());
         Log.e(TAG, "onBindViewHolder: " + product.getProductName() + " " + product.getQuantity());
     }
 

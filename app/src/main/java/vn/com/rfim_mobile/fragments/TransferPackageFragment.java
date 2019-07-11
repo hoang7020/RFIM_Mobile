@@ -178,7 +178,7 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
                     }
                 }
                 break;
-            case Constant.CHECK_PACKAGE_IS_REGISTERED:
+            case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     tvPackageRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
                 } else {

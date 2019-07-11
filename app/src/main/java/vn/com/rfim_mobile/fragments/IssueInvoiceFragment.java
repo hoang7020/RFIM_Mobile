@@ -8,17 +8,21 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import vn.com.rfim_mobile.R;
-import vn.com.rfim_mobile.adapter.IssueInvoiceAdapter;
+import vn.com.rfim_mobile.adapter.IssueAdapter;
 import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.InvoiceInfoItem;
+import vn.com.rfim_mobile.models.json.Invoice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +32,12 @@ public class IssueInvoiceFragment extends DialogFragment implements OnTaskComple
     private static final String TAG = IssueInvoiceFragment.class.getSimpleName();
 
     private RecyclerView rcIssuseInvoice;
+    private Toolbar mToolbar;
     private List<InvoiceInfoItem> mListShowInvoice;
-    private IssueInvoiceAdapter mIssueInvoiceAdapter;
+    private IssueAdapter mIssueInvoiceAdapter;
     private Button btnSortAlgorithm;
     private RFIMApi mRfimApi;
+    private Gson gson;
 
     @Nullable
     @Override
@@ -45,29 +51,32 @@ public class IssueInvoiceFragment extends DialogFragment implements OnTaskComple
         super.onViewCreated(view, savedInstanceState);
 
         initView();
+
+        mToolbar.setTitle("Issue Invoice");
+
         mListShowInvoice = (List<InvoiceInfoItem>) getArguments().getSerializable("LIST_INVOICE_ITEM");
-        mIssueInvoiceAdapter = new IssueInvoiceAdapter(mListShowInvoice);
+        mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
         rcIssuseInvoice.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         rcIssuseInvoice.setItemAnimator(new DefaultItemAnimator());
         rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
 
-        btnSortAlgorithm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                List<String> a = new ArrayList<>();
-//                a.add("BRJP001");
-//                a.add("AQJP001");
-//                a.add("CACE150");
-                mRfimApi.sortIssueInvoice(mListShowInvoice);
-            }
-        });
+        mRfimApi.sortIssueInvoice(mListShowInvoice);
+
+//        btnSortAlgorithm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mRfimApi.sortIssueInvoice(mListShowInvoice);
+//            }
+//        });
     }
 
     private void initView() {
+        mToolbar = getView().findViewById(R.id.tb_issue);
         rcIssuseInvoice = getView().findViewById(R.id.rc_issue_invoice);
         mListShowInvoice = new ArrayList<>();
-        btnSortAlgorithm = getView().findViewById(R.id.btn_sort_algorithm);
+//        btnSortAlgorithm = getView().findViewById(R.id.btn_sort_algorithm);
         mRfimApi = new RFIMApi(this);
+        gson = new Gson();
     }
 
     @Override
@@ -86,6 +95,9 @@ public class IssueInvoiceFragment extends DialogFragment implements OnTaskComple
         switch (type) {
             case Constant.DIJKSTRA:
                 Log.e(TAG, "onTaskCompleted: " + data);
+                mListShowInvoice = gson.fromJson(data, new TypeToken<List<InvoiceInfoItem>>(){}.getType());
+                mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
+                rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
                 break;
         }
     }

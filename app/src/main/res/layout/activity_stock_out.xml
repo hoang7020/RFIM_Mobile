@@ -39,7 +39,9 @@
                 app:smsp_searchHeaderText="Search Shelf"
                 android:layout_height="match_parent"/>
 
-        <Button
+        <ImageButton
+                android:scaleType="centerInside"
+                android:src="@drawable/info"
                 android:layout_weight="1.5"
                 android:id="@+id/btn_issuse_invoice"
                 android:layout_width="0px"
