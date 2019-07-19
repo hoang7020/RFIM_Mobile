@@ -330,7 +330,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Register Cell (Shelf)"
+                                android:text="Register Cell"
                                 android:textSize="@dimen/menu_font_size_title"/>
                     </LinearLayout>
                 </LinearLayout>
