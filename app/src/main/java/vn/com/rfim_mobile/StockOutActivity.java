@@ -8,10 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.*;
+import com.airbnb.lottie.LottieAnimationView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +18,8 @@ import vn.com.rfim_mobile.adapter.ListProductAdapter;
 import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.fragments.IssueInvoiceFragment;
+import vn.com.rfim_mobile.fragments.IssueInvoiceFragmentV2;
+import vn.com.rfim_mobile.fragments.TransferBoxFragment;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.InvoiceInfoItem;
@@ -41,7 +41,8 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
     private SmartMaterialSpinner snIssue;
     private RecyclerView rcListStockOutBox;
     //    private RecyclerView rcIssuseInvoice;
-    private Button btnScanBoxRfid, btnSave, btnClear, btnCancel;
+    private Button btnSave, btnClear, btnCancel;
+    private LinearLayout btnScanBoxRfid;
     private ImageButton btnIssueInvoice;
     private Gson gson;
     private RFIMApi mRfimApi;
@@ -55,7 +56,10 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
     private List<Invoice> mInvoices;
     private List<InvoiceInfoItem> mListShowIssue;
     private IssueInvoiceFragment mIssueInvoiceFragment;
+    private IssueInvoiceFragmentV2 mIssueInvoiceFragmentV2;
     private boolean isEnough = false;
+    private LottieAnimationView lavScanningBoxRfid;
+    private boolean isScanningBoxRfid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +108,14 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(StockOutActivity.this, Constant.SCAN_BOX_RFID);
+                isScanningBoxRfid = !isScanningBoxRfid;
+                if (isScanningBoxRfid) {
+                    startAmination(lavScanningBoxRfid);
+                    BluetoothUtil.tempScanResult.registerObserver(StockOutActivity.this, Constant.SCAN_BOX_RFID);
+                } else {
+                    stopAmination(lavScanningBoxRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
+                }
             }
         });
 
@@ -132,6 +143,8 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                 mListScanBoxRfid.clear();
                 mProductAdapter = new ListProductAdapter(mListShowProduct);
                 rcListStockOutBox.setAdapter(mProductAdapter);
+                stopAmination(lavScanningBoxRfid);
+                isScanningBoxRfid = false;
             }
         });
 
@@ -147,9 +160,12 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("LIST_INVOICE_ITEM", (Serializable) mListShowIssue);
-                mIssueInvoiceFragment = new IssueInvoiceFragment();
-                mIssueInvoiceFragment.setArguments(bundle);
-                mIssueInvoiceFragment.show(getFragmentManager(), "ISSUE");
+//                mIssueInvoiceFragment = new IssueInvoiceFragment();
+//                mIssueInvoiceFragment.setArguments(bundle);
+//                mIssueInvoiceFragment.show(getFragmentManager(), "ISSUE");
+                mIssueInvoiceFragmentV2 = new IssueInvoiceFragmentV2();
+                mIssueInvoiceFragmentV2.setArguments(bundle);
+                mIssueInvoiceFragmentV2.show(getSupportFragmentManager(), "ISSUE");
             }
         });
     }
@@ -184,6 +200,18 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         mInvoices = new ArrayList<>();
         mListInvoiceId = new ArrayList<>();
         mListShowIssue = new ArrayList<>();
+        lavScanningBoxRfid = findViewById(R.id.lav_scanning_box_rfid);
+        lavScanningBoxRfid.setAnimation(R.raw.scan);
+        lavScanningBoxRfid.loop(true);
+    }
+
+    public void startAmination(LottieAnimationView lav) {
+        lav.playAnimation();
+    }
+
+    public void stopAmination(LottieAnimationView lav) {
+        lav.pauseAnimation();
+        lav.setProgress(0);
     }
 
     @Override
@@ -227,8 +255,8 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                 if (code == HttpURLConnection.HTTP_OK) {
                     Product product = gson.fromJson(data, Product.class);
                     InvoiceInfoItem invoiceItem = findInvoice(product.getProductId());
-                    Log.e(TAG, "Invoice: " + invoiceItem.getProductId() + " " + invoiceItem.getQuantity());
                     if (invoiceItem != null) {
+                        Log.e(TAG, "Invoice: " + invoiceItem.getProductId() + " " + invoiceItem.getQuantity());
 //                        if (product.getProductId() != null) {
 //                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
 //                        }
@@ -268,6 +296,8 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                     rcListStockOutBox.setAdapter(mProductAdapter);
                     mListInvoiceId.clear();
                     mRfimApi.getIssuseInvoice();
+                    stopAmination(lavScanningBoxRfid);
+                    isScanningBoxRfid = false;
                     Toast.makeText(this, getString(R.string.stock_out_successfull), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, getString(R.string.stock_out_error), Toast.LENGTH_SHORT).show();

@@ -71,7 +71,7 @@
                 android:gravity="center"
                 android:id="@+id/tv_product_quantity"
                 android:textSize="15sp"
-                android:text="QT"
+                android:text="QT*"
                 android:layout_weight="1.5"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
@@ -102,6 +102,14 @@
                 android:layout_height="match_parent"/>
 
     </LinearLayout>
+
+    <TextView
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="QT: Quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     <!--<LinearLayout-->
     <!--android:background="@drawable/rectangle_border"-->

@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/tb_receipt"
-                app:titleTextColor="@color/smsp_white_color"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragments.IssueFragment">
 
     <LinearLayout
             android:background="@drawable/rectangle_border"
@@ -83,7 +70,7 @@
                 android:gravity="center"
                 android:id="@+id/tv_product_position"
                 android:textSize="15sp"
-                android:text="RQT*"
+                android:text="Shelf"
                 android:layout_weight="1.5"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
@@ -94,10 +81,10 @@
             android:background="@drawable/rectangle_border"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_scan_product_field">
+            android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/rc_receipe_invoice"
+                android:id="@+id/rc_issue_invoice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -108,13 +95,6 @@
             android:textStyle="bold"
             android:gravity="center"
             android:text="QT: Quantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    <TextView
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:text="RQT: Registered Quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

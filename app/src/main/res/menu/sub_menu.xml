@@ -3,12 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/action_register_box"
+            android:id="@+id/mn_bluetooth"
             android:enabled="true"
             android:title="Bluetooth"
             app:showAsAction="collapseActionView"/>
     <item
-            android:id="@+id/action_register_full_package"
+            android:id="@+id/mn_logout"
             android:enabled="true"
             android:title="Log out"
             app:showAsAction="collapseActionView"/>

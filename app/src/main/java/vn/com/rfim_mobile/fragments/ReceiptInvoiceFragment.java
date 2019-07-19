@@ -9,9 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import com.google.gson.Gson;
 import vn.com.rfim_mobile.R;
@@ -47,6 +45,14 @@ public class ReceiptInvoiceFragment extends DialogFragment {
         initView();
 
         mToolbar.setTitle("Receipt Invoice");
+        mToolbar.inflateMenu(R.menu.exit_button_menu);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                dismiss();
+                return true;
+            }
+        });
 
         mListShowReceipts = (List<InvoiceInfoItem>) getArguments().getSerializable("LIST_RECEIPT_ITEM");
         mReceiptAdapter = new ReceiptAdapter(mListShowReceipts);
@@ -62,6 +68,7 @@ public class ReceiptInvoiceFragment extends DialogFragment {
         mListShowReceipts = new ArrayList<>();
         gson = new Gson();
     }
+
 
     @Override
     public void onStart() {

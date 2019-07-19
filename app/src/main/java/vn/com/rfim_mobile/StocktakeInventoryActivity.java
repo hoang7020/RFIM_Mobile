@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import com.airbnb.lottie.LottieAnimationView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,23 +31,31 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
 
     public static final String TAG = StocktakeInventoryActivity.class.getSimpleName();
 
-    private SmartMaterialSpinner snProductId, snStocktakeType;
-    private Button btnScanBoxRfid,
+    private TextView tvProductId;
+    private SmartMaterialSpinner snProductName, snStocktakeType;
+    private Button
             btnReport,
             btnClear,
             btnCancel;
+    private LinearLayout btnScanBoxRfid;
     private Gson gson;
     private RFIMApi mRfimApi;
-    private List<String> mListProductId;
     private List<Product> mProducts;
+    private List<String> mListProductId;
+//    private String mProductIdSelected;
+    private List<String> mListProductName;
+    private String mProductNameSelected;
     private List<String> mListBoxRfids;
     private TextView tvProductQuantity, tvScannedProduct;
 //    private List<StocktakeType> mStocktakeTypes;
 //    private List<String> mListStocktakeType;
 //    private int mStocktakeTypeIdSelected;
-    private String mProductIdSelected;
+    private StringBuffer sb;
+
     private List<String> mListScannedRfid;
     private MediaPlayer mBeepSound;
+    private LottieAnimationView lavScanningBoxRfid;
+    private boolean isScanningBoxRfid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +67,12 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         mRfimApi.getAllProduct();
 //        mRfimApi.getAllStocktakeType();
 
-        snProductId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        snProductName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mProductIdSelected = mListProductId.get(position);
-                mRfimApi.getBoxRfidsByProductId(mProductIdSelected);
+//                mProductIdSelected = mListProductId.get(position);
+                tvProductId.setText(mProducts.get(position).getProductId());
+                mRfimApi.getBoxRfidsByProductId(mProducts.get(position).getProductId());
                 mListBoxRfids.clear();
                 mListScannedRfid.clear();
                 tvScannedProduct.setTextColor(Color.RED);
@@ -95,16 +102,29 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(StocktakeInventoryActivity.this, Constant.SCAN_STOCKTAKE_RFID);
-                mListScannedRfid.clear();
-                tvScannedProduct.setTextColor(Color.RED);
-                tvScannedProduct.setText(mListScannedRfid.size() + "");
+                isScanningBoxRfid = !isScanningBoxRfid;
+                if (isScanningBoxRfid) {
+                    mListScannedRfid.clear();
+                    tvScannedProduct.setTextColor(Color.RED);
+                    tvScannedProduct.setText(mListScannedRfid.size() + "");
+                    startAmination(lavScanningBoxRfid);
+                    BluetoothUtil.tempScanResult.registerObserver(StocktakeInventoryActivity.this, Constant.SCAN_STOCKTAKE_RFID);
+                } else {
+                    stopAmination(lavScanningBoxRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(StocktakeInventoryActivity.this);
+                }
             }
         });
 
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<String> notFoundBox = new ArrayList<>();
+                notFoundBox.addAll(mListBoxRfids);
+                notFoundBox.removeAll(mListScannedRfid);
+                for (String s: notFoundBox) {
+                    sb.append(s + ", ");
+                }
                 new AlertDialog.Builder(StocktakeInventoryActivity.this)
                         .setTitle("Report")
                         .setMessage("Do you want to report")
@@ -113,10 +133,10 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                             public void onClick(DialogInterface dialog, int which) {
                                 mRfimApi.saveStocktakeHistory(
                                         PreferenceUtil.getInstance(getApplicationContext()).getIntValue("userid", 0),
-                                        mProductIdSelected,
+                                        tvProductId.getText().toString(),
                                         mListScannedRfid.size(),
                                         System.currentTimeMillis(),
-                                        "nothing");
+                                        sb.toString());
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -132,9 +152,11 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snStocktakeType.setSelection(0);
-                snProductId.setSelection(0);
+//                snStocktakeType.setSelection(0);
+                snProductName.setSelection(0);
                 mListScannedRfid.clear();
+                stopAmination(lavScanningBoxRfid);
+                isScanningBoxRfid = false;
             }
         });
 
@@ -147,22 +169,37 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
     }
 
     private void initView() {
+        tvProductId = findViewById(R.id.tv_product_id);
         tvProductQuantity = findViewById(R.id.tv_product_quantity);
         tvScannedProduct = findViewById(R.id.tv_scanned_product);
         btnScanBoxRfid = findViewById(R.id.btn_scan_box_rfid);
         btnReport = findViewById(R.id.btn_report);
         btnClear = findViewById(R.id.btn_clear);
         btnCancel = findViewById(R.id.btn_cancel);
-        snProductId = findViewById(R.id.sn_product_id);
+        snProductName = findViewById(R.id.sn_product_name);
 //        snStocktakeType = findViewById(R.id.sn_stocktake_type);
         gson = new Gson();
         mRfimApi = new RFIMApi(this);
-        mListProductId = new ArrayList<>();
+//        mListProductId = new ArrayList<>();
         mListBoxRfids = new ArrayList<>();
+        mListProductName = new ArrayList<>();
 //        mListStocktakeType = new ArrayList<>();
 //        mStocktakeTypes = new ArrayList<>();
+        sb = new StringBuffer();
         mListScannedRfid = new ArrayList<>();
         mBeepSound = MediaPlayer.create(this, R.raw.beep);
+        lavScanningBoxRfid = findViewById(R.id.lav_scanning_box_rfid);
+        lavScanningBoxRfid.setAnimation(R.raw.scan);
+        lavScanningBoxRfid.loop(true);
+    }
+
+    public void startAmination(LottieAnimationView lav) {
+        lav.playAnimation();
+    }
+
+    public void stopAmination(LottieAnimationView lav) {
+        lav.pauseAnimation();
+        lav.setProgress(0);
     }
 
     @Override
@@ -179,6 +216,8 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                 tvScannedProduct.setText(mListScannedRfid.size() + "");
                 if (mListBoxRfids.size() == mListScannedRfid.size()) {
                     tvScannedProduct.setTextColor(Color.GREEN);
+                    stopAmination(lavScanningBoxRfid);
+                    isScanningBoxRfid = false;
                     BluetoothUtil.tempScanResult.unregisterObserver(StocktakeInventoryActivity.this);
                 }
                 break;
@@ -194,12 +233,14 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                     mProducts = gson.fromJson(data, new TypeToken<List<Product>>() {
                     }.getType());
                     for (Product p : mProducts) {
-                        mListProductId.add(p.getProductId());
+//                        mListProductId.add(p.getProductId());
+                        mListProductName.add(p.getProductName());
                     }
                 } else {
-                    mListProductId.add("None!");
+//                    mListProductId.add("None!");
+                    mListProductName.add("None!");
                 }
-                snProductId.setItem(mListProductId);
+                snProductName.setItem(mListProductName);
                 break;
 //            case Constant.GET_ALL_STOCKTAKE_TYPE:
 //                if (code == HttpURLConnection.HTTP_OK) {
@@ -225,9 +266,13 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
             case Constant.SAVE_STOCKTAKE_HISTORY:
                 if (code == HttpURLConnection.HTTP_OK) {
 //                    snStocktakeType.setSelection(0);
-                    snProductId.setSelection(0);
+                    snProductName.setSelection(0);
                     mListScannedRfid.clear();
+                    stopAmination(lavScanningBoxRfid);
+                    isScanningBoxRfid = false;
                     showResponseMessage(data);
+                    stopAmination(lavScanningBoxRfid);
+                    isScanningBoxRfid = false;
                 } else {
                     showResponseMessage(data);
                 }

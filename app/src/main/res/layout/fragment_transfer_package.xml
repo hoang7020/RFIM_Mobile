@@ -18,8 +18,10 @@
             android:weightSum="10">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -33,12 +35,32 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"/>
 
-        <Button
-                android:id="@+id/btn_scan_cell_rfid"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
+        <!--<Button-->
+                <!--android:id="@+id/btn_scan_cell_rfid"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="2"-->
+                <!--android:text="Scan"/>-->
+
+        <FrameLayout
+                android:background="@drawable/rectangle_border_radius_scan_button"
                 android:layout_weight="2"
-                android:text="Scan"/>
+                android:layout_width="0px"
+                android:layout_height="match_parent">
+            <LinearLayout
+                    android:background="@drawable/ripple_effect"
+                    android:id="@+id/btn_scan_cell_rfid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_scanning_cell_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"/>
+            </LinearLayout>
+        </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -51,8 +73,10 @@
             android:weightSum="10">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -78,8 +102,10 @@
             android:weightSum="10">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -105,8 +131,10 @@
             android:weightSum="10">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -131,12 +159,14 @@
             android:weightSum="10">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="Package*"/>
+                android:text="Package RFID*"/>
 
         <TextView
                 android:gravity="center"
@@ -146,12 +176,32 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"/>
 
-        <Button
-                android:id="@+id/btn_scan_pakage_rfid"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
+        <!--<Button-->
+                <!--android:id="@+id/btn_scan_package_rfid"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="2"-->
+                <!--android:text="Scan"/>-->
+
+        <FrameLayout
+                android:background="@drawable/rectangle_border_radius_scan_button"
                 android:layout_weight="2"
-                android:text="Scan"/>
+                android:layout_width="0px"
+                android:layout_height="match_parent">
+            <LinearLayout
+                    android:background="@drawable/ripple_effect"
+                    android:id="@+id/btn_scan_package_rfid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_scanning_package_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"/>
+            </LinearLayout>
+        </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -163,6 +213,9 @@
             android:weightSum="9">
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_save"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -170,6 +223,9 @@
                 android:text="Save"/>
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_clear"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -177,6 +233,9 @@
                 android:text="Clear"/>
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_cancel"
                 android:layout_width="0px"
                 android:layout_height="match_parent"

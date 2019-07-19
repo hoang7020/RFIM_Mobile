@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -53,6 +54,14 @@ public class IssueInvoiceFragment extends DialogFragment implements OnTaskComple
         initView();
 
         mToolbar.setTitle("Issue Invoice");
+        mToolbar.inflateMenu(R.menu.exit_button_menu);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                dismiss();
+                return true;
+            }
+        });
 
         mListShowInvoice = (List<InvoiceInfoItem>) getArguments().getSerializable("LIST_INVOICE_ITEM");
         mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);

@@ -70,7 +70,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Register Package"
+                                android:text="Register Package &amp; Box"
                                 android:textSize="@dimen/menu_font_size_title"/>
 
                         <TextView
@@ -124,7 +124,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Goods Recieve"
+                                android:text="Goods Receipt"
                                 android:textSize="@dimen/menu_font_size_description"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -251,7 +251,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Stocktake Inventroy"
+                                android:text="Stocktake Inventory"
                                 android:textSize="@dimen/menu_font_size_title"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -330,7 +330,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Register Shelf"
+                                android:text="Register Cell (Shelf)"
                                 android:textSize="@dimen/menu_font_size_title"/>
                     </LinearLayout>
                 </LinearLayout>

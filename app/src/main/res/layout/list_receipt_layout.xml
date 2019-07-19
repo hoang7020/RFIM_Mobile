@@ -9,6 +9,7 @@
         android:orientation="horizontal">
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
             android:gravity="center"
             android:id="@+id/tv_product_number"
             android:textSize="12sp"
@@ -18,6 +19,7 @@
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
             android:gravity="center"
             android:id="@+id/tv_product_id"
             android:textSize="12sp"
@@ -27,6 +29,7 @@
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
             android:gravity="center"
             android:id="@+id/tv_product_name"
             android:textSize="12sp"
@@ -36,6 +39,7 @@
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
             android:gravity="center"
             android:id="@+id/tv_product_quantity"
             android:textSize="12sp"
@@ -45,6 +49,7 @@
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
             android:gravity="center"
             android:id="@+id/tv_process_quantity"
             android:textSize="12sp"

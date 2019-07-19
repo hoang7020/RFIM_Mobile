@@ -23,9 +23,9 @@
     <dimen name="menu_font_size_title">25dp</dimen>
     <dimen name="menu_font_size_description">15dp</dimen>
     <dimen name="height_of_field">150px</dimen>
-    <dimen name="height_of_scan_product_field">1000px</dimen>
+    <dimen name="height_of_scan_product_field">600px</dimen>
     <dimen name="height_of_scan_box_field">500px</dimen>
-    <dimen name="height_button_main_menu">120dp</dimen>
+    <dimen name="height_button_main_menu">100dp</dimen>
 
     //button
     <string name="register">Register</string>

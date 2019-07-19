@@ -14,6 +14,7 @@ import vn.com.rfim_mobile.utils.ApiUtil;
 import vn.com.rfim_mobile.utils.UrlUtil;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.List;
 
 public class RFIMApi {
@@ -62,6 +63,15 @@ public class RFIMApi {
         mApiUtil.execute(url);
     }
 
+    //Check cell is empty
+    public void checkCellisEmpty(String rfid) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.check_cell_is_empty) + rfid);
+        mApiUtil.setType(Constant.CHECK_CELL_IS_EMTPY);
+        mApiUtil.execute(url);
+    }
+
     //Get all floor by using shelf id
     public void getFloorsByShelfId(String id) {
         this.mApiUtil = new ApiUtil(listener);
@@ -100,7 +110,8 @@ public class RFIMApi {
 
     //Register box to package
     //Map pakage with product id
-    public void registerPackageAndBox(String packagedId, String invoiceId, String productId, int invoiceStatus, List<String> productRfids) {
+    public void registerPackageAndBox(String packagedId, String invoiceId, String productId,
+                                      int invoiceStatus, List<String> productRfids, long date) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.register_package_and_box));
@@ -111,6 +122,7 @@ public class RFIMApi {
         obj.addProperty("invoiceId", invoiceId);
         obj.addProperty("productId", productId);
         obj.addProperty("invoiceStatus", invoiceStatus);
+        obj.addProperty("date", date);
         JsonArray array = (JsonArray) gson.toJsonTree(productRfids);
         obj.add("boxRfids", array);
         Log.e(TAG, "registerPackageAndBox: " + obj);

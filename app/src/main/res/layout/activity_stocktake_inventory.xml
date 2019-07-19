@@ -11,32 +11,32 @@
         tools:context=".StocktakeInventoryActivity">
 
     <!--<LinearLayout-->
-            <!--android:layout_margin="10px"-->
-            <!--android:background="@drawable/rectangle_border"-->
-            <!--android:gravity="center"-->
-            <!--android:weightSum="10"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/height_of_field">-->
+    <!--android:layout_margin="10px"-->
+    <!--android:background="@drawable/rectangle_border"-->
+    <!--android:gravity="center"-->
+    <!--android:weightSum="10"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/height_of_field">-->
 
-        <!--<TextView-->
-                <!--android:textStyle="bold"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_weight="3"-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Type*"/>-->
+    <!--<TextView-->
+    <!--android:textStyle="bold"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_weight="3"-->
+    <!--android:layout_width="0px"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:text="Type*"/>-->
 
-        <!--<com.chivorn.smartmaterialspinner.SmartMaterialSpinner-->
-                <!--android:background="@drawable/spinner_border"-->
-                <!--android:textAlignment="center"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:gravity="center"-->
-                <!--android:id="@+id/sn_stocktake_type"-->
-                <!--app:smsp_isSearchable="true"-->
-                <!--app:smsp_searchHeaderText="Search Shelf"-->
-                <!--android:layout_weight="7"-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="match_parent"/>-->
+    <!--<com.chivorn.smartmaterialspinner.SmartMaterialSpinner-->
+    <!--android:background="@drawable/spinner_border"-->
+    <!--android:textAlignment="center"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:gravity="center"-->
+    <!--android:id="@+id/sn_stocktake_type"-->
+    <!--app:smsp_isSearchable="true"-->
+    <!--app:smsp_searchHeaderText="Search Shelf"-->
+    <!--android:layout_weight="7"-->
+    <!--android:layout_width="0px"-->
+    <!--android:layout_height="match_parent"/>-->
     <!--</LinearLayout>-->
 
     <LinearLayout
@@ -48,19 +48,21 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Product Id*"/>
+                android:text="Product Name*"/>
 
         <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                 android:background="@drawable/spinner_border"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/sn_product_id"
+                android:id="@+id/sn_product_name"
                 app:smsp_isSearchable="true"
                 app:smsp_searchHeaderText="Search Shelf"
                 android:layout_weight="7"
@@ -77,8 +79,38 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
+                android:layout_weight="3"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:text="Product Id"/>
+
+        <TextView
+                android:background="@drawable/rectangle_border"
                 android:gravity="center"
+                android:id="@+id/tv_product_id"
+                android:layout_weight="7"
+                android:layout_width="0px"
+                android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_margin="10px"
+            android:background="@drawable/rectangle_border"
+            android:gravity="center"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_of_field">
+
+        <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -98,26 +130,43 @@
             android:orientation="horizontal"
             android:layout_margin="10px"
             android:gravity="center"
-            android:weightSum="9"
+            android:weightSum="10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <Button
-                android:text="Scan"
-                android:id="@+id/btn_scan_box_rfid"
-                android:layout_weight="3"
+        <!--<Button-->
+                <!--android:text="Scan"-->
+                <!--android:id="@+id/btn_scan_box_rfid"-->
+                <!--android:layout_weight="3"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="match_parent"/>-->
+        <FrameLayout
+                android:background="@drawable/rectangle_border_radius_scan_button"
                 android:layout_width="0px"
-                android:layout_height="match_parent"/>
+                android:layout_weight="3"
+                android:layout_height="match_parent">
+            <LinearLayout
+                    android:background="@drawable/ripple_effect"
+                    android:id="@+id/btn_scan_box_rfid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_scanning_box_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"/>
+            </LinearLayout>
+        </FrameLayout>
 
         <TextView
                 android:id="@+id/tv_scanned_product"
                 android:gravity="center"
                 android:textSize="300px"
                 android:text="0"
-                android:layout_weight="6"
+                android:layout_weight="7"
                 android:layout_width="0px"
                 android:layout_height="400px"/>
-
 
 
         <!--<TextView-->
@@ -147,6 +196,9 @@
             android:weightSum="9">
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_report"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -154,6 +206,9 @@
                 android:text="Report"/>
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_clear"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -161,6 +216,9 @@
                 android:text="Clear"/>
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_cancel"
                 android:layout_width="0px"
                 android:layout_height="match_parent"

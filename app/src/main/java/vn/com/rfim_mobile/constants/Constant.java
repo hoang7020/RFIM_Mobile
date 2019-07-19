@@ -38,6 +38,7 @@ public class Constant {
     public static final int GET_ISSUE_INVOICE = 20;
     public static final int GET_RECEIPT_INVOICE = 21;
     public static final int DIJKSTRA = 22;
+    public static final int CHECK_CELL_IS_EMTPY = 23;
 
     //Api Response Code
     public static final int OK = 200;

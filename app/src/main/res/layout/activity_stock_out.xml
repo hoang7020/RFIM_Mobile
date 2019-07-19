@@ -20,12 +20,14 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Invoice*"/>
+                android:text="Issue Invoice*"/>
 
         <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                 android:background="@drawable/spinner_border"
@@ -40,7 +42,10 @@
                 android:layout_height="match_parent"/>
 
         <ImageButton
-                android:scaleType="centerInside"
+                android:layout_margin="10px"
+                android:background="@color/colorPrimary"
+                android:scaleType="fitCenter"
+                android:padding="10px"
                 android:src="@drawable/info"
                 android:layout_weight="1.5"
                 android:id="@+id/btn_issuse_invoice"
@@ -139,6 +144,8 @@
 
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/rectangle_border"
                 android:textSize="15sp"
@@ -148,28 +155,34 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/rectangle_border"
                 android:textSize="15sp"
-                android:text="Product ID"
+                android:text="ID"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/rectangle_border"
                 android:textSize="15sp"
-                android:text="Product Name"
+                android:text="Name"
                 android:layout_weight="5"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
 
         <TextView
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/rectangle_border"
                 android:textSize="15sp"
-                android:text="NoP"
+                android:text="QT"
                 android:layout_weight="1"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"/>
@@ -191,18 +204,53 @@
 
     </LinearLayout>
 
+    <!--<LinearLayout-->
+            <!--android:layout_margin="10px"-->
+            <!--android:background="@drawable/rectangle_border"-->
+            <!--android:weightSum="10"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+        <!--<Button-->
+                <!--android:text="Scan Box Rfid"-->
+                <!--android:id="@+id/btn_scan_box_rfid"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+    <!--</LinearLayout>-->
+
     <LinearLayout
             android:layout_margin="10px"
-            android:background="@drawable/rectangle_border"
-            android:weightSum="10"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <Button
-                android:text="Scan Box Rfid"
-                android:id="@+id/btn_scan_box_rfid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <!--<Button-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:layout_margin="5px"-->
+        <!--android:textColor="@color/smsp_white_color"-->
+        <!--android:text="Scan Box Rfid"-->
+        <!--android:id="@+id/btn_scan_box_rfid"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+
+        <FrameLayout
+                android:background="@drawable/rectangle_border_radius_scan_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp">
+            <LinearLayout
+                    android:background="@drawable/ripple_effect"
+                    android:id="@+id/btn_scan_box_rfid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_scanning_box_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"/>
+            </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -215,6 +263,9 @@
             android:weightSum="9">
 
         <Button
+                android:layout_margin="5px"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_save"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -222,6 +273,9 @@
                 android:text="Save"/>
 
         <Button
+                android:layout_margin="5px"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_clear"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -229,6 +283,9 @@
                 android:text="Clear"/>
 
         <Button
+                android:layout_margin="5px"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_cancel"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
