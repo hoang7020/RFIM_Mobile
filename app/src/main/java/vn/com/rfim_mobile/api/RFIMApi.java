@@ -45,7 +45,7 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.register_cell));
         mApiUtil.setType(Constant.REGISTER_CELL);
-        mApiUtil.setMethod("POST");
+        mApiUtil.setMethod("PUT");
         Gson gson = new Gson();
         JsonObject obj = new JsonObject();
         obj.addProperty("cellId", cellId);
@@ -155,7 +155,7 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.stock_in_package));
         mApiUtil.setType(Constant.STOCK_IN_PACKAGE);
-        mApiUtil.setMethod("POST");
+        mApiUtil.setMethod("PUT");
         JsonObject obj = new JsonObject();
         obj.addProperty("packageRfid", packageRfid);
         obj.addProperty("cellId", cellId);
@@ -171,7 +171,7 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.transfer_boxes));
         mApiUtil.setType(Constant.TRANSFER_BOXES);
-        mApiUtil.setMethod("POST");
+        mApiUtil.setMethod("PUT");
         JsonObject obj = new JsonObject();
         obj.addProperty("packageRfid", packageRfid);
         JsonArray array = (JsonArray) gson.toJsonTree(boxRfids);
@@ -187,7 +187,7 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.transfer_package));
         mApiUtil.setType(Constant.TRANSFER_PACKAGE);
-        mApiUtil.setMethod("POST");
+        mApiUtil.setMethod("PUT");
         JsonObject obj = new JsonObject();
         obj.addProperty("packageRfid", packageRfid);
         obj.addProperty("cellId", cellId);
@@ -201,7 +201,7 @@ public class RFIMApi {
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.stock_out_boxes));
         mApiUtil.setType(Constant.STOCK_OUT_BOXES);
-        mApiUtil.setMethod("POST");
+        mApiUtil.setMethod("DELETE");
         JsonObject obj = new JsonObject();
         obj.addProperty("invoiceId", invoiceId);
         JsonArray array = (JsonArray) gson.toJsonTree(boxRfids);
@@ -306,6 +306,18 @@ public class RFIMApi {
         JsonObject obj = new JsonObject();
         JsonArray array = (JsonArray) gson.toJsonTree(invoices);
         obj.add("invoiceInfoItems", array);
+        mApiUtil.setParam(obj);
+        mApiUtil.execute(url);
+    }
+
+    public void suggestShelf(String productId) {
+        this.mApiUtil = new ApiUtil(listener);
+        URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
+                MainActivity.context.getString(R.string.dijkstra));
+        mApiUtil.setMethod("POST");
+        mApiUtil.setType(Constant.DIJKSTRA);
+        JsonObject obj = new JsonObject();
+        obj.addProperty("productId", productId);
         mApiUtil.setParam(obj);
         mApiUtil.execute(url);
     }

@@ -25,6 +25,7 @@
     <dimen name="height_of_field">150px</dimen>
     <dimen name="height_of_scan_product_field">600px</dimen>
     <dimen name="height_of_scan_box_field">500px</dimen>
+    <dimen name="height_invoice">800px</dimen>
     <dimen name="height_button_main_menu">100dp</dimen>
 
     //button

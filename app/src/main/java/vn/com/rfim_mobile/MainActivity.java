@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 
         requestPermission();
         String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS","");
-        mBTUtil.connectBluetoothDevice(address);
+        mBTUtil.connectBluetoothDevice(Constant.address);
         mBTUtil.readBluetoothSerialData();
 
         btnRegisterShelf.setOnClickListener(new View.OnClickListener() {

@@ -63,11 +63,11 @@ public class IssueInvoiceFragment extends DialogFragment implements OnTaskComple
             }
         });
 
-        mListShowInvoice = (List<InvoiceInfoItem>) getArguments().getSerializable("LIST_INVOICE_ITEM");
-        mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
-        rcIssuseInvoice.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        rcIssuseInvoice.setItemAnimator(new DefaultItemAnimator());
-        rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
+//        mListShowInvoice = (List<InvoiceInfoItem>) getArguments().getSerializable("LIST_INVOICE_ITEM");
+//        mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
+//        rcIssuseInvoice.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+//        rcIssuseInvoice.setItemAnimator(new DefaultItemAnimator());
+//        rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
 
         mRfimApi.sortIssueInvoice(mListShowInvoice);
 
@@ -101,13 +101,13 @@ public class IssueInvoiceFragment extends DialogFragment implements OnTaskComple
 
     @Override
     public void onTaskCompleted(String data, int type, int code) {
-        switch (type) {
-            case Constant.DIJKSTRA:
-                Log.e(TAG, "onTaskCompleted: " + data);
-                mListShowInvoice = gson.fromJson(data, new TypeToken<List<InvoiceInfoItem>>(){}.getType());
-                mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
-                rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
-                break;
-        }
+//        switch (type) {
+//            case Constant.DIJKSTRA:
+//                Log.e(TAG, "onTaskCompleted: " + data);
+//                mListShowInvoice = gson.fromJson(data, new TypeToken<List<InvoiceInfoItem>>(){}.getType());
+//                mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
+//                rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
+//                break;
+//        }
     }
 }
