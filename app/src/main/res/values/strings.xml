@@ -4,20 +4,20 @@
 
     <string name="not_found_item">None!</string>
     <string name="not_choose_cell">Please choose a cell.</string>
-    <string name="not_choose_product">Please choose a cell.</string>
-    <string name="not_scan_cell_rfid">Please scan a Cell\'s RFID</string>
-    <string name="not_scan_product_rfid">Please scan a Product\'s RFID</string>
-    <string name="not_scan_package_rfid">Please scan a Package\'s RFID</string>
-    <string name="stock_in_successfull">Stock in package successfull.</string>
-    <string name="stock_in_error">Stock in package fail.</string>
-    <string name="stock_out_successfull">Stock out box successfull.</string>
-    <string name="stock_out_error">Stock out box fail.</string>
-    <string name="transfer_wrong_product_id">Product not the same with scanned package.</string>
+    <string name="not_choose_product">Please choose a product.</string>
+    <string name="not_scan_cell_rfid">Please scan a cell\'s RFID.</string>
+    <string name="not_scan_product_rfid">Please scan a product\'s RFID.</string>
+    <string name="not_scan_package_rfid">Please scan a package\'s RFID.</string>
+    <string name="stock_in_successfull">Stock in package successfully!</string>
+    <string name="stock_in_error">Stock in package failed!</string>
+    <string name="stock_out_successfull">Stock out box successfully!</string>
+    <string name="stock_out_error">Stock out box failed!</string>
+    <string name="transfer_wrong_product_id">This product is not the same with scanned package.</string>
     <string name="not_corrent_product_invoice">This invoice does not need this product.</string>
     <string name="engouh_product">Enough product.</string>
     <string name="not_engouh_product">Not enough product.</string>
 
-    <string name="not_input_username_or_password">Please input username or password.</string>
+    <string name="not_input_username_or_password">Please input username or password!</string>
 
     <dimen name="padding_global">10dp</dimen>
     <dimen name="menu_font_size_title">25dp</dimen>
