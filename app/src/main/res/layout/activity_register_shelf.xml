@@ -19,8 +19,10 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -50,8 +52,10 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:text="Floor*"
                 android:layout_width="0px"
@@ -81,8 +85,10 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:text="Cell*"
                 android:layout_width="0px"
@@ -111,8 +117,10 @@
             android:layout_height="@dimen/height_of_field">
 
         <TextView
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="15px"
                 android:layout_weight="3"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
@@ -127,12 +135,33 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"/>
 
-        <Button
-                android:id="@+id/btn_scan_cell_rfid"
+        <!--<Button-->
+        <!--android:id="@+id/btn_scan_cell_rfid"-->
+        <!--android:layout_weight="2"-->
+        <!--android:text="Scan"-->
+        <!--android:layout_width="0px"-->
+        <!--android:layout_height="wrap_content"/>-->
+        <FrameLayout
+                android:background="@drawable/rectangle_border_radius_scan_button"
                 android:layout_weight="2"
-                android:text="Scan"
                 android:layout_width="0px"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent">
+            <LinearLayout
+                    android:background="@drawable/ripple_effect"
+                    android:id="@+id/btn_scan_cell_rfid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_scanning_cell_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </FrameLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -144,6 +173,9 @@
             android:layout_height="@dimen/height_of_field">
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_save"
                 android:text="@string/register"
                 android:layout_width="0px"
@@ -151,6 +183,9 @@
                 android:layout_weight="3"/>
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_clear"
                 android:text="@string/clear"
                 android:layout_width="0px"
@@ -158,6 +193,9 @@
                 android:layout_weight="3"/>
 
         <Button
+                android:background="@color/colorPrimary"
+                android:layout_margin="5px"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_cancel"
                 android:text="@string/cancel"
                 android:layout_width="0px"

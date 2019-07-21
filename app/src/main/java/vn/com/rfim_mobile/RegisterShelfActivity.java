@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 
 import java.net.HttpURLConnection;
@@ -20,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
+import vn.com.rfim_mobile.fragments.IssueInvoiceFragment;
 import vn.com.rfim_mobile.fragments.ScanningFragment;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
@@ -30,7 +29,12 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
 
     public static final String TAG = RegisterShelfActivity.class.getSimpleName();
     private TextView tvCellRfid;
-    private Button btnScanShelfRfid, btnSave, btnClear, btnCancel;
+    private Button
+//            btnScanShelfRfid,
+            btnSave,
+            btnClear,
+            btnCancel;
+    LinearLayout btnScanShelfRfid;
     private SmartMaterialSpinner snShelfID, snFloorId, snCellId;
     private RFIMApi mRfimApi;
     private List<String> listShelvesId, listFloorsId, listCellsId;
@@ -38,6 +42,9 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     private ScanningFragment mScanning;
     private Gson gson;
     private MediaPlayer mBeepSound;
+    private LottieAnimationView lavScanningCellRfid;
+    private boolean isScanningCellRfid = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +52,21 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         setContentView(R.layout.activity_register_shelf);
 
         initView();
+
         mRfimApi.getAllShelves();
         btnScanShelfRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
-                initScanningFragment();
+
+                isScanningCellRfid = !isScanningCellRfid;
+                if (isScanningCellRfid) {
+                    startAmination(lavScanningCellRfid);
+                    BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
+                } else {
+                    stopAmination(lavScanningCellRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                }
+//                initScanningFragment();
             }
         });
 
@@ -81,6 +97,9 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
                 snFloorId.setSelection(0);
                 snCellId.setSelection(0);
                 tvCellRfid.setText("");
+                BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                stopAmination(lavScanningCellRfid);
+                isScanningCellRfid = false;
             }
         });
 
@@ -127,6 +146,16 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
 
     }
 
+    public void startAmination(LottieAnimationView lav) {
+        lav.playAnimation();
+    }
+
+    public void stopAmination(LottieAnimationView lav) {
+        lav.pauseAnimation();
+        lav.setProgress(0);
+    }
+
+
     private void initView() {
         tvCellRfid = findViewById(R.id.tv_cell_rfid);
         btnScanShelfRfid = findViewById(R.id.btn_scan_cell_rfid);
@@ -138,6 +167,9 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         snCellId = findViewById(R.id.sn_cell_id);
         mRfimApi = new RFIMApi(this);
         gson = new Gson();
+        lavScanningCellRfid = findViewById(R.id.lav_scanning_cell_rfid);
+        lavScanningCellRfid.setAnimation(R.raw.scan);
+        lavScanningCellRfid.loop(true);
         mBeepSound = MediaPlayer.create(this, R.raw.beep);
     }
 
@@ -165,10 +197,11 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
     public void getNotification(int type) {
         mBeepSound.start();
         if (type == Constant.SCAN_SHELF_RFID) {
-            Log.e(TAG, "getNotification: " + BluetoothUtil.tempScanResult.getRfidID());
-            tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-            BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
-            mScanning.dismiss();
+            String rfid = BluetoothUtil.tempScanResult.getRfidID();
+            mRfimApi.getCellByCellRfid(rfid);
+            stopAmination(lavScanningCellRfid);
+            isScanningCellRfid = false;
+//            mScanning.dismiss();
         }
     }
 
@@ -180,7 +213,8 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             case Constant.GET_ALL_SHELVES:
                 listShelvesId = new ArrayList();
                 if (code == HttpURLConnection.HTTP_OK) {
-                    List<Shelf> shelves = gson.fromJson(data, new TypeToken<List<Shelf>>(){}.getType());
+                    List<Shelf> shelves = gson.fromJson(data, new TypeToken<List<Shelf>>() {
+                    }.getType());
                     for (Shelf s : shelves) {
                         listShelvesId.add(s.getShelfId());
                     }
@@ -192,7 +226,8 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             case Constant.GET_ALL_FLOORS_BY_SHELF_ID:
                 listFloorsId = new ArrayList<>();
                 if (code == HttpURLConnection.HTTP_OK) {
-                    List<Floor> floors = gson.fromJson(data, new TypeToken<List<Floor>>(){}.getType());
+                    List<Floor> floors = gson.fromJson(data, new TypeToken<List<Floor>>() {
+                    }.getType());
                     for (Floor f : floors) {
                         listFloorsId.add(f.getFloorId());
                     }
@@ -204,7 +239,8 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             case Constant.GET_ALL_CELLS_BY_FLOOR_ID:
                 listCellsId = new ArrayList<>();
                 if (code == HttpURLConnection.HTTP_OK) {
-                    List<Cell> cells = gson.fromJson(data, new TypeToken<List<Cell>>(){}.getType());
+                    List<Cell> cells = gson.fromJson(data, new TypeToken<List<Cell>>() {
+                    }.getType());
                     for (Cell c : cells) {
                         listCellsId.add(c.getCellId());
                     }
@@ -212,6 +248,18 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
                     listCellsId.add(getString(R.string.not_found_item));
                 }
                 snCellId.setItem(listCellsId);
+                break;
+            case Constant.GET_CELL_BY_CELL_RFID:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    Cell cell = gson.fromJson(data, Cell.class);
+                    if (cell != null) {
+                        Toast.makeText(this, "This RFID was registered by " + cell.getCellId(), Toast.LENGTH_SHORT).show();
+                        BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                    }
+                } else {
+                    tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+                    BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                }
                 break;
             case Constant.REGISTER_CELL:
                 ResponseMessage message = gson.fromJson(data, ResponseMessage.class);

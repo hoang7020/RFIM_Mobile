@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import vn.com.rfim_mobile.R;
 import vn.com.rfim_mobile.adapter.ListProductAdapter;
@@ -37,7 +39,15 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
     public static final String TAG = TransferBoxFragment.class.getSimpleName();
 
     private TextView tvPackageRfid;
-    private Button btnScanPackageRfid, btnScanBoxRfid, btnSave, btnClear, btnCancel;
+    private Button
+//            btnScanPackageRfid,
+//            btnScanBoxRfid,
+            btnSave,
+            btnClear,
+            btnCancel;
+    private LinearLayout
+            btnScanPackageRfid,
+            btnScanBoxRfid;
     private RFIMApi mRfimApi;
     private List<String> mListScanBoxRfid;
     private List<ScannedProductItem> mListShowProduct;
@@ -46,6 +56,9 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
     private RecyclerView rcListTransferBox;
     private String mCurrentTransferProductid;
     private MediaPlayer mBeepSound;
+    private LottieAnimationView lavScanningPackageRfid, lavScanningBoxRfid;
+    private boolean isScanningPackageRfid = false;
+    private boolean isScanningBoxRfid = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,16 +81,39 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
+                isScanningPackageRfid = !isScanningBoxRfid;
+                if (isScanningPackageRfid) {
+                    startAmination(lavScanningPackageRfid);
+                    if (isScanningBoxRfid) {
+                        stopAmination(lavScanningBoxRfid);
+                        isScanningBoxRfid = false;
+                    }
+                    BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
+                } else {
+                    stopAmination(lavScanningPackageRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                }
+
             }
         });
 
         btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.getObservers().clear();
+//                BluetoothUtil.tempScanResult.getObservers().clear();
                 if (!tvPackageRfid.getText().toString().equals("")) {
-                    BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
+                    isScanningBoxRfid = !isScanningBoxRfid;
+                    if (isScanningBoxRfid) {
+                        startAmination(lavScanningBoxRfid);
+                        if (isScanningPackageRfid) {
+                            stopAmination(lavScanningPackageRfid);
+                            isScanningPackageRfid = false;
+                        }
+                        BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
+                    } else {
+                        stopAmination(lavScanningBoxRfid);
+                        BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                    }
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
                 }
@@ -105,6 +141,10 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
                 mListScanBoxRfid.clear();
                 mProductAdapter = new ListProductAdapter(mListShowProduct);
                 rcListTransferBox.setAdapter(mProductAdapter);
+                stopAmination(lavScanningBoxRfid);
+                stopAmination(lavScanningPackageRfid);
+                isScanningBoxRfid = false;
+                isScanningPackageRfid = false;
             }
         });
 
@@ -118,7 +158,7 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
 
     private void initView() {
         tvPackageRfid = getView().findViewById(R.id.tv_package_rfid);
-        btnScanPackageRfid = getView().findViewById(R.id.btn_scan_pakage_rfid);
+        btnScanPackageRfid = getView().findViewById(R.id.btn_scan_package_rfid);
         btnScanBoxRfid = getView().findViewById(R.id.btn_scan_box_rfid);
         btnSave = getView().findViewById(R.id.btn_save);
         btnClear = getView().findViewById(R.id.btn_clear);
@@ -129,6 +169,22 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         gson = new Gson();
         rcListTransferBox = getView().findViewById(R.id.rc_list_transfer_box);
         mBeepSound = MediaPlayer.create(getActivity(), R.raw.beep);
+        lavScanningBoxRfid = getView().findViewById(R.id.lav_scanning_box_rfid);
+        lavScanningBoxRfid.setAnimation(R.raw.scan);
+        lavScanningBoxRfid.loop(true);
+        lavScanningPackageRfid = getView().findViewById(R.id.lav_scanning_package_rfid);
+        lavScanningPackageRfid.setAnimation(R.raw.scan);
+        lavScanningPackageRfid.loop(true);
+    }
+
+
+    public void startAmination(LottieAnimationView lav) {
+        lav.playAnimation();
+    }
+
+    public void stopAmination(LottieAnimationView lav) {
+        lav.pauseAnimation();
+        lav.setProgress(0);
     }
 
     public void onDestroyView() {
@@ -151,6 +207,8 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
             case Constant.SCAN_PACKAGE_RFID:
                 mRfimApi.getPackageByPackageRfid(BluetoothUtil.tempScanResult.getRfidID());
                 BluetoothUtil.tempScanResult.unregisterObserver(this);
+                stopAmination(lavScanningPackageRfid);
+                isScanningPackageRfid = false;
                 break;
             case Constant.SCAN_BOX_RFID:
                 if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
@@ -165,7 +223,7 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
     @Override
     public void onTaskCompleted(String data, int type, int code) {
         switch (type) {
-            case Constant.CHECK_PACKAGE_IS_REGISTERED:
+            case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Package pac = gson.fromJson(data, Package.class);
                     mCurrentTransferProductid = pac.getProductId();
@@ -209,6 +267,10 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
                     mListScanBoxRfid.clear();
                     mProductAdapter = new ListProductAdapter(mListShowProduct);
                     rcListTransferBox.setAdapter(mProductAdapter);
+                    stopAmination(lavScanningBoxRfid);
+                    stopAmination(lavScanningPackageRfid);
+                    isScanningBoxRfid = false;
+                    isScanningPackageRfid = false;
                 } else {
                     showResponseMessage(data);
                 }

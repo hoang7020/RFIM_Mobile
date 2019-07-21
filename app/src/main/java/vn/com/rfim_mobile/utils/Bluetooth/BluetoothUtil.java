@@ -45,8 +45,8 @@ public class BluetoothUtil {
     }
 
     //Create connection to the Bluetooth device
-    public void connectBluetoothDevice() {
-        BluetoothDevice device = mBTAdapter.getRemoteDevice(Constant.address);
+    public void connectBluetoothDevice(String address) {
+        BluetoothDevice device = mBTAdapter.getRemoteDevice(address);
         try {
             mBTSocket = createBluetoothSocket(device);
         } catch (IOException e) {

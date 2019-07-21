@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8A1C03</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="mainColor">#3F51B5</color>
-    <color name="backgroundColor">#FFEE9D</color>
-    <color name="colorPrimaryRipple">#423F51B5</color>
+<color name="colorPrimary">#8A1C03</color>
+<color name="colorPrimaryDark">#00574B</color>
+<color name="colorAccent">#D81B60</color>
+<color name="mainColor">#3F51B5</color>
+<color name="backgroundColor">#E4BC0B</color>
+<color name="colorPrimaryRipple">#423F51B5</color>
+<color name="invoiceTextColor">#090909</color>
 </resources>

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 import vn.com.rfim_mobile.fragments.TransferBoxFragment;
@@ -18,7 +19,6 @@ public class TransferProductActivity extends AppCompatActivity {
     public static final String TAG = TransferProductActivity.class.getSimpleName();
 
     private BottomNavigationView bnvTransferProduct;
-    private ActionBar mToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class TransferProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transfer_product);
 
         initView();
-        mToolBar.setTitle("Transfer Box");
+
         loadFragment(new TransferBoxFragment());
 
         bnvTransferProduct.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,7 +50,6 @@ public class TransferProductActivity extends AppCompatActivity {
 
     private void initView() {
         bnvTransferProduct = findViewById(R.id.bnv_transfer_product);
-        mToolBar = getSupportActionBar();
     }
 
     private void loadFragment(Fragment fragment) {

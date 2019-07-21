@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import vn.com.rfim_mobile.R;
 import vn.com.rfim_mobile.StockInActivity;
@@ -32,11 +34,20 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
     public static final String TAG = TransferBoxFragment.class.getSimpleName();
 
     private TextView tvCellRfid, tvPackageRfid, tvFloorId, tvShelfId, tvCellId;
-    private Button btnScanCellRfid, btnScanPackageRfid, btnSave, btnClear, btnCancel;
+    private Button
+//            btnScanCellRfid,
+//            btnScanPackageRfid,
+            btnSave,
+            btnClear,
+            btnCancel;
+    private LinearLayout btnScanCellRfid, btnScanPackageRfid;
     private Gson gson;
     private String mCellId;
     private RFIMApi mRfimApi;
     private MediaPlayer mBeepSound;
+    private LottieAnimationView lavScanningCellRfid, lavScanningPackageRfid;
+    private boolean isScanningCellRfid = false;
+    private boolean isScanningPackageRfid = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,14 +65,36 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         btnScanCellRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_CELL_RFID);
+                isScanningCellRfid = !isScanningCellRfid;
+                if (isScanningCellRfid) {
+                    startAmination(lavScanningCellRfid);
+                    if (isScanningPackageRfid) {
+                        stopAmination(lavScanningPackageRfid);
+                        isScanningPackageRfid = false;
+                    }
+                    BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_CELL_RFID);
+                } else {
+                    stopAmination(lavScanningCellRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
+                }
             }
         });
 
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_PACKAGE_RFID);
+                isScanningPackageRfid = !isScanningPackageRfid;
+                if (isScanningPackageRfid) {
+                    startAmination(lavScanningPackageRfid);
+                    if (isScanningCellRfid) {
+                        stopAmination(lavScanningCellRfid);
+                        isScanningCellRfid = false;
+                    }
+                    BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_PACKAGE_RFID);
+                } else {
+                    stopAmination(lavScanningPackageRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
+                }
             }
         });
 
@@ -69,6 +102,7 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
             @Override
             public void onClick(View v) {
                 if (tvCellRfid.getText().toString().equals("")) {
+
                     Toast.makeText(getActivity(), getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
                 } else if (tvPackageRfid.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
@@ -86,6 +120,10 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
                 tvFloorId.setText("");
                 tvShelfId.setText("");
                 tvPackageRfid.setText("");
+                stopAmination(lavScanningCellRfid);
+                stopAmination(lavScanningPackageRfid);
+                isScanningCellRfid = false;
+                isScanningPackageRfid = false;
             }
         });
 
@@ -104,13 +142,28 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         tvShelfId = getView().findViewById(R.id.tv_shelf_id);
         tvCellId = getView().findViewById(R.id.tv_cell_id);
         btnScanCellRfid = getView().findViewById(R.id.btn_scan_cell_rfid);
-        btnScanPackageRfid = getView().findViewById(R.id.btn_scan_pakage_rfid);
+        btnScanPackageRfid = getView().findViewById(R.id.btn_scan_package_rfid);
         btnSave = getView().findViewById(R.id.btn_save);
         btnClear = getView().findViewById(R.id.btn_clear);
         btnCancel = getView().findViewById(R.id.btn_cancel);
         gson = new Gson();
         mRfimApi = new RFIMApi(this);
         mBeepSound = MediaPlayer.create(getActivity(), R.raw.beep);
+        lavScanningCellRfid = getView().findViewById(R.id.lav_scanning_cell_rfid);
+        lavScanningCellRfid.setAnimation(R.raw.scan);
+        lavScanningCellRfid.loop(true);
+        lavScanningPackageRfid = getView().findViewById(R.id.lav_scanning_package_rfid);
+        lavScanningPackageRfid.setAnimation(R.raw.scan);
+        lavScanningPackageRfid.loop(true);
+    }
+
+    public void startAmination(LottieAnimationView lav) {
+        lav.playAnimation();
+    }
+
+    public void stopAmination(LottieAnimationView lav) {
+        lav.pauseAnimation();
+        lav.setProgress(0);
     }
 
     @Override
@@ -124,7 +177,6 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         super.onPause();
         BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
     }
-
 
 
     @Override
@@ -178,7 +230,7 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
                     }
                 }
                 break;
-            case Constant.CHECK_PACKAGE_IS_REGISTERED:
+            case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     tvPackageRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
                 } else {
@@ -193,6 +245,10 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
                     tvFloorId.setText("");
                     tvShelfId.setText("");
                     tvPackageRfid.setText("");
+                    stopAmination(lavScanningCellRfid);
+                    stopAmination(lavScanningPackageRfid);
+                    isScanningCellRfid = false;
+                    isScanningPackageRfid = false;
                 } else {
                     showResponseMessage(data);
                 }

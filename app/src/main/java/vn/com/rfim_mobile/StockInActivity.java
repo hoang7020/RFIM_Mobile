@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.constants.Constant;
@@ -15,6 +14,7 @@ import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.json.Cell;
 import vn.com.rfim_mobile.models.json.Floor;
+import vn.com.rfim_mobile.models.json.Package;
 import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.models.json.Shelf;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
@@ -25,11 +25,22 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
 
     public static final String TAG = StockInActivity.class.getSimpleName();
     private TextView tvCellRfid, tvPackageRfid, tvFloorId, tvShelfId, tvCellId;
-    private Button btnScanCellRfid, btnScanPackageRfid, btnSave, btnClear, btnCancel;
+    private Button
+//            btnScanCellRfid,
+//            btnScanPackageRfid,
+            btnSave,
+            btnClear,
+            btnCancel;
+    private LinearLayout
+            btnScanCellRfid,
+            btnScanPackageRfid;
     private Gson gson;
     private String mCellId;
     private RFIMApi mRfimApi;
     private MediaPlayer mBeepSound;
+    private LottieAnimationView lavScanningCellRfid, lavScanningPackageRfid;
+    private boolean isScanningCellRfid = false;
+    private boolean isScanningPackageRfid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +52,36 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
         btnScanCellRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(StockInActivity.this, Constant.SCAN_CELL_RFID);
+                isScanningCellRfid = !isScanningCellRfid;
+                if (isScanningCellRfid) {
+                    startAmination(lavScanningCellRfid);
+                    if (isScanningPackageRfid) {
+                        stopAmination(lavScanningPackageRfid);
+                        isScanningPackageRfid = false;
+                    }
+                    BluetoothUtil.tempScanResult.registerObserver(StockInActivity.this, Constant.SCAN_CELL_RFID);
+                } else {
+                    stopAmination(lavScanningCellRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                }
             }
         });
 
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BluetoothUtil.tempScanResult.registerObserver(StockInActivity.this, Constant.SCAN_PACKAGE_RFID);
+                isScanningPackageRfid = !isScanningPackageRfid;
+                if (isScanningPackageRfid) {
+                    startAmination(lavScanningPackageRfid);
+                    if (isScanningCellRfid) {
+                        stopAmination(lavScanningCellRfid);
+                        isScanningCellRfid = false;
+                    }
+                    BluetoothUtil.tempScanResult.registerObserver(StockInActivity.this, Constant.SCAN_PACKAGE_RFID);
+                } else {
+                    stopAmination(lavScanningPackageRfid);
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                }
             }
         });
 
@@ -60,7 +93,7 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
                 } else if (tvPackageRfid.getText().toString().equals("")) {
                     Toast.makeText(StockInActivity.this, getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
                 } else {
-                    mRfimApi.stockInPackage(tvPackageRfid.getText().toString(), mCellId);
+                    mRfimApi.stockInPackage(tvPackageRfid.getText().toString(), mCellId, System.currentTimeMillis());
                 }
             }
         });
@@ -73,6 +106,10 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
                 tvFloorId.setText("");
                 tvShelfId.setText("");
                 tvPackageRfid.setText("");
+                stopAmination(lavScanningCellRfid);
+                stopAmination(lavScanningPackageRfid);
+                isScanningCellRfid = false;
+                isScanningPackageRfid = false;
             }
         });
 
@@ -92,13 +129,28 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
         tvShelfId = findViewById(R.id.tv_shelf_id);
         tvCellId = findViewById(R.id.tv_cell_id);
         btnScanCellRfid = findViewById(R.id.btn_scan_cell_rfid);
-        btnScanPackageRfid = findViewById(R.id.btn_scan_pakage_rfid);
+        btnScanPackageRfid = findViewById(R.id.btn_scan_package_rfid);
         btnSave = findViewById(R.id.btn_save);
         btnClear = findViewById(R.id.btn_clear);
         btnCancel = findViewById(R.id.btn_cancel);
         gson = new Gson();
         mRfimApi = new RFIMApi(this);
         mBeepSound = MediaPlayer.create(this, R.raw.beep);
+        lavScanningCellRfid = findViewById(R.id.lav_scanning_cell_rfid);
+        lavScanningCellRfid.setAnimation(R.raw.scan);
+        lavScanningCellRfid.loop(true);
+        lavScanningPackageRfid = findViewById(R.id.lav_scanning_package_rfid);
+        lavScanningPackageRfid.setAnimation(R.raw.scan);
+        lavScanningPackageRfid.loop(true);
+    }
+
+    public void startAmination(LottieAnimationView lav) {
+        lav.playAnimation();
+    }
+
+    public void stopAmination(LottieAnimationView lav) {
+        lav.pauseAnimation();
+        lav.setProgress(0);
     }
 
     @Override
@@ -117,17 +169,18 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
     @Override
     public void getNotification(int type) {
         mBeepSound.start();
+        String rfid = BluetoothUtil.tempScanResult.getRfidID();
         switch (type) {
             case Constant.SCAN_CELL_RFID:
-                Log.e(TAG, "SCAN_SHELF_RFID: " + BluetoothUtil.tempScanResult.getRfidID());
-                tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-                BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
-                mRfimApi.getCellByCellRfid(tvCellRfid.getText().toString());
+//                mRfimApi.getCellByCellRfid(rfid);
+                mRfimApi.checkCellisEmpty(rfid);
+                stopAmination(lavScanningCellRfid);
+                isScanningCellRfid = false;
                 break;
             case Constant.SCAN_PACKAGE_RFID:
-                Log.e(TAG, "SCAN_PACKAGE_RFID: " + BluetoothUtil.tempScanResult.getRfidID());
-                tvPackageRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
-                BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                mRfimApi.getPackageByPackageRfid(rfid);
+                stopAmination(lavScanningPackageRfid);
+                isScanningPackageRfid = false;
                 break;
         }
     }
@@ -136,14 +189,38 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
     public void onTaskCompleted(String data, int type, int code) {
         Log.e(TAG, "onTaskCompleted: " + data + " code: " + code);
         switch (type) {
+            case Constant.CHECK_CELL_IS_EMTPY:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    mRfimApi.getCellByCellRfid(BluetoothUtil.tempScanResult.getRfidID());
+                } else {
+                    showResponseMessage(data);
+                }
+                break;
             case Constant.GET_CELL_BY_CELL_RFID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Cell cell = gson.fromJson(data, Cell.class);
                     if (cell != null) {
+                        tvCellRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+                        BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
                         tvCellId.setText(cell.getCellId());
                         mCellId = cell.getCellId();
                         mRfimApi.getFloorByCellId(cell.getCellId());
                     }
+                } else {
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                    showResponseMessage(data);
+                }
+                break;
+            case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
+                if (code == HttpURLConnection.HTTP_OK) {
+                    Package pac = gson.fromJson(data, Package.class);
+                    if (pac != null) {
+                        tvPackageRfid.setText(BluetoothUtil.tempScanResult.getRfidID());
+                        BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                    }
+                } else {
+                    BluetoothUtil.tempScanResult.unregisterObserver(StockInActivity.this);
+                    showResponseMessage(data);
                 }
                 break;
             case Constant.GET_FLOOR_BY_CELL_ID:
@@ -172,10 +249,21 @@ public class StockInActivity extends AppCompatActivity implements Observer, OnTa
                     tvFloorId.setText("");
                     tvShelfId.setText("");
                     tvPackageRfid.setText("");
+                    stopAmination(lavScanningCellRfid);
+                    stopAmination(lavScanningPackageRfid);
+                    isScanningCellRfid = false;
+                    isScanningPackageRfid = false;
                 } else {
                     Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 break;
+        }
+    }
+
+    public void showResponseMessage(String data) {
+        ResponseMessage message = gson.fromJson(data, ResponseMessage.class);
+        if (message != null) {
+            Toast.makeText(this, message.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

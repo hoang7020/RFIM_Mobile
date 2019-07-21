@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@drawable/under_border_line"
+              android:layout_width="match_parent"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp"
+              android:gravity="center"
+              android:layout_height="60dp">
+    <TextView
+            android:textSize="20dp"
+            android:text="Name"
+            android:id="@+id/tv_device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:textSize="10dp"
+            android:id="@+id/tv_device_address"
+            android:text="Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

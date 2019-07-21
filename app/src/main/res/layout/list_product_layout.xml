@@ -3,37 +3,47 @@
         android:layout_margin="20px"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150px"
         android:weightSum="10"
+        android:gravity="center"
+        android:background="@drawable/under_border_line"
         android:orientation="horizontal">
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
+            android:gravity="center"
             android:id="@+id/tv_product_number"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:text="No"
             android:layout_weight="1"
             android:layout_width="0px"
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
+            android:gravity="center"
             android:id="@+id/tv_product_id"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:text="Product ID"
             android:layout_weight="3"
             android:layout_width="0px"
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
+            android:gravity="center"
             android:id="@+id/tv_product_name"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:text="Product Name"
             android:layout_weight="5"
             android:layout_width="0px"
             android:layout_height="wrap_content"/>
 
     <TextView
+            android:textColor="@color/invoiceTextColor"
+            android:gravity="center"
             android:id="@+id/tv_product_quantity"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:text="NoP"
             android:layout_weight="1"
             android:layout_width="0px"

@@ -1,325 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".MainActivity">
+
+
+    <android.support.v7.widget.Toolbar
+            style="@style/OverflowMenu"
+            app:title="Main Menu"
+            app:titleTextColor="@color/smsp_white_color"
+            android:background="@color/colorPrimary"
+            android:id="@+id/tb_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".MainActivity">
+            android:layout_height="wrap_content"/>
 
-
-    <LinearLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-        <ImageView
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/sign"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
-
-
-            <LinearLayout
-                    android:id="@+id/btn_package_register"
+            <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/sign"/>
 
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/packages"/>
 
-                <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Register Package"
-                            android:textSize="@dimen/menu_font_size_title"/>
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="@dimen/menu_font_size_description"/>
-                </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
-
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
-
-            <LinearLayout
-                    android:id="@+id/btn_stock_in_package"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
 
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/stockin"/>
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/btn_package_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Stock In"
-                            android:textSize="@dimen/menu_font_size_title"/>
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/packages"/>
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
                             android:gravity="center"
-                            android:text="Goods Recieve"
-                            android:textSize="@dimen/menu_font_size_description"/>
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Register Package &amp; Box"
+                                android:textSize="@dimen/menu_font_size_title"/>
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="@dimen/menu_font_size_description"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
-
-            <LinearLayout
-                    android:id="@+id/btn_stock_out_package"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/stockin"/>
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/btn_stock_in_package"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Stock Out"
-                            android:textSize="@dimen/menu_font_size_title"/>
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/stockin"/>
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
                             android:gravity="center"
-                            android:text="Goods Issue"
-                            android:textSize="@dimen/menu_font_size_description"/>
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Stock In"
+                                android:textSize="@dimen/menu_font_size_title"/>
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Goods Receipt"
+                                android:textSize="@dimen/menu_font_size_description"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
-
-            <LinearLayout
-                    android:id="@+id/btn_transfer_product"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/transfer"/>
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/btn_stock_out_package"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/stockin"/>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
                             android:gravity="center"
-                            android:text="Transfer Product"
-                            android:textSize="@dimen/menu_font_size_title"/>
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Stock Out"
+                                android:textSize="@dimen/menu_font_size_title"/>
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Goods Issue"
+                                android:textSize="@dimen/menu_font_size_description"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
-
-            <LinearLayout
-                    android:id="@+id/btn_stocktake_inventory"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/stocktake"/>
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/btn_transfer_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/transfer"/>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
                             android:gravity="center"
-                            android:text="Stocktake Inventroy"
-                            android:textSize="@dimen/menu_font_size_title"/>
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Transfer Product"
+                                android:textSize="@dimen/menu_font_size_title"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
-
-            <LinearLayout
-                    android:id="@+id/btn_clear_rfid_tag"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/clear"/>
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/btn_stocktake_inventory"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/stocktake"/>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
                             android:gravity="center"
-                            android:text="Clear RFID Tag"
-                            android:textSize="@dimen/menu_font_size_title"/>
-                </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rectangle_border_radius">
+                            android:orientation="vertical">
 
-            <LinearLayout
-                    android:id="@+id/btn_shelf_register"
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Stocktake Inventory"
+                                android:textSize="@dimen/menu_font_size_title"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:background="@drawable/rectangle_border_radius">-->
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/btn_clear_rfid_tag"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:background="@drawable/ripple_effect"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="10">-->
+
+            <!--<ImageView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="4"-->
+            <!--android:padding="20dp"-->
+            <!--android:src="@drawable/clear"/>-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="6"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Clear RFID Tag"-->
+            <!--android:textSize="@dimen/menu_font_size_title"/>-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/ripple_effect"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
-                <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="4"
-                        android:padding="20dp"
-                        android:src="@drawable/shelf"/>
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="6"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/btn_shelf_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/shelf"/>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
                             android:gravity="center"
-                            android:text="Register Shelf"
-                            android:textSize="@dimen/menu_font_size_title"/>
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Register Cell (Shelf)"
+                                android:textSize="@dimen/menu_font_size_title"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
-</ScrollView>
+            </FrameLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
