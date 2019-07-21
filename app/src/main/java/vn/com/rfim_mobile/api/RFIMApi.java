@@ -14,7 +14,6 @@ import vn.com.rfim_mobile.utils.ApiUtil;
 import vn.com.rfim_mobile.utils.UrlUtil;
 
 import java.net.URL;
-import java.sql.Date;
 import java.util.List;
 
 public class RFIMApi {
