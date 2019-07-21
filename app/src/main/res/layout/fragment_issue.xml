@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+              xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragments.IssueFragment">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              tools:context=".fragments.IssueFragment">
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_issue"
+                app:titleTextColor="@color/smsp_white_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
             android:background="@drawable/rectangle_border"
@@ -84,9 +98,9 @@
             android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/rc_issue_invoice"
+                android:id="@+id/rc_issue_invoice_v2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="@dimen/height_invoice"/>
 
     </LinearLayout>
 

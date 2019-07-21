@@ -1,5 +1,6 @@
 package vn.com.rfim_mobile.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import vn.com.rfim_mobile.R;
+import vn.com.rfim_mobile.api.RFIMApi;
 import vn.com.rfim_mobile.models.InvoiceInfoItem;
 
 import java.util.List;
@@ -15,11 +18,13 @@ import java.util.List;
 public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerViewHolder> {
 
     public static final String TAG = IssueAdapter.class.getSimpleName();
+    protected RFIMApi mRfimApi;
 
     private List<InvoiceInfoItem> invoices;
 
-    public IssueAdapter(List<InvoiceInfoItem> invoices) {
+    public IssueAdapter(List<InvoiceInfoItem> invoices, RFIMApi mRfimApi) {
         this.invoices = invoices;
+        this.mRfimApi = mRfimApi;
     }
 
     @NonNull
@@ -46,8 +51,13 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerView
         return invoices.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvProductNumber, tvProductId, tvProductName, tvProductQuantity, tvProductPosition;
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView tvProductNumber,
+                tvProductId,
+                tvProductName,
+                tvProductQuantity,
+                tvProductPosition;
+        private Context context;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +66,14 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerView
             tvProductName = itemView.findViewById(R.id.tv_product_name);
             tvProductQuantity = itemView.findViewById(R.id.tv_product_quantity);
             tvProductPosition = itemView.findViewById(R.id.tv_product_position);
+            context = itemView.getContext();
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, tvProductId.getText().toString(), Toast.LENGTH_SHORT).show();
+            mRfimApi.suggestShelf(tvProductId.getText().toString());
         }
     }
 }
