@@ -73,12 +73,16 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCellId.equals(getString(R.string.not_found_item))) {
-                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
-                } else if (tvCellRfid.getText().toString().equals("")) {
-                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
+                if (mCellId != null) {
+                    if (mCellId.equals(getString(R.string.not_found_item))) {
+                        Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
+                    } else if (tvCellRfid.getText().toString().equals("")) {
+                        Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
+                    } else {
+                        mRfimApi.registerCell(mCellId, tvCellRfid.getText().toString());
+                    }
                 } else {
-                    mRfimApi.registerCell(mCellId, tvCellRfid.getText().toString());
+                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
                 }
             }
         });

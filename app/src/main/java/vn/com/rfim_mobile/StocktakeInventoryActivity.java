@@ -153,6 +153,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
             @Override
             public void onClick(View v) {
 //                snStocktakeType.setSelection(0);
+                tvScannedProduct.setText(0 + "");
                 snProductName.setSelection(0);
                 mListScannedRfid.clear();
                 stopAmination(lavScanningBoxRfid);
@@ -266,6 +267,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
             case Constant.SAVE_STOCKTAKE_HISTORY:
                 if (code == HttpURLConnection.HTTP_OK) {
 //                    snStocktakeType.setSelection(0);
+                    tvScannedProduct.setText(0 + "");
                     snProductName.setSelection(0);
                     mListScannedRfid.clear();
                     stopAmination(lavScanningBoxRfid);

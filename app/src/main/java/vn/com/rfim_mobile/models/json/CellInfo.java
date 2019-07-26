@@ -8,6 +8,9 @@ public class CellInfo {
     @SerializedName("cellId")
     @Expose
     private String cellId;
+    @SerializedName("date")
+    @Expose
+    private String date;
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
@@ -18,6 +21,14 @@ public class CellInfo {
 
     public void setCellId(String cellId) {
         this.cellId = cellId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public Integer getQuantity() {

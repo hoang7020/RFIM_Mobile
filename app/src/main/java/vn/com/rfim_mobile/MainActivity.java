@@ -52,45 +52,47 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initView();
+            initView();
 
-        requestPermission();
-        String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS","");
-        mBTUtil.connectBluetoothDevice(Constant.address);
-        mBTUtil.readBluetoothSerialData();
+            requestPermission();
+            String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS","");
+//            if (!address.equals("")) {
+                mBTUtil.connectBluetoothDevice(address);
+                mBTUtil.readBluetoothSerialData();
+//            }
 
-        btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
-                startActivity(intent);
-            }
-        });
+            btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        btnRegisterPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterPackageActivity.class);
+            btnRegisterPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, RegisterPackageActivity.class);
 //                Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
-                startActivity(intent);
-            }
-        });
+                    startActivity(intent);
+                }
+            });
 
-        btnStockInPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StockInActivity.class);
-                startActivity(intent);
-            }
-        });
+            btnStockInPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, StockInActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        btnStockOutPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StockOutActivity.class);
-                startActivity(intent);
-            }
-        });
+            btnStockOutPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, StockOutActivity.class);
+                    startActivity(intent);
+                }
+            });
 
 //        btnClearRfidTag.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -100,22 +102,21 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 //            }
 //        });
 
-        btnTransferProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TransferProductActivity.class);
-                startActivity(intent);
-            }
-        });
+            btnTransferProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, TransferProductActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        btnStocktakeInventory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StocktakeInventoryActivity.class);
-                startActivity(intent);
-            }
-        });
-
+            btnStocktakeInventory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, StocktakeInventoryActivity.class);
+                    startActivity(intent);
+                }
+            });
     }
 
     public void initView() {
@@ -152,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
                 }
                 break;
             case R.id.mn_logout:
+                PreferenceUtil.getInstance(this).putStringValue("username", "");
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

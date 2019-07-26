@@ -33,8 +33,6 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
 
     private List<String> mListScanRfid;
     private Button
-//            btnScanProductRfid,
-//            btnScanPackageRfid,
             btnSave,
             btnClear,
             btnCancel;
@@ -43,7 +41,7 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
     private TextView txtBoxRfid,
             txtPackageRfid,
             txtProductId;
-//            txtProductDescription;
+    //            txtProductDescription;
     private SmartMaterialSpinner snReceipt,
             snProductName;
     private StringBuffer sb;
@@ -82,14 +80,17 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mListShowReceipt.clear();
+                mListProductName.clear();
                 mCurrentReceiptId = mListInvoiceId.get(position);
                 for (Invoice i : mInvoices) {
                     if (mCurrentReceiptId.equals(i.getInvoiceId())) {
                         InvoiceInfoItem item = new InvoiceInfoItem(i.getProductId(), i.getProductName(), i.getQuantity(), i.getProcessQuantity(), i.getStatus());
                         mListShowReceipt.add(item);
                         mCurrentReceiptStatus = i.getStatus();
+                        mListProductName.add(i.getProductName());
                     }
                 }
+                snProductName.setItem(mListProductName);
             }
 
             @Override
@@ -103,8 +104,8 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                txtProductName.setText(mProducts.get(position).getProductName());
-                mSelectedProductId = mProducts.get(position).getProductId();
-                txtProductId.setText(mProducts.get(position).getProductId());
+                mSelectedProductId = mListShowReceipt.get(position).getProductId();
+                txtProductId.setText(mListShowReceipt.get(position).getProductId());
 //                txtProductDescription.setText(mProducts.get(position).getDescription());
             }
 
@@ -154,21 +155,23 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mSelectedProductId.equals("")) {
-                    Toast.makeText(RegisterPackageActivity.this, getText(R.string.not_choose_product), Toast.LENGTH_SHORT).show();
-                } else if (txtPackageRfid.getText().toString().equals("")) {
-                    Toast.makeText(RegisterPackageActivity.this, getText(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
-                } else if (mListScanRfid.isEmpty()) {
-                    Toast.makeText(RegisterPackageActivity.this, getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
-                } else {
-                    mCurrentReceiptPossition = mListInvoiceId.indexOf(mCurrentReceiptId);
+                if (mSelectedProductId != null) {
+                    if (mSelectedProductId.equals("")) {
+                        Toast.makeText(RegisterPackageActivity.this, getText(R.string.not_choose_product), Toast.LENGTH_SHORT).show();
+                    } else if (txtPackageRfid.getText().toString().equals("")) {
+                        Toast.makeText(RegisterPackageActivity.this, getText(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                    } else if (mListScanRfid.isEmpty()) {
+                        Toast.makeText(RegisterPackageActivity.this, getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
+                    } else {
+                        mCurrentReceiptPossition = mListInvoiceId.indexOf(mCurrentReceiptId);
 //                    mRfimApi.registerPackageAndBox(txtPackageRfid.getText().toString(), mCurrentReceiptId, mProductId, mCurrentReceiptStatus, mListScanRfid);
-                    mRfimApi.registerPackageAndBox(txtPackageRfid.getText().toString(),
-                            mCurrentReceiptId,
-                            txtProductId.getText().toString(),
-                            mCurrentReceiptStatus,
-                            mListScanRfid,
-                            System.currentTimeMillis());
+                        mRfimApi.registerPackageAndBox(txtPackageRfid.getText().toString(),
+                                mCurrentReceiptId,
+                                txtProductId.getText().toString(),
+                                mCurrentReceiptStatus,
+                                mListScanRfid,
+                                System.currentTimeMillis());
+                    }
                 }
             }
         });
@@ -310,12 +313,15 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
                     }.getType());
                     if (mInvoices.size() > 0) {
                         for (Invoice i : mInvoices) {
-                            if (mListInvoiceId.isEmpty()) {
+//                            if (mListInvoiceId.isEmpty()) {
+//                                mListInvoiceId.add(i.getInvoiceId());
+//                            } else {
+//                                if (!mListInvoiceId.contains(i.getInvoiceId())) {
+//                                    mListInvoiceId.add(i.getInvoiceId());
+//                                }
+//                            }
+                            if (!mListInvoiceId.contains(i.getInvoiceId())) {
                                 mListInvoiceId.add(i.getInvoiceId());
-                            } else {
-                                if (!mListInvoiceId.contains(i.getInvoiceId())) {
-                                    mListInvoiceId.add(i.getInvoiceId());
-                                }
                             }
                         }
                     } else {
@@ -325,17 +331,17 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
                 snReceipt.setItem(mListInvoiceId);
                 snReceipt.setSelection(mCurrentReceiptPossition);
                 break;
-            case Constant.GET_ALL_PRODUCTS:
-                if (code == HttpURLConnection.HTTP_OK) {
-                    mProducts = gson.fromJson(data, new TypeToken<List<Product>>() {
-                    }.getType());
-                    for (Product p : mProducts) {
-//                        mListProductId.add(p.getProductId());
-                        mListProductName.add(p.getProductName());
-                    }
-                }
-                snProductName.setItem(mListProductName);
-                break;
+//            case Constant.GET_ALL_PRODUCTS:
+//                if (code == HttpURLConnection.HTTP_OK) {
+//                    mProducts = gson.fromJson(data, new TypeToken<List<Product>>() {
+//                    }.getType());
+//                    for (Product p : mProducts) {
+////                        mListProductId.add(p.getProductId());
+//                        mListProductName.add(p.getProductName());
+//                    }
+//                }
+//                snProductName.setItem(mListProductName);
+//                break;
             case Constant.GET_PACKAGE_BY_PACKAGE_RFID:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Package pac = gson.fromJson(data, Package.class);
@@ -355,6 +361,8 @@ public class RegisterPackageActivity extends AppCompatActivity implements Observ
                     txtBoxRfid.setText("");
                     mListScanRfid.clear();
                     mRfimApi.getReceiptInvoice();
+                    stopAmination(lavScanningBoxRfid);
+                    isScanningBoxRfid = false;
                 } else {
                     Toast.makeText(this, "Register Fail", Toast.LENGTH_SHORT).show();
                 }

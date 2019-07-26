@@ -3,6 +3,7 @@ package vn.com.rfim_mobile;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -52,8 +53,16 @@ public class TransferProductActivity extends AppCompatActivity {
         bnvTransferProduct = findViewById(R.id.bnv_transfer_product);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();

@@ -66,7 +66,7 @@ public class AlgorithmResultAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.list_shelves, null);
         }
         TextView lvShelfId = convertView.findViewById(R.id.tv_shelf_id);
-        lvShelfId.setText(algorithmResult.getShelfId());
+        lvShelfId.setText((groupPosition + 1) + ". Shelf " + algorithmResult.getShelfId());
         return convertView;
     }
 
@@ -79,8 +79,10 @@ public class AlgorithmResultAdapter extends BaseExpandableListAdapter {
         }
         TextView tvCellId = convertView.findViewById(R.id.tv_cell_id);
         TextView tvCellQuantity = convertView.findViewById(R.id.tv_cell_quantity);
+        TextView tvDate = convertView.findViewById(R.id.tv_date);
         tvCellId.setText(cellInfo.getCellId());
         tvCellQuantity.setText(cellInfo.getQuantity() + " Box");
+        tvDate.setText(cellInfo.getDate());
         return convertView;
     }
 

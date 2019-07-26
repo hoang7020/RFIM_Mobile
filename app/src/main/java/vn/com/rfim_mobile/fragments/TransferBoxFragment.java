@@ -198,6 +198,11 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     //Notification function when scan rfid
     @Override
     public void getNotification(int type) {

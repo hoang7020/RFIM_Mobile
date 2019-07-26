@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompleted 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
     }
@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompleted 
         if (PreferenceUtil.getInstance(getApplicationContext()).getStringValue("username", "") != "") {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 

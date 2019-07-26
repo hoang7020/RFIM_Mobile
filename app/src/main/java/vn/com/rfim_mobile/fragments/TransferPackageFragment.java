@@ -178,6 +178,10 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void getNotification(int type) {

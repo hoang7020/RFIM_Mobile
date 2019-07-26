@@ -5,242 +5,263 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:gravity="center"
-              android:padding="@dimen/padding_global"
               tools:context=".fragments.TransferPackageFragment">
 
-    <LinearLayout
-            android:background="@drawable/rectangle_border"
+    <android.support.v7.widget.Toolbar
+            style="@style/OverflowMenu"
+            app:title="Transfer Package"
+            app:titleTextColor="@color/smsp_white_color"
+            android:background="@color/colorPrimary"
+            android:id="@+id/tb_main"
             android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:layout_margin="10px"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout
+            android:orientation="vertical"
             android:gravity="center"
-            android:weightSum="10">
+            android:padding="@dimen/padding_global"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Cell RFID*"/>
-
-        <TextView
+        <LinearLayout
+                android:background="@drawable/rectangle_border"
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:layout_margin="10px"
                 android:gravity="center"
-                android:background="@drawable/spinner_border"
-                android:id="@+id/tv_cell_rfid"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="5"/>
+                android:weightSum="10">
 
-        <!--<Button-->
-                <!--android:id="@+id/btn_scan_cell_rfid"-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="Scan"/>-->
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Cell RFID*"/>
 
-        <FrameLayout
-                android:background="@drawable/rectangle_border_radius_scan_button"
-                android:layout_weight="2"
-                android:layout_width="0px"
-                android:layout_height="match_parent">
-            <LinearLayout
-                    android:background="@drawable/ripple_effect"
-                    android:id="@+id/btn_scan_cell_rfid"
-                    android:layout_width="match_parent"
+            <TextView
+                    android:gravity="center"
+                    android:background="@drawable/spinner_border"
+                    android:id="@+id/tv_cell_rfid"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"/>
+
+            <!--<Button-->
+            <!--android:id="@+id/btn_scan_cell_rfid"-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:text="Scan"/>-->
+
+            <FrameLayout
+                    android:background="@drawable/rectangle_border_radius_scan_button"
+                    android:layout_weight="2"
+                    android:layout_width="0px"
                     android:layout_height="match_parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/lav_scanning_cell_rfid"
+                <LinearLayout
+                        android:background="@drawable/button_circle_background"
+                        android:foreground="@drawable/ripple_bg"
+                        android:id="@+id/btn_scan_cell_rfid"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"/>
-            </LinearLayout>
-        </FrameLayout>
+                        android:layout_height="match_parent">
 
-    </LinearLayout>
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lav_scanning_cell_rfid"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"/>
+                </LinearLayout>
+            </FrameLayout>
 
-    <LinearLayout
-            android:background="@drawable/rectangle_border"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
+        </LinearLayout>
 
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Cell"/>
-
-        <TextView
+        <LinearLayout
+                android:background="@drawable/rectangle_border"
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:layout_margin="10px"
                 android:gravity="center"
-                android:background="@drawable/spinner_border"
-                android:id="@+id/tv_cell_id"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-    </LinearLayout>
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Cell"/>
 
-    <LinearLayout
-            android:background="@drawable/rectangle_border"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            <TextView
+                    android:gravity="center"
+                    android:background="@drawable/spinner_border"
+                    android:id="@+id/tv_cell_id"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"/>
 
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Floor"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
+                android:background="@drawable/rectangle_border"
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:layout_margin="10px"
                 android:gravity="center"
-                android:background="@drawable/spinner_border"
-                android:id="@+id/tv_floor_id"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-    </LinearLayout>
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Floor"/>
 
-    <LinearLayout
-            android:background="@drawable/rectangle_border"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            <TextView
+                    android:gravity="center"
+                    android:background="@drawable/spinner_border"
+                    android:id="@+id/tv_floor_id"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"/>
 
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Shelf"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
+                android:background="@drawable/rectangle_border"
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:layout_margin="10px"
                 android:gravity="center"
-                android:background="@drawable/spinner_border"
-                android:id="@+id/tv_shelf_id"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-    </LinearLayout>
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Shelf"/>
 
-    <LinearLayout
-            android:background="@drawable/rectangle_border"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:weightSum="10">
+            <TextView
+                    android:gravity="center"
+                    android:background="@drawable/spinner_border"
+                    android:id="@+id/tv_shelf_id"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"/>
 
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Package RFID*"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
+                android:background="@drawable/rectangle_border"
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:layout_margin="10px"
                 android:gravity="center"
-                android:background="@drawable/spinner_border"
-                android:id="@+id/tv_package_rfid"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="5"/>
+                android:weightSum="10">
 
-        <!--<Button-->
-                <!--android:id="@+id/btn_scan_package_rfid"-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="Scan"/>-->
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Package RFID*"/>
 
-        <FrameLayout
-                android:background="@drawable/rectangle_border_radius_scan_button"
-                android:layout_weight="2"
-                android:layout_width="0px"
-                android:layout_height="match_parent">
-            <LinearLayout
-                    android:background="@drawable/ripple_effect"
-                    android:id="@+id/btn_scan_package_rfid"
-                    android:layout_width="match_parent"
+            <TextView
+                    android:gravity="center"
+                    android:background="@drawable/spinner_border"
+                    android:id="@+id/tv_package_rfid"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"/>
+
+            <!--<Button-->
+            <!--android:id="@+id/btn_scan_package_rfid"-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:text="Scan"/>-->
+
+            <FrameLayout
+                    android:background="@drawable/rectangle_border_radius_scan_button"
+                    android:layout_weight="2"
+                    android:layout_width="0px"
                     android:layout_height="match_parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/lav_scanning_package_rfid"
+                <LinearLayout
+                        android:background="@drawable/button_circle_background"
+                        android:foreground="@drawable/ripple_bg"
+                        android:id="@+id/btn_scan_package_rfid"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"/>
-            </LinearLayout>
-        </FrameLayout>
+                        android:layout_height="match_parent">
 
-    </LinearLayout>
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lav_scanning_package_rfid"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"/>
+                </LinearLayout>
+            </FrameLayout>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="9">
+        </LinearLayout>
 
-        <Button
-                android:background="@color/colorPrimary"
-                android:layout_margin="5px"
-                android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_save"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Save"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:layout_margin="10px"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="9">
 
-        <Button
-                android:background="@color/colorPrimary"
-                android:layout_margin="5px"
-                android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_clear"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Clear"/>
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_save"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Save"/>
 
-        <Button
-                android:background="@color/colorPrimary"
-                android:layout_margin="5px"
-                android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_cancel"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Cancel"/>
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_clear"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Clear"/>
+
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Cancel"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
