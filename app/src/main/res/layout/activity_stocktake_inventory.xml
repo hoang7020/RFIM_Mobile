@@ -128,7 +128,7 @@
                     android:layout_weight="3"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
-                    android:text="Quantity"/>
+                    android:text="Available Quantity"/>
 
             <TextView
                     android:background="@drawable/rectangle_border"

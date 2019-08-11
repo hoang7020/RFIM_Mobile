@@ -10,7 +10,7 @@
     <item
             android:id="@+id/action_transfer_package"
             android:enabled="true"
-            android:icon="@drawable/stocktake"
+            android:icon="@drawable/packages"
             android:title="Transfer Package"
             app:showAsAction="ifRoom"/>
 

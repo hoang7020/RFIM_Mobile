@@ -44,7 +44,7 @@ public class ReceiptInvoiceFragment extends DialogFragment {
 
         initView();
 
-        mToolbar.setTitle("Receipt Invoice");
+        mToolbar.setTitle("Goods Receipt");
         mToolbar.inflateMenu(R.menu.exit_button_menu);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

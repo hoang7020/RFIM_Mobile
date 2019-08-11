@@ -216,6 +216,8 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
                 } else {
                     showResponseMessage(data);
                 }
+                stopAmination(lavScanningCellRfid);
+                isScanningCellRfid = false;
                 break;
             case Constant.GET_FLOOR_BY_CELL_ID:
                 if (code == HttpURLConnection.HTTP_OK) {
@@ -240,6 +242,8 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
                 } else {
                     showResponseMessage(data);
                 }
+                stopAmination(lavScanningPackageRfid);
+                isScanningPackageRfid = false;
                 break;
             case Constant.TRANSFER_PACKAGE:
                 if (code == HttpURLConnection.HTTP_OK) {

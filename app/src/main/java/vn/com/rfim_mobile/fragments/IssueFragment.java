@@ -56,7 +56,7 @@ public class IssueFragment extends Fragment implements OnTaskCompleted {
 
         initView();
 
-        mToolbar.setTitle("Issue Invoice");
+        mToolbar.setTitle("Goods Issue");
         mToolbar.inflateMenu(R.menu.exit_button_menu);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

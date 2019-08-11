@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompleted 
     public static Context context;
 
     private EditText edtUsername, edtPassword;
-    private Button btnLogin, btnCancel;
+    private Button btnLogin, btnExit;
     private RFIMApi mRfimApi;
     private Gson gson;
 
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompleted 
             }
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompleted 
         edtUsername = findViewById(R.id.edt_username);
         edtPassword = findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
-        btnCancel = findViewById(R.id.btn_cancel);
+        btnExit = findViewById(R.id.btn_exit);
         mRfimApi = new RFIMApi(this);
         gson = new Gson();
         context = getApplicationContext();

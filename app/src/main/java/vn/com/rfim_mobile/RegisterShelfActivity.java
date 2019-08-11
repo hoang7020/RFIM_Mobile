@@ -1,5 +1,10 @@
 package vn.com.rfim_mobile;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +28,9 @@ import vn.com.rfim_mobile.fragments.ScanningFragment;
 import vn.com.rfim_mobile.interfaces.Observer;
 import vn.com.rfim_mobile.interfaces.OnTaskCompleted;
 import vn.com.rfim_mobile.models.json.*;
+import vn.com.rfim_mobile.receiver.BluetoothReceiver;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.NetworkUtil;
 
 public class RegisterShelfActivity extends AppCompatActivity implements Observer, OnTaskCompleted {
 
@@ -34,7 +41,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
             btnSave,
             btnClear,
             btnCancel;
-    LinearLayout btnScanShelfRfid;
+    LinearLayout btnScanCellRfid;
     private SmartMaterialSpinner snShelfID, snFloorId, snCellId;
     private RFIMApi mRfimApi;
     private List<String> listShelvesId, listFloorsId, listCellsId;
@@ -54,17 +61,20 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         initView();
 
         mRfimApi.getAllShelves();
-        btnScanShelfRfid.setOnClickListener(new View.OnClickListener() {
+        btnScanCellRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                isScanningCellRfid = !isScanningCellRfid;
-                if (isScanningCellRfid) {
-                    startAmination(lavScanningCellRfid);
-                    BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(RegisterShelfActivity.this, getText(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    stopAmination(lavScanningCellRfid);
-                    BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                    isScanningCellRfid = !isScanningCellRfid;
+                    if (isScanningCellRfid) {
+                        startAmination(lavScanningCellRfid);
+                        BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
+                    } else {
+                        stopAmination(lavScanningCellRfid);
+                        BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                    }
                 }
 //                initScanningFragment();
             }
@@ -73,7 +83,9 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCellId != null) {
+                if (!NetworkUtil.isOnline(RegisterShelfActivity.this)) {
+                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                } else if (mCellId != null) {
                     if (mCellId.equals(getString(R.string.not_found_item))) {
                         Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
                     } else if (tvCellRfid.getText().toString().equals("")) {
@@ -162,7 +174,7 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
 
     private void initView() {
         tvCellRfid = findViewById(R.id.tv_cell_rfid);
-        btnScanShelfRfid = findViewById(R.id.btn_scan_cell_rfid);
+        btnScanCellRfid = findViewById(R.id.btn_scan_cell_rfid);
         btnSave = findViewById(R.id.btn_save);
         btnCancel = findViewById(R.id.btn_cancel);
         btnClear = findViewById(R.id.btn_clear);

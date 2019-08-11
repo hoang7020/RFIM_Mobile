@@ -13,6 +13,7 @@
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_algorithm"
+                app:title="Suggest Box"
                 app:titleTextColor="@color/smsp_white_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

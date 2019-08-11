@@ -39,7 +39,7 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:text="Package RFID*"/>
+                    android:text="Destination Package RFID*"/>
 
             <TextView
                     android:gravity="center"

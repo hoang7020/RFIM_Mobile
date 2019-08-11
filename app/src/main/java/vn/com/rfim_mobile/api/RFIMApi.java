@@ -223,7 +223,7 @@ public class RFIMApi {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.get_product_by_box_rfid) + rfid);
-        mApiUtil.setType(Constant.GET_PRODUCT_BY_BOX_ID);
+        mApiUtil.setType(Constant.CHECK_BOX_INFO);
         mApiUtil.execute(url);
     }
 
@@ -247,7 +247,7 @@ public class RFIMApi {
 
     //Save stocktake history
     public void saveStocktakeHistory(int userId, String productId,
-                                     int quantity, long date, String description) {
+                                     int quantity, long date, String lostBoxes, String foundBoxes) {
         this.mApiUtil = new ApiUtil(listener);
         URL url = UrlUtil.getURL(MainActivity.context.getString(R.string.host) +
                 MainActivity.context.getString(R.string.save_stocktake_history));
@@ -258,7 +258,8 @@ public class RFIMApi {
         obj.addProperty("productId", productId);
         obj.addProperty("quantity", quantity);
         obj.addProperty("date", date);
-        obj.addProperty("description", description);
+        obj.addProperty("lostBox", lostBoxes);
+        obj.addProperty("foundBox", foundBoxes);
         mApiUtil.setParam(obj);
         mApiUtil.execute(url);
     }

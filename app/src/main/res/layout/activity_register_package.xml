@@ -40,7 +40,7 @@
                     android:layout_weight="3"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
-                    android:text="Receipt Invoice*"/>
+                    android:text="Goods Receipt*"/>
 
             <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                     android:background="@drawable/spinner_border"

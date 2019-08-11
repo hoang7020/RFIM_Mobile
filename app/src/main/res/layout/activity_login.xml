@@ -70,11 +70,11 @@
                 android:background="@drawable/button_circle_background"
                 android:foreground="@drawable/ripple_bg"
                 android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_exit"
                 android:layout_weight="5"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Cancel"/>
+                android:text="Exit"/>
     </LinearLayout>
 
 </LinearLayout>

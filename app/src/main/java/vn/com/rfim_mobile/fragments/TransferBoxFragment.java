@@ -81,19 +81,24 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isScanningPackageRfid = !isScanningBoxRfid;
-                if (isScanningPackageRfid) {
-                    startAmination(lavScanningPackageRfid);
-                    if (isScanningBoxRfid) {
-                        stopAmination(lavScanningBoxRfid);
-                        isScanningBoxRfid = false;
+                if (mListScanBoxRfid.isEmpty()) {
+                    isScanningPackageRfid = !isScanningPackageRfid;
+                    if (isScanningPackageRfid) {
+                        startAmination(lavScanningPackageRfid);
+                        if (isScanningBoxRfid) {
+                            stopAmination(lavScanningBoxRfid);
+                            isScanningBoxRfid = false;
+                        }
+                        BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
+                    } else {
+                        stopAmination(lavScanningPackageRfid);
+                        BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
                     }
-                    BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
                 } else {
-                    stopAmination(lavScanningPackageRfid);
-                    BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                    stopAmination(lavScanningBoxRfid);
+                    isScanningBoxRfid = false;
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.clear_all_box), Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -237,7 +242,7 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
                     showResponseMessage(data);
                 }
                 break;
-            case Constant.GET_PRODUCT_BY_BOX_ID:
+            case Constant.CHECK_BOX_INFO:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Product product = gson.fromJson(data, Product.class);
                     if (product.getProductId() != null && product.getProductId().equals(mCurrentTransferProductid)) {
