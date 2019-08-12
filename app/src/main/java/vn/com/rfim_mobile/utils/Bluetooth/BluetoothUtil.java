@@ -19,6 +19,7 @@ public class BluetoothUtil {
     public static final String TAG = BluetoothUtil.class.getSimpleName();
 
     public static TempScanResult tempScanResult = new TempScanResult();
+    public static boolean isConnected = false;
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothSocket mBTSocket;
@@ -32,29 +33,32 @@ public class BluetoothUtil {
     }
 
     //Create Bluetooth socket
-    public BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-        if (Build.VERSION.SDK_INT >= 10) {
-            try {
-                final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", new Class[]{UUID.class});
-                return (BluetoothSocket) m.invoke(device, Constant.MY_UUID);
-            } catch (Exception e) {
-                Log.e(TAG, "Could not create Insecure RFComm Connection", e);
-            }
-        }
-        return device.createRfcommSocketToServiceRecord(Constant.MY_UUID);
-    }
+//    public BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
+//        if (Build.VERSION.SDK_INT >= 10) {
+//            try {
+//                final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", new Class[]{UUID.class});
+//                return (BluetoothSocket) m.invoke(device, Constant.MY_UUID);
+//            } catch (Exception e) {
+//                Log.e(TAG, "Could not create Insecure RFComm Connection", e);
+//            }
+//        }
+//        return device.createRfcommSocketToServiceRecord(Constant.MY_UUID);
+//    }
 
     //Create connection to the Bluetooth device
     public void connectBluetoothDevice(String address) {
         BluetoothDevice device = mBTAdapter.getRemoteDevice(address);
         try {
-            mBTSocket = createBluetoothSocket(device);
+            mBTSocket = device.createRfcommSocketToServiceRecord(Constant.MY_UUID);
         } catch (IOException e) {
             Log.e(TAG, "connectBluetoothDevice: " + e.getMessage());
         }
         mBTAdapter.cancelDiscovery();
         try {
             mBTSocket.connect();
+            if (mBTSocket.isConnected()) {
+                isConnected = true;
+            }
             Log.d(TAG, "....Connection ok...");
         } catch (IOException e) {
             try {

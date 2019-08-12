@@ -42,7 +42,7 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerView
         recyclerViewHolder.tvProductId.setText(product.getProductId());
         recyclerViewHolder.tvProductName.setText(product.getProductName());
         recyclerViewHolder.tvProductQuantity.setText(product.getQuantity() + "");
-        recyclerViewHolder.tvProductPosition.setText(product.getShelfId());
+//        recyclerViewHolder.tvProductPosition.setText(product.getShelfId());
         Log.e(TAG, "onBindViewHolder: " + product.getProductName() + " " + product.getQuantity());
     }
 
@@ -55,8 +55,8 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerView
         private TextView tvProductNumber,
                 tvProductId,
                 tvProductName,
-                tvProductQuantity,
-                tvProductPosition;
+                tvProductQuantity;
+//                tvProductPosition;
         private Context context;
 
         public RecyclerViewHolder(View itemView) {
@@ -65,7 +65,7 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerView
             tvProductId = itemView.findViewById(R.id.tv_product_id);
             tvProductName = itemView.findViewById(R.id.tv_product_name);
             tvProductQuantity = itemView.findViewById(R.id.tv_product_quantity);
-            tvProductPosition = itemView.findViewById(R.id.tv_product_position);
+//            tvProductPosition = itemView.findViewById(R.id.tv_product_position);
             context = itemView.getContext();
             itemView.setOnClickListener(this);
         }

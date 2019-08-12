@@ -6,168 +6,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="@dimen/padding_global"
         tools:context=".StocktakeInventoryActivity">
 
-    <!--<LinearLayout-->
-    <!--android:layout_margin="10px"-->
-    <!--android:background="@drawable/rectangle_border"-->
-    <!--android:gravity="center"-->
-    <!--android:weightSum="10"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/height_of_field">-->
-
-    <!--<TextView-->
-    <!--android:textStyle="bold"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_weight="3"-->
-    <!--android:layout_width="0px"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="Type*"/>-->
-
-    <!--<com.chivorn.smartmaterialspinner.SmartMaterialSpinner-->
-    <!--android:background="@drawable/spinner_border"-->
-    <!--android:textAlignment="center"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:gravity="center"-->
-    <!--android:id="@+id/sn_stocktake_type"-->
-    <!--app:smsp_isSearchable="true"-->
-    <!--app:smsp_searchHeaderText="Search Shelf"-->
-    <!--android:layout_weight="7"-->
-    <!--android:layout_width="0px"-->
-    <!--android:layout_height="match_parent"/>-->
-    <!--</LinearLayout>-->
+    <android.support.v7.widget.Toolbar
+            style="@style/OverflowMenu"
+            app:title="Stocktake Inventory"
+            app:titleTextColor="@color/smsp_white_color"
+            android:background="@color/colorPrimary"
+            android:id="@+id/tb_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     <LinearLayout
-            android:layout_margin="10px"
-            android:background="@drawable/rectangle_border"
+            android:orientation="vertical"
             android:gravity="center"
-            android:weightSum="10"
+            android:padding="@dimen/padding_global"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_field">
+            android:layout_height="match_parent">
 
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_weight="3"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:text="Product Name*"/>
-
-        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                android:background="@drawable/spinner_border"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/sn_product_name"
-                app:smsp_isSearchable="true"
-                app:smsp_searchHeaderText="Search Shelf"
-                android:layout_weight="7"
-                android:layout_width="0px"
-                android:layout_height="match_parent"/>
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_margin="10px"
-            android:background="@drawable/rectangle_border"
-            android:gravity="center"
-            android:weightSum="10"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_field">
-
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_weight="3"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:text="Product Id"/>
-
-        <TextView
-                android:background="@drawable/rectangle_border"
-                android:gravity="center"
-                android:id="@+id/tv_product_id"
-                android:layout_weight="7"
-                android:layout_width="0px"
-                android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_margin="10px"
-            android:background="@drawable/rectangle_border"
-            android:gravity="center"
-            android:weightSum="10"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_field">
-
-        <TextView
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="left|center"
-                android:layout_marginLeft="15px"
-                android:layout_weight="3"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:text="Quantity"/>
-
-        <TextView
-                android:background="@drawable/rectangle_border"
-                android:gravity="center"
-                android:id="@+id/tv_product_quantity"
-                android:layout_weight="7"
-                android:layout_width="0px"
-                android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:weightSum="10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <!--<Button-->
-                <!--android:text="Scan"-->
-                <!--android:id="@+id/btn_scan_box_rfid"-->
-                <!--android:layout_weight="3"-->
-                <!--android:layout_width="0px"-->
-                <!--android:layout_height="match_parent"/>-->
-        <FrameLayout
-                android:background="@drawable/rectangle_border_radius_scan_button"
-                android:layout_width="0px"
-                android:layout_weight="3"
-                android:layout_height="match_parent">
-            <LinearLayout
-                    android:background="@drawable/ripple_effect"
-                    android:id="@+id/btn_scan_box_rfid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/lav_scanning_box_rfid"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <TextView
-                android:id="@+id/tv_scanned_product"
-                android:gravity="center"
-                android:textSize="300px"
-                android:text="0"
-                android:layout_weight="7"
-                android:layout_width="0px"
-                android:layout_height="400px"/>
-
+        <!--<LinearLayout-->
+        <!--android:layout_margin="10px"-->
+        <!--android:background="@drawable/rectangle_border"-->
+        <!--android:gravity="center"-->
+        <!--android:weightSum="10"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/height_of_field">-->
 
         <!--<TextView-->
         <!--android:textStyle="bold"-->
@@ -175,57 +38,216 @@
         <!--android:layout_weight="3"-->
         <!--android:layout_width="0px"-->
         <!--android:layout_height="match_parent"-->
-        <!--android:text="Scanned"/>-->
+        <!--android:text="Type*"/>-->
 
-        <!--<TextView-->
-        <!--android:background="@drawable/rectangle_border"-->
+        <!--<com.chivorn.smartmaterialspinner.SmartMaterialSpinner-->
+        <!--android:background="@drawable/spinner_border"-->
+        <!--android:textAlignment="center"-->
+        <!--android:layout_gravity="center"-->
         <!--android:gravity="center"-->
-        <!--android:id="@+id/tv_scanned_product"-->
+        <!--android:id="@+id/sn_stocktake_type"-->
+        <!--app:smsp_isSearchable="true"-->
+        <!--app:smsp_searchHeaderText="Search Shelf"-->
         <!--android:layout_weight="7"-->
         <!--android:layout_width="0px"-->
         <!--android:layout_height="match_parent"/>-->
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Product Name*"/>
+
+            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                    android:background="@drawable/spinner_border"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/sn_product_name"
+                    app:smsp_isSearchable="true"
+                    app:smsp_searchHeaderText="Search Shelf"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Product Id"/>
+
+            <TextView
+                    android:background="@drawable/rectangle_border"
+                    android:gravity="center"
+                    android:id="@+id/tv_product_id"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Available Quantity"/>
+
+            <TextView
+                    android:background="@drawable/rectangle_border"
+                    android:gravity="center"
+                    android:id="@+id/tv_product_quantity"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_margin="10px"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <!--<Button-->
+            <!--android:text="Scan"-->
+            <!--android:id="@+id/btn_scan_box_rfid"-->
+            <!--android:layout_weight="3"-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="match_parent"/>-->
+            <FrameLayout
+                    android:background="@drawable/rectangle_border_radius_scan_button"
+                    android:layout_width="0px"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent">
+                <LinearLayout
+                        android:background="@drawable/button_circle_background"
+                        android:foreground="@drawable/ripple_bg"
+                        android:id="@+id/btn_scan_box_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lav_scanning_box_rfid"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                    android:id="@+id/tv_scanned_product"
+                    android:gravity="center"
+                    android:textSize="300px"
+                    android:text="0"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="400px"/>
+
+
+            <!--<TextView-->
+            <!--android:textStyle="bold"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_weight="3"-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="Scanned"/>-->
+
+            <!--<TextView-->
+            <!--android:background="@drawable/rectangle_border"-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/tv_scanned_product"-->
+            <!--android:layout_weight="7"-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="match_parent"/>-->
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field"
+                android:layout_margin="10px"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="9">
+
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_report"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Report"/>
+
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_clear"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Clear"/>
+
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Cancel"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_of_field"
-            android:layout_margin="10px"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="9">
 
-        <Button
-                android:background="@color/colorPrimary"
-                android:layout_margin="5px"
-                android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_report"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Report"/>
-
-        <Button
-                android:background="@color/colorPrimary"
-                android:layout_margin="5px"
-                android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_clear"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Clear"/>
-
-        <Button
-                android:background="@color/colorPrimary"
-                android:layout_margin="5px"
-                android:textColor="@color/smsp_white_color"
-                android:id="@+id/btn_cancel"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:text="Cancel"/>
-
-    </LinearLayout>
 
 
 </LinearLayout>

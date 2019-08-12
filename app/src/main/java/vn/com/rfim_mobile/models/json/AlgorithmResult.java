@@ -12,7 +12,7 @@ public class AlgorithmResult {
     private String shelfId;
     @SerializedName("weight")
     @Expose
-    private Integer weight;
+    private Float weight;
     @SerializedName("cellInfos")
     @Expose
     private List<CellInfo> cellInfos = null;
@@ -25,11 +25,11 @@ public class AlgorithmResult {
         this.shelfId = shelfId;
     }
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 

@@ -19,7 +19,6 @@
 
 
         <EditText
-                android:text="hieudt"
                 android:id="@+id/edt_username"
                 android:hint="Username"
                 android:gravity="center"
@@ -37,8 +36,7 @@
             android:weightSum="10">
 
         <EditText
-                android:password="true"
-                android:text="123456"
+                android:inputType="textPassword"
                 android:id="@+id/edt_password"
                 android:hint="Password"
                 android:gravity="center"
@@ -57,6 +55,10 @@
             android:weightSum="10">
 
         <Button
+                android:layout_margin="5px"
+                android:background="@drawable/button_circle_background"
+                android:foreground="@drawable/ripple_bg"
+                android:textColor="@color/smsp_white_color"
                 android:id="@+id/btn_login"
                 android:layout_weight="5"
                 android:layout_width="0px"
@@ -64,11 +66,15 @@
                 android:text="Login"/>
 
         <Button
-                android:id="@+id/btn_cancel"
+                android:layout_margin="5px"
+                android:background="@drawable/button_circle_background"
+                android:foreground="@drawable/ripple_bg"
+                android:textColor="@color/smsp_white_color"
+                android:id="@+id/btn_exit"
                 android:layout_weight="5"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:text="Cancel"/>
+                android:text="Exit"/>
     </LinearLayout>
 
 </LinearLayout>

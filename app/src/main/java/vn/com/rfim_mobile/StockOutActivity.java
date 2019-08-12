@@ -28,6 +28,7 @@ import vn.com.rfim_mobile.models.json.Invoice;
 import vn.com.rfim_mobile.models.json.Product;
 import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.NetworkUtil;
 
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -96,7 +97,9 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                 }
 //                mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
 //                rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
-
+                mListShowProduct.clear();
+                mProductAdapter = new ListProductAdapter(mListShowProduct);
+                rcListStockOutBox.setAdapter(mProductAdapter);
             }
 
             @Override
@@ -108,13 +111,19 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isScanningBoxRfid = !isScanningBoxRfid;
-                if (isScanningBoxRfid) {
-                    startAmination(lavScanningBoxRfid);
-                    BluetoothUtil.tempScanResult.registerObserver(StockOutActivity.this, Constant.SCAN_BOX_RFID);
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(StockOutActivity.this, getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
+                } else if (mCurrentInvoiceId.equals("None!")) {
+                    Toast.makeText(StockOutActivity.this, "Please select an issue.", Toast.LENGTH_SHORT).show();
                 } else {
-                    stopAmination(lavScanningBoxRfid);
-                    BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
+                    isScanningBoxRfid = !isScanningBoxRfid;
+                    if (isScanningBoxRfid) {
+                        startAmination(lavScanningBoxRfid);
+                        BluetoothUtil.tempScanResult.registerObserver(StockOutActivity.this, Constant.SCAN_BOX_RFID);
+                    } else {
+                        stopAmination(lavScanningBoxRfid);
+                        BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
+                    }
                 }
             }
         });
@@ -122,11 +131,11 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (mListShowProduct.isEmpty()) {
+                if (!NetworkUtil.isOnline(StockOutActivity.this)) {
+                    Toast.makeText(StockOutActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                } else if (mListShowProduct.isEmpty()) {
                     Toast.makeText(StockOutActivity.this, getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e(TAG, "Invoice " + isIssueEnough(mListShowIssue, mListShowProduct));
                     if (isIssueEnough(mListShowIssue, mListShowProduct)) {
                         mRfimApi.stockOutBox(mListScanBoxRfid, mCurrentInvoiceId);
                     } else {
@@ -175,6 +184,8 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         int sumScannedProductQuantity = 0;
         for (int i = 0; i < invoices.size(); i++) {
             sumInvoiceQuantity += invoices.get(i).getQuantity();
+        }
+        for (int i = 0; i < listShowProduct.size(); i++) {
             sumScannedProductQuantity += listShowProduct.get(i).getQuantity();
         }
         if (sumInvoiceQuantity == sumScannedProductQuantity) {
@@ -251,7 +262,7 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
     @Override
     public void onTaskCompleted(String data, int type, int code) {
         switch (type) {
-            case Constant.GET_PRODUCT_BY_BOX_ID:
+            case Constant.CHECK_BOX_INFO:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Product product = gson.fromJson(data, Product.class);
                     InvoiceInfoItem invoiceItem = findInvoice(product.getProductId());
@@ -284,7 +295,7 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
                     }
                     mProductAdapter = new ListProductAdapter(mListShowProduct);
                     rcListStockOutBox.setAdapter(mProductAdapter);
-                } else if (code == HttpURLConnection.HTTP_NO_CONTENT) {
+                } else {
                     showResponseMessage(data);
                 }
                 break;

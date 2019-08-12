@@ -4,7 +4,7 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="8dp"
-              android:weightSum="2"
+              android:weightSum="3"
               android:background="@drawable/under_border_line">
 
 
@@ -20,6 +20,15 @@
 
     <TextView
             android:id="@+id/tv_cell_quantity"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="@color/invoiceTextColor"/>
+
+    <TextView
+            android:id="@+id/tv_date"
             android:layout_weight="1"
             android:layout_width="0px"
             android:layout_height="wrap_content"

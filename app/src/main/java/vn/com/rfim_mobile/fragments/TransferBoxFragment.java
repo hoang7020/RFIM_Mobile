@@ -29,6 +29,7 @@ import vn.com.rfim_mobile.models.json.Package;
 import vn.com.rfim_mobile.models.json.Product;
 import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.NetworkUtil;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -81,19 +82,28 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isScanningPackageRfid = !isScanningBoxRfid;
-                if (isScanningPackageRfid) {
-                    startAmination(lavScanningPackageRfid);
-                    if (isScanningBoxRfid) {
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (mListScanBoxRfid.isEmpty()) {
+                        isScanningPackageRfid = !isScanningPackageRfid;
+                        if (isScanningPackageRfid) {
+                            startAmination(lavScanningPackageRfid);
+                            if (isScanningBoxRfid) {
+                                stopAmination(lavScanningBoxRfid);
+                                isScanningBoxRfid = false;
+                            }
+                            BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
+                        } else {
+                            stopAmination(lavScanningPackageRfid);
+                            BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                        }
+                    } else {
                         stopAmination(lavScanningBoxRfid);
                         isScanningBoxRfid = false;
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.clear_all_box), Toast.LENGTH_SHORT).show();
                     }
-                    BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
-                } else {
-                    stopAmination(lavScanningPackageRfid);
-                    BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
                 }
-
             }
         });
 
@@ -101,21 +111,25 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
             @Override
             public void onClick(View v) {
 //                BluetoothUtil.tempScanResult.getObservers().clear();
-                if (!tvPackageRfid.getText().toString().equals("")) {
-                    isScanningBoxRfid = !isScanningBoxRfid;
-                    if (isScanningBoxRfid) {
-                        startAmination(lavScanningBoxRfid);
-                        if (isScanningPackageRfid) {
-                            stopAmination(lavScanningPackageRfid);
-                            isScanningPackageRfid = false;
-                        }
-                        BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
-                    } else {
-                        stopAmination(lavScanningBoxRfid);
-                        BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
-                    }
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                    if (!tvPackageRfid.getText().toString().equals("")) {
+                        isScanningBoxRfid = !isScanningBoxRfid;
+                        if (isScanningBoxRfid) {
+                            startAmination(lavScanningBoxRfid);
+                            if (isScanningPackageRfid) {
+                                stopAmination(lavScanningPackageRfid);
+                                isScanningPackageRfid = false;
+                            }
+                            BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
+                        } else {
+                            stopAmination(lavScanningBoxRfid);
+                            BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -123,7 +137,9 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvPackageRfid.getText().toString().equals("")) {
+                if (!NetworkUtil.isOnline(getActivity())) {
+                    Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                } else if (tvPackageRfid.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
                 } else if (mListScanBoxRfid.isEmpty()) {
                     Toast.makeText(getActivity(), getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
@@ -198,6 +214,11 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     //Notification function when scan rfid
     @Override
     public void getNotification(int type) {
@@ -232,7 +253,7 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
                     showResponseMessage(data);
                 }
                 break;
-            case Constant.GET_PRODUCT_BY_BOX_ID:
+            case Constant.CHECK_BOX_INFO:
                 if (code == HttpURLConnection.HTTP_OK) {
                     Product product = gson.fromJson(data, Product.class);
                     if (product.getProductId() != null && product.getProductId().equals(mCurrentTransferProductid)) {

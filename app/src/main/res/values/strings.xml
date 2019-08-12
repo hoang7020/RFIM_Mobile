@@ -4,7 +4,7 @@
 
     <string name="not_found_item">None!</string>
     <string name="not_choose_cell">Please choose a cell.</string>
-    <string name="not_choose_product">Please choose a cell.</string>
+    <string name="not_choose_product">Please choose a product.</string>
     <string name="not_scan_cell_rfid">Please scan a Cell\'s RFID</string>
     <string name="not_scan_product_rfid">Please scan a Product\'s RFID</string>
     <string name="not_scan_package_rfid">Please scan a Package\'s RFID</string>
@@ -16,6 +16,9 @@
     <string name="not_corrent_product_invoice">This invoice does not need this product.</string>
     <string name="engouh_product">Enough product.</string>
     <string name="not_engouh_product">Not enough product.</string>
+    <string name="clear_all_box">Please clear all box before scan a new destination package.</string>
+    <string name="no_bluetooth_connection">Please check your Bluetooth connection.</string>
+    <string name="no_network_connection">Please check your network connection.</string>
 
     <string name="not_input_username_or_password">Please input username or password.</string>
 

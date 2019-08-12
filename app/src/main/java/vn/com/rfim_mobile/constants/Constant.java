@@ -26,7 +26,7 @@ public class Constant {
     public static final int GET_SHELF_BY_FLOOR_ID = 8;
     public static final int GET_CELL_BY_CELL_RFID = 9;
     public static final int STOCK_IN_PACKAGE = 10;
-    public static final int GET_PRODUCT_BY_BOX_ID = 11;
+    public static final int CHECK_BOX_INFO = 11;
     public static final int STOCK_OUT_BOXES = 12;
     public static final int TRANSFER_PACKAGE = 13;
     public static final int GET_PACKAGE_BY_PACKAGE_RFID = 14;

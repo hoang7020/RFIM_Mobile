@@ -3,12 +3,18 @@ package vn.com.rfim_mobile;
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +31,9 @@ import android.widget.Toast;
 import vn.com.rfim_mobile.constants.Constant;
 import vn.com.rfim_mobile.fragments.BluetoothFragment;
 import vn.com.rfim_mobile.interfaces.OnDissmissBluetoothDialogListener;
+import vn.com.rfim_mobile.receiver.BluetoothReceiver;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.NetworkUtil;
 import vn.com.rfim_mobile.utils.PreferenceUtil;
 
 import java.io.Serializable;
@@ -41,11 +49,12 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
             btnRegisterPackage,
             btnStockInPackage,
             btnStockOutPackage,
-//            btnClearRfidTag,
-            btnTransferProduct,
+    //            btnClearRfidTag,
+    btnTransferProduct,
             btnStocktakeInventory;
     private Toolbar mToolbar;
     private BluetoothFragment fragment;
+    private BluetoothReceiver mBluetoothReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +63,9 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 
         initView();
 
+        informBluetoothStatus();
+
         requestPermission();
-        String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS","");
-        mBTUtil.connectBluetoothDevice(Constant.address);
-        mBTUtil.readBluetoothSerialData();
 
         btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,12 +124,23 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
             }
         });
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS", "");
+                if (!address.equals("")) {
+                    mBTUtil.connectBluetoothDevice(address);
+                    mBTUtil.readBluetoothSerialData();
+                }
+            }
+        }).start();
     }
 
     public void initView() {
         context = this.getApplicationContext();
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
         checkBTState();
+        mBluetoothReceiver = new BluetoothReceiver();
         mBTUtil = new BluetoothUtil(mBTAdapter);
         btnRegisterShelf = findViewById(R.id.btn_shelf_register);
         btnRegisterPackage = findViewById(R.id.btn_package_register);
@@ -152,6 +171,10 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
                 }
                 break;
             case R.id.mn_logout:
+                PreferenceUtil.getInstance(this).putStringValue("username", "");
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -160,8 +183,8 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
     @Override
     public void onResume() {
         super.onResume();
-
     }
+
 
     @Override
     public void onPause() {
@@ -169,6 +192,12 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 //        mBTUtil.closeBluetoothSocket();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBTUtil.closeBluetoothSocket();
+        unregisterReceiver(mBluetoothReceiver);
+    }
 
     //Enable bluetooth on android device
     private void checkBTState() {
@@ -186,14 +215,31 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 
     private void requestPermission() {
         int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
     }
 
     @Override
     public void onDissmissBluetoothDialog() {
-        String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS","");
-        mBTUtil.connectBluetoothDevice(address);
-        mBTUtil.readBluetoothSerialData();
+//        String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS", "");
+//        mBTUtil.connectBluetoothDevice(address);
+//        mBTUtil.readBluetoothSerialData();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS", "");
+                if (!address.equals("")) {
+                    mBTUtil.connectBluetoothDevice(address);
+                    mBTUtil.readBluetoothSerialData();
+                }
+            }
+        }).start();
+    }
+
+    public void informBluetoothStatus() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        registerReceiver(mBluetoothReceiver, filter);
     }
 }
