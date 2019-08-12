@@ -26,6 +26,7 @@ import vn.com.rfim_mobile.models.json.Floor;
 import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.models.json.Shelf;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.NetworkUtil;
 
 import java.net.HttpURLConnection;
 
@@ -65,17 +66,21 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         btnScanCellRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isScanningCellRfid = !isScanningCellRfid;
-                if (isScanningCellRfid) {
-                    startAmination(lavScanningCellRfid);
-                    if (isScanningPackageRfid) {
-                        stopAmination(lavScanningPackageRfid);
-                        isScanningPackageRfid = false;
-                    }
-                    BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_CELL_RFID);
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    stopAmination(lavScanningCellRfid);
-                    BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
+                    isScanningCellRfid = !isScanningCellRfid;
+                    if (isScanningCellRfid) {
+                        startAmination(lavScanningCellRfid);
+                        if (isScanningPackageRfid) {
+                            stopAmination(lavScanningPackageRfid);
+                            isScanningPackageRfid = false;
+                        }
+                        BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_CELL_RFID);
+                    } else {
+                        stopAmination(lavScanningCellRfid);
+                        BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
+                    }
                 }
             }
         });
@@ -83,17 +88,21 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isScanningPackageRfid = !isScanningPackageRfid;
-                if (isScanningPackageRfid) {
-                    startAmination(lavScanningPackageRfid);
-                    if (isScanningCellRfid) {
-                        stopAmination(lavScanningCellRfid);
-                        isScanningCellRfid = false;
-                    }
-                    BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_PACKAGE_RFID);
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    stopAmination(lavScanningPackageRfid);
-                    BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
+                    isScanningPackageRfid = !isScanningPackageRfid;
+                    if (isScanningPackageRfid) {
+                        startAmination(lavScanningPackageRfid);
+                        if (isScanningCellRfid) {
+                            stopAmination(lavScanningCellRfid);
+                            isScanningCellRfid = false;
+                        }
+                        BluetoothUtil.tempScanResult.registerObserver(TransferPackageFragment.this, Constant.SCAN_PACKAGE_RFID);
+                    } else {
+                        stopAmination(lavScanningPackageRfid);
+                        BluetoothUtil.tempScanResult.unregisterObserver(TransferPackageFragment.this);
+                    }
                 }
             }
         });
@@ -101,8 +110,9 @@ public class TransferPackageFragment extends Fragment implements Observer, OnTas
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvCellRfid.getText().toString().equals("")) {
-
+                if (!NetworkUtil.isOnline(getActivity())) {
+                    Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                } else if (tvCellRfid.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
                 } else if (tvPackageRfid.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();

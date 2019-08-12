@@ -29,6 +29,7 @@ import vn.com.rfim_mobile.models.json.Package;
 import vn.com.rfim_mobile.models.json.Product;
 import vn.com.rfim_mobile.models.json.ResponseMessage;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
+import vn.com.rfim_mobile.utils.NetworkUtil;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -81,23 +82,27 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListScanBoxRfid.isEmpty()) {
-                    isScanningPackageRfid = !isScanningPackageRfid;
-                    if (isScanningPackageRfid) {
-                        startAmination(lavScanningPackageRfid);
-                        if (isScanningBoxRfid) {
-                            stopAmination(lavScanningBoxRfid);
-                            isScanningBoxRfid = false;
-                        }
-                        BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
-                    } else {
-                        stopAmination(lavScanningPackageRfid);
-                        BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
-                    }
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    stopAmination(lavScanningBoxRfid);
-                    isScanningBoxRfid = false;
-                    Toast.makeText(getActivity(), getActivity().getString(R.string.clear_all_box), Toast.LENGTH_SHORT).show();
+                    if (mListScanBoxRfid.isEmpty()) {
+                        isScanningPackageRfid = !isScanningPackageRfid;
+                        if (isScanningPackageRfid) {
+                            startAmination(lavScanningPackageRfid);
+                            if (isScanningBoxRfid) {
+                                stopAmination(lavScanningBoxRfid);
+                                isScanningBoxRfid = false;
+                            }
+                            BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
+                        } else {
+                            stopAmination(lavScanningPackageRfid);
+                            BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                        }
+                    } else {
+                        stopAmination(lavScanningBoxRfid);
+                        isScanningBoxRfid = false;
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.clear_all_box), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -106,21 +111,25 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
             @Override
             public void onClick(View v) {
 //                BluetoothUtil.tempScanResult.getObservers().clear();
-                if (!tvPackageRfid.getText().toString().equals("")) {
-                    isScanningBoxRfid = !isScanningBoxRfid;
-                    if (isScanningBoxRfid) {
-                        startAmination(lavScanningBoxRfid);
-                        if (isScanningPackageRfid) {
-                            stopAmination(lavScanningPackageRfid);
-                            isScanningPackageRfid = false;
-                        }
-                        BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
-                    } else {
-                        stopAmination(lavScanningBoxRfid);
-                        BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
-                    }
+                if (!BluetoothUtil.isConnected) {
+                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                    if (!tvPackageRfid.getText().toString().equals("")) {
+                        isScanningBoxRfid = !isScanningBoxRfid;
+                        if (isScanningBoxRfid) {
+                            startAmination(lavScanningBoxRfid);
+                            if (isScanningPackageRfid) {
+                                stopAmination(lavScanningPackageRfid);
+                                isScanningPackageRfid = false;
+                            }
+                            BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
+                        } else {
+                            stopAmination(lavScanningBoxRfid);
+                            BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -128,7 +137,9 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvPackageRfid.getText().toString().equals("")) {
+                if (!NetworkUtil.isOnline(getActivity())) {
+                    Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                } else if (tvPackageRfid.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
                 } else if (mListScanBoxRfid.isEmpty()) {
                     Toast.makeText(getActivity(), getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();

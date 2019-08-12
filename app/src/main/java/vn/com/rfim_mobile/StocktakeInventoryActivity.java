@@ -42,6 +42,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
     private List<Product> mProducts;
     private List<String> mListProductName;
     private List<String> mListBoxRfids;
+    private List<String> lostBox;
     private TextView tvProductQuantity,
             tvScannedProduct;
     private StringBuffer sbLostBox;
@@ -107,9 +108,10 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                 if (!NetworkUtil.isOnline(StocktakeInventoryActivity.this)) {
                     Toast.makeText(StocktakeInventoryActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    List<String> lostBox = new ArrayList<>();
+                    lostBox.clear();
                     lostBox.addAll(mListBoxRfids);
                     lostBox.removeAll(mListScannedRfid);
+                    sbLostBox = new StringBuffer();
                     for (String s : lostBox) {
                         if (lostBox.indexOf(s) < lostBox.size() - 1) {
                             sbLostBox.append(s + ",");
@@ -117,6 +119,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                             sbLostBox.append(s);
                         }
                     }
+                    sbFoundBox = new StringBuffer();
                     for (String s : mListScannedRfid) {
                         if (mListScannedRfid.indexOf(s) < mListScannedRfid.size() - 1) {
                             sbFoundBox.append(s + ",");
@@ -130,6 +133,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    Log.e(TAG, "LB: " + sbLostBox.toString() + " FB:" + sbFoundBox.toString());
                                     mRfimApi.saveStocktakeHistory(
                                             PreferenceUtil.getInstance(getApplicationContext()).getIntValue("userid", 0),
                                             tvProductId.getText().toString(),
@@ -184,6 +188,7 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         sbLostBox = new StringBuffer();
         sbFoundBox = new StringBuffer();
         mListScannedRfid = new ArrayList<>();
+        lostBox = new ArrayList<>();
         mBeepSound = MediaPlayer.create(this, R.raw.beep);
         lavScanningBoxRfid = findViewById(R.id.lav_scanning_box_rfid);
         lavScanningBoxRfid.setAnimation(R.raw.scan);
@@ -251,6 +256,8 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
                     tvScannedProduct.setText(0 + "");
                     snProductName.setSelection(0);
                     mListScannedRfid.clear();
+                    lostBox.clear();
+                    tvScannedProduct.setTextColor(Color.RED);
                     stopAmination(lavScanningBoxRfid);
                     isScanningBoxRfid = false;
                     showResponseMessage(data);
