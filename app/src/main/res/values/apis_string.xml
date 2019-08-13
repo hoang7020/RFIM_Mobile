@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<string name="host">http://192.168.1.6:8080/</string>-->
+    <!--<string name="host">http://192.168.43.47:8080/</string>-->
     <string name="host">http://54.169.209.176:8080/</string>
     <string name="shelves">shelves/</string>
     <string name="shelf_by_floor_id">shelves/floors/</string>
 
-    <string name="floors">floor/</string>
+    <string name="floors">floors/</string>
     <string name="floors_by_cell_id">floors/cells/</string>
 
     <string name="cell_by_floor_id">cells/floors/</string>
     <string name="cell_by_cell_rfid">cells/rfid/</string>
-    <string name="register_cell">cell/register</string>
+    <string name="register_cell">cells/register</string>
     <string name="check_cell_is_registered">cells/check_register/</string>
     <string name="check_cell_is_empty">cells/checking/</string>
 
