@@ -43,6 +43,8 @@
                     android:text="Goods Issue*"/>
 
             <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:background="@drawable/spinner_border"
                     android:textAlignment="center"
                     android:layout_gravity="center"
@@ -51,7 +53,7 @@
                     android:layout_weight="5.5"
                     android:layout_width="0px"
                     app:smsp_isSearchable="true"
-                    app:smsp_searchHeaderText="Search Shelf"
+                    app:smsp_searchHeaderText="Search Goods Issue"
                     android:layout_height="match_parent"/>
 
             <ImageButton

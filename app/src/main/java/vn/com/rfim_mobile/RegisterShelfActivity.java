@@ -58,108 +58,143 @@ public class RegisterShelfActivity extends AppCompatActivity implements Observer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_shelf);
 
-        initView();
+        try {
 
-        mRfimApi.getAllShelves();
-        btnScanCellRfid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BluetoothUtil.isConnected) {
-                    Toast.makeText(RegisterShelfActivity.this, getText(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
-                } else {
-                    isScanningCellRfid = !isScanningCellRfid;
-                    if (isScanningCellRfid) {
-                        startAmination(lavScanningCellRfid);
-                        BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
-                    } else {
-                        stopAmination(lavScanningCellRfid);
+            initView();
+
+            mRfimApi.getAllShelves();
+            btnScanCellRfid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!BluetoothUtil.isConnected) {
+                            Toast.makeText(RegisterShelfActivity.this, getText(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
+                        } else {
+                            isScanningCellRfid = !isScanningCellRfid;
+                            if (isScanningCellRfid) {
+                                startAmination(lavScanningCellRfid);
+                                BluetoothUtil.tempScanResult.registerObserver(RegisterShelfActivity.this, Constant.SCAN_SHELF_RFID);
+                            } else {
+                                stopAmination(lavScanningCellRfid);
+                                BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!NetworkUtil.isOnline(RegisterShelfActivity.this)) {
+                            Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                        } else if (mCellId != null) {
+                            if (mCellId.equals(getString(R.string.not_found_item))) {
+                                Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
+                            } else if (tvCellRfid.getText().toString().equals("")) {
+                                Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
+                            } else {
+                                mRfimApi.registerCell(mCellId, tvCellRfid.getText().toString());
+                            }
+                        } else {
+                            Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+            btnClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        snShelfID.setSelection(0);
+                        snFloorId.setSelection(0);
+                        snCellId.setSelection(0);
+                        tvCellRfid.setText("");
                         BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
+                        stopAmination(lavScanningCellRfid);
+                        isScanningCellRfid = false;
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
-//                initScanningFragment();
-            }
-        });
+            });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!NetworkUtil.isOnline(RegisterShelfActivity.this)) {
-                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
-                } else if (mCellId != null) {
-                    if (mCellId.equals(getString(R.string.not_found_item))) {
-                        Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
-                    } else if (tvCellRfid.getText().toString().equals("")) {
-                        Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_scan_cell_rfid), Toast.LENGTH_SHORT).show();
-                    } else {
-                        mRfimApi.registerCell(mCellId, tvCellRfid.getText().toString());
+            //Event choose shelf item
+            snShelfID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        String sheflId = listShelvesId.get(position);
+                        mRfimApi.getFloorsByShelfId(sheflId);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(RegisterShelfActivity.this, getString(R.string.not_choose_cell), Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snShelfID.setSelection(0);
-                snFloorId.setSelection(0);
-                snCellId.setSelection(0);
-                tvCellRfid.setText("");
-                BluetoothUtil.tempScanResult.unregisterObserver(RegisterShelfActivity.this);
-                stopAmination(lavScanningCellRfid);
-                isScanningCellRfid = false;
-            }
-        });
+                }
+            });
 
-        //Event choose shelf item
-        snShelfID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String sheflId = listShelvesId.get(position);
-                mRfimApi.getFloorsByShelfId(sheflId);
-            }
+            //Event choose floor item
+            snFloorId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        String floorId = listFloorsId.get(position);
+                        mRfimApi.getCellsByFloorId(floorId);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                }
+            });
 
-        //Event choose floor item
-        snFloorId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String floorId = listFloorsId.get(position);
-                mRfimApi.getCellsByFloorId(floorId);
-            }
+            //Event choose cell item
+            snCellId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        mCellId = listCellsId.get(position);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                }
+            });
 
-        //Event choose cell item
-        snCellId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mCellId = listCellsId.get(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void startAmination(LottieAnimationView lav) {

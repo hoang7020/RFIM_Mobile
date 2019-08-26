@@ -43,7 +43,7 @@
             android:textColor="@color/invoiceTextColor"
             android:gravity="center"
             android:id="@+id/tv_product_quantity"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:text="NoP"
             android:layout_weight="1"
             android:layout_width="0px"

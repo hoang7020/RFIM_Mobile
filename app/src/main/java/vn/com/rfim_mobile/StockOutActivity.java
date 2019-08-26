@@ -67,116 +67,148 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_out);
 
-        initView();
+        try {
 
-        mRfimApi.getIssuseInvoice();
+            initView();
 
-        //show list product invoice item
+            mRfimApi.getIssuseInvoice();
+
+            //show list product invoice item
 //        mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
 //        rcIssuseInvoice.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 //        rcIssuseInvoice.setItemAnimator(new DefaultItemAnimator());
 //        rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
 
-        //show list scanned product
-        mProductAdapter = new ListProductAdapter(mListShowProduct);
-        rcListStockOutBox.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rcListStockOutBox.setItemAnimator(new DefaultItemAnimator());
-        rcListStockOutBox.setAdapter(mProductAdapter);
+            //show list scanned product
+            mProductAdapter = new ListProductAdapter(mListShowProduct);
+            rcListStockOutBox.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            rcListStockOutBox.setItemAnimator(new DefaultItemAnimator());
+            rcListStockOutBox.setAdapter(mProductAdapter);
 
-        snIssue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                isEnough = true;
-                mListShowIssue.clear();
-                mCurrentInvoiceId = mListInvoiceId.get(position);
-                for (Invoice i : mInvoices) {
-                    if (mCurrentInvoiceId.equals(i.getInvoiceId())) {
-                        InvoiceInfoItem item = new InvoiceInfoItem(i.getProductId(), i.getProductName(), i.getQuantity(), "");
-                        mListShowIssue.add(item);
+            snIssue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        isEnough = true;
+                        mListShowIssue.clear();
+                        mCurrentInvoiceId = mListInvoiceId.get(position);
+                        for (Invoice i : mInvoices) {
+                            if (mCurrentInvoiceId.equals(i.getInvoiceId())) {
+                                InvoiceInfoItem item = new InvoiceInfoItem(i.getProductId(), i.getProductName(), i.getQuantity(), "");
+                                mListShowIssue.add(item);
+                            }
+                        }
+//                      mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
+//                      rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
+                        mListShowProduct.clear();
+                        mProductAdapter = new ListProductAdapter(mListShowProduct);
+                        rcListStockOutBox.setAdapter(mProductAdapter);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
-//                mIssueInvoiceAdapter = new IssueAdapter(mListShowInvoice);
-//                rcIssuseInvoice.setAdapter(mIssueInvoiceAdapter);
-                mListShowProduct.clear();
-                mProductAdapter = new ListProductAdapter(mListShowProduct);
-                rcListStockOutBox.setAdapter(mProductAdapter);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                }
+            });
 
-        btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BluetoothUtil.isConnected) {
-                    Toast.makeText(StockOutActivity.this, getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
-                } else if (mCurrentInvoiceId.equals("None!")) {
-                    Toast.makeText(StockOutActivity.this, "Please select an issue.", Toast.LENGTH_SHORT).show();
-                } else {
-                    isScanningBoxRfid = !isScanningBoxRfid;
-                    if (isScanningBoxRfid) {
-                        startAmination(lavScanningBoxRfid);
-                        BluetoothUtil.tempScanResult.registerObserver(StockOutActivity.this, Constant.SCAN_BOX_RFID);
-                    } else {
+            btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!BluetoothUtil.isConnected) {
+                            Toast.makeText(StockOutActivity.this, getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
+                        } else if (mCurrentInvoiceId.equals("None!")) {
+                            Toast.makeText(StockOutActivity.this, "Please select an issue.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            isScanningBoxRfid = !isScanningBoxRfid;
+                            if (isScanningBoxRfid) {
+                                startAmination(lavScanningBoxRfid);
+                                BluetoothUtil.tempScanResult.registerObserver(StockOutActivity.this, Constant.SCAN_BOX_RFID);
+                            } else {
+                                stopAmination(lavScanningBoxRfid);
+                                BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!NetworkUtil.isOnline(StockOutActivity.this)) {
+                            Toast.makeText(StockOutActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                        } else if (mListShowProduct.isEmpty()) {
+                            Toast.makeText(StockOutActivity.this, getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (isIssueEnough(mListShowIssue, mListShowProduct)) {
+                                mRfimApi.stockOutBox(mListScanBoxRfid, mCurrentInvoiceId);
+                            } else {
+                                Toast.makeText(StockOutActivity.this, getString(R.string.not_engouh_product), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            btnClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        mListShowProduct.clear();
+                        mListScanBoxRfid.clear();
+                        mProductAdapter = new ListProductAdapter(mListShowProduct);
+                        rcListStockOutBox.setAdapter(mProductAdapter);
                         stopAmination(lavScanningBoxRfid);
-                        BluetoothUtil.tempScanResult.unregisterObserver(StockOutActivity.this);
+                        isScanningBoxRfid = false;
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
+            });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!NetworkUtil.isOnline(StockOutActivity.this)) {
-                    Toast.makeText(StockOutActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
-                } else if (mListShowProduct.isEmpty()) {
-                    Toast.makeText(StockOutActivity.this, getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (isIssueEnough(mListShowIssue, mListShowProduct)) {
-                        mRfimApi.stockOutBox(mListScanBoxRfid, mCurrentInvoiceId);
-                    } else {
-                        Toast.makeText(StockOutActivity.this, getString(R.string.not_engouh_product), Toast.LENGTH_SHORT).show();
-                    }
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
                 }
-            }
-        });
+            });
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListShowProduct.clear();
-                mListScanBoxRfid.clear();
-                mProductAdapter = new ListProductAdapter(mListShowProduct);
-                rcListStockOutBox.setAdapter(mProductAdapter);
-                stopAmination(lavScanningBoxRfid);
-                isScanningBoxRfid = false;
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        btnIssueInvoice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("LIST_INVOICE_ITEM", (Serializable) mListShowIssue);
+            btnIssueInvoice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("LIST_INVOICE_ITEM", (Serializable) mListShowIssue);
 //                mIssueInvoiceFragment = new IssueInvoiceFragment();
 //                mIssueInvoiceFragment.setArguments(bundle);
 //                mIssueInvoiceFragment.show(getFragmentManager(), "ISSUE");
-                mIssueInvoiceFragmentV2 = new IssueInvoiceFragmentV2();
-                mIssueInvoiceFragmentV2.setArguments(bundle);
-                mIssueInvoiceFragmentV2.show(getSupportFragmentManager(), "ISSUE");
-            }
-        });
+                        mIssueInvoiceFragmentV2 = new IssueInvoiceFragmentV2();
+                        mIssueInvoiceFragmentV2.setArguments(bundle);
+                        mIssueInvoiceFragmentV2.show(getSupportFragmentManager(), "ISSUE");
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean isIssueEnough(List<InvoiceInfoItem> invoices, List<ScannedProductItem> listShowProduct) {
@@ -247,13 +279,14 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
         mBeepSound.start();
         switch (type) {
             case Constant.SCAN_BOX_RFID:
-                if (mListScanBoxRfid.isEmpty()) {
-                    mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
-                } else {
-                    if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
-                        mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
-                    }
-                }
+//                if (mListScanBoxRfid.isEmpty()) {
+//                    mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
+//                } else {
+//                    if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
+//                        mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
+//                    }
+//                }
+                mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
                 break;
         }
     }
@@ -275,21 +308,22 @@ public class StockOutActivity extends AppCompatActivity implements Observer, OnT
 //                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
 //                            mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
 //                        } else {
-                        int posision = isProductExitInShowList(product.getProductId());
-                        if (posision != -1) {
-                            ScannedProductItem item = mListShowProduct.get(posision);
-                            if (item.getQuantity() < invoiceItem.getQuantity()) {
-                                mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
-                                item.setQuantity(item.getQuantity() + 1);
-                                Log.e(TAG, "Invoice: " + item.getQuantity());
+                        if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
+                            int posision = isProductExitInShowList(product.getProductId());
+                            if (posision != -1) {
+                                ScannedProductItem item = mListShowProduct.get(posision);
+                                if (item.getQuantity() < invoiceItem.getQuantity()) {
+                                    mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
+                                    item.setQuantity(item.getQuantity() + 1);
+                                    Log.e(TAG, "Invoice: " + item.getQuantity());
+                                } else {
+                                    Toast.makeText(this, getString(R.string.engouh_product), Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(this, getString(R.string.engouh_product), Toast.LENGTH_SHORT).show();
+                                mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
+                                mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
                             }
-                        } else {
-                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
-                            mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
                         }
-//                        }
                     } else {
                         Toast.makeText(this, getString(R.string.not_corrent_product_invoice), Toast.LENGTH_SHORT).show();
                     }

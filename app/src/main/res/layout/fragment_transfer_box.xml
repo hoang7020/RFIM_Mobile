@@ -42,6 +42,7 @@
                     android:text="Destination Package RFID*"/>
 
             <TextView
+                    android:textColor="@color/invoiceTextColor"
                     android:gravity="center"
                     android:background="@drawable/spinner_border"
                     android:id="@+id/tv_package_rfid"
@@ -74,6 +75,63 @@
                             android:layout_gravity="center"/>
                 </LinearLayout>
             </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:background="@drawable/rectangle_border"
+                android:layout_width="match_parent"
+                android:layout_height="60px"
+                android:layout_marginLeft="10px"
+                android:layout_marginRight="10px"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@drawable/rectangle_border"
+                    android:textSize="15sp"
+                    android:text="No"
+                    android:layout_weight="1"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@drawable/rectangle_border"
+                    android:textSize="15sp"
+                    android:text="ID"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@drawable/rectangle_border"
+                    android:textSize="15sp"
+                    android:text="Name"
+                    android:layout_weight="5"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@drawable/rectangle_border"
+                    android:textSize="15sp"
+                    android:text="QT"
+                    android:layout_weight="1"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

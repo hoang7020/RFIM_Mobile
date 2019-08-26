@@ -3,6 +3,10 @@ package vn.com.rfim_mobile.models.json;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
 public class Package {
     @SerializedName("packageRfid")
     @Expose
@@ -19,6 +23,10 @@ public class Package {
     @SerializedName("cellId")
     @Expose
     private String cellId;
+
+    @SerializedName("date")
+    @Expose
+    private String date;
 
     public String getPackageRfid() {
         return packageRfid;
@@ -58,5 +66,13 @@ public class Package {
 
     public void setCellId(String cellId) {
         this.cellId = cellId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

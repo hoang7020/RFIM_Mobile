@@ -42,6 +42,7 @@
                     android:text="Cell RFID*"/>
 
             <TextView
+                    android:textColor="@color/invoiceTextColor"
                     android:gravity="center"
                     android:background="@drawable/spinner_border"
                     android:id="@+id/tv_cell_rfid"
@@ -98,6 +99,7 @@
                     android:text="Cell"/>
 
             <TextView
+                    android:textColor="@color/invoiceTextColor"
                     android:gravity="center"
                     android:background="@drawable/spinner_border"
                     android:id="@+id/tv_cell_id"
@@ -127,6 +129,7 @@
                     android:text="Floor"/>
 
             <TextView
+                    android:textColor="@color/invoiceTextColor"
                     android:gravity="center"
                     android:background="@drawable/spinner_border"
                     android:id="@+id/tv_floor_id"
@@ -156,6 +159,7 @@
                     android:text="Shelf"/>
 
             <TextView
+                    android:textColor="@color/invoiceTextColor"
                     android:gravity="center"
                     android:background="@drawable/spinner_border"
                     android:id="@+id/tv_shelf_id"
@@ -184,6 +188,7 @@
                     android:text="Package RFID*"/>
 
             <TextView
+                    android:textColor="@color/invoiceTextColor"
                     android:gravity="center"
                     android:background="@drawable/spinner_border"
                     android:id="@+id/tv_package_rfid"

@@ -72,7 +72,7 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.RecyclerView
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, tvProductId.getText().toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, tvProductId.getText().toString(), Toast.LENGTH_SHORT).show();
             mRfimApi.suggestShelf(tvProductId.getText().toString());
         }
     }
