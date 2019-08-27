@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 import vn.com.rfim_mobile.fragments.TransferBoxFragment;
@@ -16,6 +17,7 @@ import vn.com.rfim_mobile.fragments.TransferPackageFragment;
 import vn.com.rfim_mobile.utils.Bluetooth.BluetoothUtil;
 
 public class TransferProductActivity extends AppCompatActivity {
+
 
     public static final String TAG = TransferProductActivity.class.getSimpleName();
 
@@ -26,27 +28,39 @@ public class TransferProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_product);
 
-        initView();
+        try {
 
-        loadFragment(new TransferBoxFragment());
+            initView();
 
-        bnvTransferProduct.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment;
-                switch (menuItem.getItemId()) {
-                    case R.id.action_transfer_box:
-                        fragment = new TransferBoxFragment();
-                        loadFragment(fragment);
-                        break;
-                    case R.id.action_transfer_package:
-                        fragment = new TransferPackageFragment();
-                        loadFragment(fragment);
-                        break;
+            loadFragment(new TransferBoxFragment());
+
+            bnvTransferProduct.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    try {
+                        Fragment fragment;
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_transfer_box:
+                                fragment = new TransferBoxFragment();
+                                loadFragment(fragment);
+                                break;
+                            case R.id.action_transfer_package:
+                                fragment = new TransferPackageFragment();
+                                loadFragment(fragment);
+                                break;
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {

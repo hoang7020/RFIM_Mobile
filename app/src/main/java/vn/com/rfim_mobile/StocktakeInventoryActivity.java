@@ -58,118 +58,146 @@ public class StocktakeInventoryActivity extends AppCompatActivity implements Obs
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stocktake_inventory);
 
-        initView();
+        try {
 
-        mRfimApi.getAllProduct();
+            initView();
 
-        snProductName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mProducts != null) {
-                    tvProductId.setText(mProducts.get(position).getProductId());
-                    mRfimApi.getBoxRfidsByProductId(mProducts.get(position).getProductId());
-                    mListBoxRfids.clear();
-                    mListScannedRfid.clear();
-                    tvScannedProduct.setTextColor(Color.RED);
-                    tvScannedProduct.setText(mListScannedRfid.size() + "");
+            mRfimApi.getAllProduct();
+
+            snProductName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        if (mProducts != null) {
+                            tvProductId.setText(mProducts.get(position).getProductId());
+                            mRfimApi.getBoxRfidsByProductId(mProducts.get(position).getProductId());
+                            mListBoxRfids.clear();
+                            mListScannedRfid.clear();
+                            tvScannedProduct.setTextColor(Color.RED);
+                            tvScannedProduct.setText(mListScannedRfid.size() + "");
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                }
+            });
 
-        btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BluetoothUtil.isConnected) {
-                    Toast.makeText(StocktakeInventoryActivity.this, getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
-                } else {
-                    isScanningBoxRfid = !isScanningBoxRfid;
-                    if (isScanningBoxRfid) {
+            btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!BluetoothUtil.isConnected) {
+                            Toast.makeText(StocktakeInventoryActivity.this, getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
+                        } else {
+                            isScanningBoxRfid = !isScanningBoxRfid;
+                            if (isScanningBoxRfid) {
+                                mListScannedRfid.clear();
+                                tvScannedProduct.setTextColor(Color.RED);
+                                tvScannedProduct.setText(mListScannedRfid.size() + "");
+                                startAmination(lavScanningBoxRfid);
+                                BluetoothUtil.tempScanResult.registerObserver(StocktakeInventoryActivity.this, Constant.SCAN_STOCKTAKE_RFID);
+                            } else {
+                                stopAmination(lavScanningBoxRfid);
+                                BluetoothUtil.tempScanResult.unregisterObserver(StocktakeInventoryActivity.this);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            btnReport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!NetworkUtil.isOnline(StocktakeInventoryActivity.this)) {
+                            Toast.makeText(StocktakeInventoryActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                        } else {
+                            lostBox.clear();
+                            lostBox.addAll(mListBoxRfids);
+                            lostBox.removeAll(mListScannedRfid);
+                            sbLostBox = new StringBuffer();
+                            for (String s : lostBox) {
+                                if (lostBox.indexOf(s) < lostBox.size() - 1) {
+                                    sbLostBox.append(s + ",");
+                                } else {
+                                    sbLostBox.append(s);
+                                }
+                            }
+                            sbFoundBox = new StringBuffer();
+                            for (String s : mListScannedRfid) {
+                                if (mListScannedRfid.indexOf(s) < mListScannedRfid.size() - 1) {
+                                    sbFoundBox.append(s + ",");
+                                } else {
+                                    sbFoundBox.append(s);
+                                }
+                            }
+                            new AlertDialog.Builder(StocktakeInventoryActivity.this)
+                                    .setTitle("Report")
+                                    .setMessage("Are you sure to report?")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.e(TAG, "LB: " + sbLostBox.toString() + " FB:" + sbFoundBox.toString());
+                                            mRfimApi.saveStocktakeHistory(
+                                                    PreferenceUtil.getInstance(getApplicationContext()).getIntValue("userid", 0),
+                                                    tvProductId.getText().toString(),
+                                                    mListScannedRfid.size(),
+                                                    System.currentTimeMillis(),
+                                                    sbLostBox.toString(),
+                                                    sbFoundBox.toString());
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).show();
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            btnClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        tvScannedProduct.setText(0 + "");
+                        snProductName.setSelection(0);
                         mListScannedRfid.clear();
-                        tvScannedProduct.setTextColor(Color.RED);
-                        tvScannedProduct.setText(mListScannedRfid.size() + "");
-                        startAmination(lavScanningBoxRfid);
-                        BluetoothUtil.tempScanResult.registerObserver(StocktakeInventoryActivity.this, Constant.SCAN_STOCKTAKE_RFID);
-                    } else {
                         stopAmination(lavScanningBoxRfid);
-                        BluetoothUtil.tempScanResult.unregisterObserver(StocktakeInventoryActivity.this);
+                        isScanningBoxRfid = false;
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
+            });
 
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!NetworkUtil.isOnline(StocktakeInventoryActivity.this)) {
-                    Toast.makeText(StocktakeInventoryActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
-                } else {
-                    lostBox.clear();
-                    lostBox.addAll(mListBoxRfids);
-                    lostBox.removeAll(mListScannedRfid);
-                    sbLostBox = new StringBuffer();
-                    for (String s : lostBox) {
-                        if (lostBox.indexOf(s) < lostBox.size() - 1) {
-                            sbLostBox.append(s + ",");
-                        } else {
-                            sbLostBox.append(s);
-                        }
-                    }
-                    sbFoundBox = new StringBuffer();
-                    for (String s : mListScannedRfid) {
-                        if (mListScannedRfid.indexOf(s) < mListScannedRfid.size() - 1) {
-                            sbFoundBox.append(s + ",");
-                        } else {
-                            sbFoundBox.append(s);
-                        }
-                    }
-                    new AlertDialog.Builder(StocktakeInventoryActivity.this)
-                            .setTitle("Report")
-                            .setMessage("Are you sure to report?")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Log.e(TAG, "LB: " + sbLostBox.toString() + " FB:" + sbFoundBox.toString());
-                                    mRfimApi.saveStocktakeHistory(
-                                            PreferenceUtil.getInstance(getApplicationContext()).getIntValue("userid", 0),
-                                            tvProductId.getText().toString(),
-                                            mListScannedRfid.size(),
-                                            System.currentTimeMillis(),
-                                            sbLostBox.toString(),
-                                            sbFoundBox.toString());
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            }).show();
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
                 }
-            }
-        });
+            });
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvScannedProduct.setText(0 + "");
-                snProductName.setSelection(0);
-                mListScannedRfid.clear();
-                stopAmination(lavScanningBoxRfid);
-                isScanningBoxRfid = false;
-            }
-        });
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+        }
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void initView() {

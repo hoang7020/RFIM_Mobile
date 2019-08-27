@@ -35,30 +35,42 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompleted 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        checkLogin();
+        try {
 
-        initView();
+            checkLogin();
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = edtUsername.getText().toString() + "";
-                String password = edtPassword.getText().toString() + "";
-                Log.e(TAG, "onClick: " + username + password);
-                if (username.equals("") && password.equals("")) {
-                    Toast.makeText(LoginActivity.this, getString(R.string.not_input_username_or_password), Toast.LENGTH_SHORT).show();
-                } else {
-                    mRfimApi.login(username, password);
+            initView();
+
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        String username = edtUsername.getText().toString() + "";
+                        String password = edtPassword.getText().toString() + "";
+                        Log.e(TAG, "onClick: " + username + password);
+                        if (username.equals("") && password.equals("")) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.not_input_username_or_password), Toast.LENGTH_SHORT).show();
+                        } else {
+                            mRfimApi.login(username, password);
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
 
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+            btnExit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {

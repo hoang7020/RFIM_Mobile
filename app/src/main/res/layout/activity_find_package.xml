@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".FindPackageActivity">
+
+    <android.support.v7.widget.Toolbar
+            style="@style/OverflowMenu"
+            app:title="Register Package &amp; Box"
+            app:titleTextColor="@color/smsp_white_color"
+            android:background="@color/colorPrimary"
+            android:id="@+id/tb_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Package RFID*"/>
+
+            <TextView
+                    android:background="@drawable/rectangle_border"
+                    android:gravity="center"
+                    android:id="@+id/tv_package_rfid"
+                    android:layout_weight="5"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+
+            <!--<Button-->
+            <!--android:id="@+id/btn_scan_shelf_rfid"-->
+            <!--android:layout_weight="2"-->
+            <!--android:text="Scan"-->
+            <!--android:layout_width="0px"-->
+            <!--android:layout_height="wrap_content"/>-->
+            <FrameLayout
+                    android:background="@drawable/rectangle_border_radius_scan_button"
+                    android:layout_weight="2"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent">
+                <LinearLayout
+                        android:background="@drawable/button_circle_background"
+                        android:foreground="@drawable/ripple_bg"
+                        android:id="@+id/btn_scan_package_rfid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lav_scanning_package_rfid"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Cell"/>
+
+            <TextView
+                    android:background="@drawable/rectangle_border"
+                    android:gravity="center"
+                    android:id="@+id/tv_cell_id"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Product Id"/>
+
+            <TextView
+                    android:background="@drawable/rectangle_border"
+                    android:gravity="center"
+                    android:id="@+id/tv_product_id"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_margin="10px"
+                android:background="@drawable/rectangle_border"
+                android:gravity="center"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field">
+
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="15px"
+                    android:layout_weight="3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:text="Date"/>
+
+            <TextView
+                    android:background="@drawable/rectangle_border"
+                    android:gravity="center"
+                    android:id="@+id/tv_date"
+                    android:layout_weight="7"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_of_field"
+                android:layout_margin="10px"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+            <Button
+                    android:background="@drawable/button_circle_background"
+                    android:foreground="@drawable/ripple_bg"
+                    android:layout_margin="5px"
+                    android:textColor="@color/smsp_white_color"
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Cancel"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

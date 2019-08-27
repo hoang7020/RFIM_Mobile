@@ -151,7 +151,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="4"
                             android:padding="20dp"
-                            android:src="@drawable/stockin"/>
+                            android:src="@drawable/stockout"/>
 
                     <LinearLayout
                             android:layout_width="0dp"
@@ -331,6 +331,46 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Register Cell (Shelf)"
+                                android:textSize="@dimen/menu_font_size_title"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_button_main_menu"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_border_radius">
+
+                <LinearLayout
+                        android:id="@+id/btn_find_package"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_button_main_menu"
+                        android:background="@drawable/ripple_effect"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                    <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:padding="20dp"
+                            android:src="@drawable/search"/>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Find Package"
                                 android:textSize="@dimen/menu_font_size_title"/>
                     </LinearLayout>
                 </LinearLayout>

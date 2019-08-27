@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
             btnRegisterPackage,
             btnStockInPackage,
             btnStockOutPackage,
-    //            btnClearRfidTag,
-    btnTransferProduct,
+            btnFindPackage,
+            btnTransferProduct,
             btnStocktakeInventory;
     private Toolbar mToolbar;
     private BluetoothFragment fragment;
@@ -61,44 +61,62 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initView();
+        try {
 
-        informBluetoothStatus();
+            initView();
 
-        requestPermission();
+            informBluetoothStatus();
 
-        btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
-                startActivity(intent);
-            }
-        });
+            requestPermission();
 
-        btnRegisterPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterPackageActivity.class);
+            btnRegisterShelf.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, RegisterShelfActivity.class);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            });
+
+            btnRegisterPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, RegisterPackageActivity.class);
 //                Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
-                startActivity(intent);
-            }
-        });
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            });
 
-        btnStockInPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StockInActivity.class);
-                startActivity(intent);
-            }
-        });
+            btnStockInPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, StockInActivity.class);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            });
 
-        btnStockOutPackage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StockOutActivity.class);
-                startActivity(intent);
-            }
-        });
+            btnStockOutPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, StockOutActivity.class);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            });
 
 //        btnClearRfidTag.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -108,32 +126,59 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 //            }
 //        });
 
-        btnTransferProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TransferProductActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnStocktakeInventory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StocktakeInventoryActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS", "");
-                if (!address.equals("")) {
-                    mBTUtil.connectBluetoothDevice(address);
-                    mBTUtil.readBluetoothSerialData();
+            btnTransferProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, TransferProductActivity.class);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
                 }
-            }
-        }).start();
+            });
+
+            btnStocktakeInventory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, StocktakeInventoryActivity.class);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            });
+
+            btnFindPackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent(MainActivity.this, FindPackageActivity.class);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            });
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS", "");
+                        if (!address.equals("")) {
+                            mBTUtil.connectBluetoothDevice(address);
+                            mBTUtil.readBluetoothSerialData();
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                    }
+                }
+            }).start();
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+        }
     }
 
     public void initView() {
@@ -149,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 //        btnClearRfidTag = findViewById(R.id.btn_clear_rfid_tag);
         btnTransferProduct = findViewById(R.id.btn_transfer_product);
         btnStocktakeInventory = findViewById(R.id.btn_stocktake_inventory);
+        btnFindPackage = findViewById(R.id.btn_find_package);
         mToolbar = findViewById(R.id.tb_main);
         setSupportActionBar(mToolbar);
     }
@@ -221,9 +267,6 @@ public class MainActivity extends AppCompatActivity implements OnDissmissBluetoo
 
     @Override
     public void onDissmissBluetoothDialog() {
-//        String address = PreferenceUtil.getInstance(context).getStringValue("BLUETOOTH_ADDRESS", "");
-//        mBTUtil.connectBluetoothDevice(address);
-//        mBTUtil.readBluetoothSerialData();
         new Thread(new Runnable() {
             @Override
             public void run() {

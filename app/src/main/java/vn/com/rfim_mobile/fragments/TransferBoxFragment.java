@@ -72,104 +72,132 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initView();
+        try {
 
-        mProductAdapter = new ListProductAdapter(mListShowProduct);
-        rcListTransferBox.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        rcListTransferBox.setItemAnimator(new DefaultItemAnimator());
-        rcListTransferBox.setAdapter(mProductAdapter);
+            initView();
 
-        btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BluetoothUtil.isConnected) {
-                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (mListScanBoxRfid.isEmpty()) {
-                        isScanningPackageRfid = !isScanningPackageRfid;
-                        if (isScanningPackageRfid) {
-                            startAmination(lavScanningPackageRfid);
-                            if (isScanningBoxRfid) {
+            mProductAdapter = new ListProductAdapter(mListShowProduct);
+            rcListTransferBox.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+            rcListTransferBox.setItemAnimator(new DefaultItemAnimator());
+            rcListTransferBox.setAdapter(mProductAdapter);
+
+            btnScanPackageRfid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!BluetoothUtil.isConnected) {
+                            Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (mListScanBoxRfid.isEmpty()) {
+                                isScanningPackageRfid = !isScanningPackageRfid;
+                                if (isScanningPackageRfid) {
+                                    startAmination(lavScanningPackageRfid);
+                                    if (isScanningBoxRfid) {
+                                        stopAmination(lavScanningBoxRfid);
+                                        isScanningBoxRfid = false;
+                                    }
+                                    BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
+                                } else {
+                                    stopAmination(lavScanningPackageRfid);
+                                    BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                                }
+                            } else {
                                 stopAmination(lavScanningBoxRfid);
                                 isScanningBoxRfid = false;
+                                Toast.makeText(getActivity(), getActivity().getString(R.string.clear_all_box), Toast.LENGTH_SHORT).show();
                             }
-                            BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_PACKAGE_RFID);
-                        } else {
-                            stopAmination(lavScanningPackageRfid);
-                            BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
                         }
-                    } else {
-                        stopAmination(lavScanningBoxRfid);
-                        isScanningBoxRfid = false;
-                        Toast.makeText(getActivity(), getActivity().getString(R.string.clear_all_box), Toast.LENGTH_SHORT).show();
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
+            });
 
-        btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            btnScanBoxRfid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                BluetoothUtil.tempScanResult.getObservers().clear();
-                if (!BluetoothUtil.isConnected) {
-                    Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!tvPackageRfid.getText().toString().equals("")) {
-                        isScanningBoxRfid = !isScanningBoxRfid;
-                        if (isScanningBoxRfid) {
-                            startAmination(lavScanningBoxRfid);
-                            if (isScanningPackageRfid) {
-                                stopAmination(lavScanningPackageRfid);
-                                isScanningPackageRfid = false;
-                            }
-                            BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
+                    try {
+                        if (!BluetoothUtil.isConnected) {
+                            Toast.makeText(getActivity(), getString(R.string.no_bluetooth_connection), Toast.LENGTH_SHORT).show();
                         } else {
-                            stopAmination(lavScanningBoxRfid);
-                            BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                            if (!tvPackageRfid.getText().toString().equals("")) {
+                                isScanningBoxRfid = !isScanningBoxRfid;
+                                if (isScanningBoxRfid) {
+                                    startAmination(lavScanningBoxRfid);
+                                    if (isScanningPackageRfid) {
+                                        stopAmination(lavScanningPackageRfid);
+                                        isScanningPackageRfid = false;
+                                    }
+                                    BluetoothUtil.tempScanResult.registerObserver(TransferBoxFragment.this, Constant.SCAN_BOX_RFID);
+                                } else {
+                                    stopAmination(lavScanningBoxRfid);
+                                    BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    } else {
-                        Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
+            });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!NetworkUtil.isOnline(getActivity())) {
-                    Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
-                } else if (tvPackageRfid.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
-                } else if (mListScanBoxRfid.isEmpty()) {
-                    Toast.makeText(getActivity(), getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
-                } else {
-                    mRfimApi.transferBoxes(tvPackageRfid.getText().toString(), mListScanBoxRfid);
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (!NetworkUtil.isOnline(getActivity())) {
+                            Toast.makeText(getActivity(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                        } else if (tvPackageRfid.getText().toString().equals("")) {
+                            Toast.makeText(getActivity(), getString(R.string.not_scan_package_rfid), Toast.LENGTH_SHORT).show();
+                        } else if (mListScanBoxRfid.isEmpty()) {
+                            Toast.makeText(getActivity(), getText(R.string.not_scan_product_rfid), Toast.LENGTH_SHORT).show();
+                        } else {
+                            mRfimApi.transferBoxes(tvPackageRfid.getText().toString(), mListScanBoxRfid);
+                        }
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvPackageRfid.setText("");
-                mListShowProduct.clear();
-                mListScanBoxRfid.clear();
-                mProductAdapter = new ListProductAdapter(mListShowProduct);
-                rcListTransferBox.setAdapter(mProductAdapter);
-                stopAmination(lavScanningBoxRfid);
-                stopAmination(lavScanningPackageRfid);
-                isScanningBoxRfid = false;
-                isScanningPackageRfid = false;
-            }
-        });
+            btnClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        BluetoothUtil.tempScanResult.unregisterObserver(TransferBoxFragment.this);
+                        tvPackageRfid.setText("");
+                        mListShowProduct.clear();
+                        mListScanBoxRfid.clear();
+                        mProductAdapter = new ListProductAdapter(mListShowProduct);
+                        rcListTransferBox.setAdapter(mProductAdapter);
+                        stopAmination(lavScanningBoxRfid);
+                        stopAmination(lavScanningPackageRfid);
+                        isScanningBoxRfid = false;
+                        isScanningPackageRfid = false;
+                    } catch (Exception ex) {
+                        Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+                        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                }
+            });
+
+        } catch (Exception ex) {
+            Log.e(TAG, "TRY CATCH ALL: " + ex.getMessage());
+            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {
@@ -232,9 +260,10 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
                 isScanningPackageRfid = false;
                 break;
             case Constant.SCAN_BOX_RFID:
-                if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
-                    mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
-                }
+//                if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
+//                    mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
+//                }
+                mRfimApi.getProductByBoxRfid(BluetoothUtil.tempScanResult.getRfidID());
                 break;
         }
     }
@@ -257,17 +286,19 @@ public class TransferBoxFragment extends Fragment implements Observer, OnTaskCom
                 if (code == HttpURLConnection.HTTP_OK) {
                     Product product = gson.fromJson(data, Product.class);
                     if (product.getProductId() != null && product.getProductId().equals(mCurrentTransferProductid)) {
-                        mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
-                        if (product.getProductId().equals(mCurrentTransferProductid)) {
-                            if (mListShowProduct.isEmpty() && product.getProductId().equals(mCurrentTransferProductid)) {
-                                mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
-                            } else {
-                                int posision = isProductExitInShowList(product.getProductId());
-                                if (posision != -1) {
-                                    ScannedProductItem item = mListShowProduct.get(posision);
-                                    item.setQuantity(item.getQuantity() + 1);
-                                } else {
+                        if (mListScanBoxRfid.indexOf(BluetoothUtil.tempScanResult.getRfidID()) < 0) {
+                            mListScanBoxRfid.add(BluetoothUtil.tempScanResult.getRfidID());
+                            if (product.getProductId().equals(mCurrentTransferProductid)) {
+                                if (mListShowProduct.isEmpty() && product.getProductId().equals(mCurrentTransferProductid)) {
                                     mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
+                                } else {
+                                    int posision = isProductExitInShowList(product.getProductId());
+                                    if (posision != -1) {
+                                        ScannedProductItem item = mListShowProduct.get(posision);
+                                        item.setQuantity(item.getQuantity() + 1);
+                                    } else {
+                                        mListShowProduct.add(new ScannedProductItem(product.getProductId(), product.getProductName(), 1));
+                                    }
                                 }
                             }
                         }
